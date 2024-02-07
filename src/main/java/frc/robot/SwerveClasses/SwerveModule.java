@@ -193,6 +193,6 @@ public class SwerveModule {
   }
 
   public double getPosition() {
-    return driveMotor.getPosition().getValue();
+    return driveMotor.getPosition().getValue() * 0.3191858136 / Constants.MotorGearRatio.DRIVE; //0.3191858136 is rotaions to meters
   }
 }
