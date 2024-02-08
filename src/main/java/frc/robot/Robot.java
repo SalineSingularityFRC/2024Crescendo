@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.NewArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
@@ -21,6 +22,7 @@ public class Robot extends TimedRobot {
   private Gamepad teleopDrive;
 
   private ArmSubsystem arm;
+  private NewArmSubsystem newArm;
   private Limelight limelight;
   private LightSensor cubelightSensor;
   private LightSensor conelightSensor;
@@ -40,7 +42,7 @@ public class Robot extends TimedRobot {
 
     teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     odometry = new SwerveOdometry(robotSubsystem);
-
+    newArm = new NewArmSubsystem();
     arm = new ArmSubsystem(false, true);
 
     limelight = new Limelight();
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
     m_robotContainer =
         new RobotContainer(
             arm,
+            newArm,
             robotSubsystem,
             robotSubsystem.gyro,
             limelight,
@@ -112,7 +115,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     teleopDrive.swerveDrive(
         robotSubsystem, limelight, arm, cubelightSensor, conelightSensor, odometry);
-    teleopDrive.arm(arm);
+    teleopDrive.arm(arm, newArm);
     
     SmartDashboard.putNumber("tx", limelight.tx.getDouble(0));
     SmartDashboard.putNumber("ty", limelight.ty.getDouble(0));
