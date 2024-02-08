@@ -118,9 +118,10 @@ public class SwerveModule {
     
   }
 
+  //Conversion to get rotations per second into meters per second and accounting for motor rotating the gear
   public SwerveModuleState getState(){
 
-    return new SwerveModuleState(driveMotor.getVelocity().getValue() * Math.PI * 0.102 * Constants.MotorGearRatio.DRIVE, new Rotation2d(getEncoderPosition()));
+    return new SwerveModuleState(driveMotor.getVelocity().getValue() * 2 * Math.PI * Constants.Measurement.WheelRadius / Constants.MotorGearRatio.DRIVE, new Rotation2d(getEncoderPosition()));
   }
   public void coast() {
     driveMotor.set(0); // this is for when the joystick is not being moved at all
@@ -192,7 +193,8 @@ public class SwerveModule {
     }
   }
 
+  //Conversion to get in rotations to meters and accounting for motor rotating the gear
   public double getPosition() {
-    return driveMotor.getPosition().getValue();
+    return driveMotor.getPosition().getValue() * 2 * Math.PI * Constants.Measurement.WheelRadius / Constants.MotorGearRatio.DRIVE;
   }
 }

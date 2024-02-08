@@ -159,6 +159,7 @@ public final class Constants {
     public static final double TRACK_WIDTH = 0.85;
     public static final double WHEELBASE =
         1.1333; // the ratio between the width and the length is around 3:4
+    public static final double WheelRadius = 2.003; //2023 robot radius in inches
   }
 
   public static final class Speed {
