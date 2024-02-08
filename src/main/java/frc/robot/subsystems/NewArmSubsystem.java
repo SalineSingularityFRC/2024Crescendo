@@ -43,8 +43,11 @@ public class NewArmSubsystem {
 
         armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM, Constants.Canbus.DEFAULT);
         armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM_2, Constants.Canbus.DEFAULT);
-        armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.BIG_ARM, true));
-        armMotor2.setInverted(true);
+
+        //TRUE FOR THE BOTTOM MOTORS
+        //FALSE FOR SHOOTER
+        armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.BIG_ARM, false));
+       
         Slot1Configs slot1ConfigsSmall = new Slot1Configs();
         slot1ConfigsSmall.kP = manualSmallP;
         slot1ConfigsSmall.kI = manualSmallI;

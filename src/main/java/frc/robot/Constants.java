@@ -164,7 +164,7 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM = 0.005; // speed of the arms when adjusting manually
+    public static final double ARM = 0.1; // speed of the arms when adjusting manually
   }
 
   public static final class Distance {

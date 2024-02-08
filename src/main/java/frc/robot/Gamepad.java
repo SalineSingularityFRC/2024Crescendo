@@ -133,13 +133,16 @@ public class Gamepad {
     // } else
     
     if (driveController.getRawAxis(Constants.Gamepad.Button.RIGHT) > 0.05) {
-      newArm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
+      newArm.setSmallArmSpeed(-Constants.Speed.ARM);
       //arm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
     } else if (driveController.getRawButton(Constants.Gamepad.Button.RIGHT)) {
-      newArm.setSmallArmSpeed(Constants.Speed.ARM - .001);
+      newArm.setSmallArmSpeed(Constants.Speed.ARM);
+    } else {
+      newArm.setSmallArmSpeed(0);
+    }
       //arm.setSmallArmSpeed(Constants.Speed.ARM + .001);
     // } else {
     //   arm.maintainPosition();
-    }
+    
   }
 }
