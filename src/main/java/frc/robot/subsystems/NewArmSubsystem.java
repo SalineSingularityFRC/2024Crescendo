@@ -29,7 +29,7 @@ public class NewArmSubsystem {
     private MotionMagicConfigs motionMagicConfigsManual; 
 
 
-    private final double manualSmallP = 0.18;
+    private final double manualSmallP = 0.36;
     private final double manualSmallI = 0;
     private final double manualSmallD = 0;
     private final double manualSmallS = 0.6; // counters static friction
@@ -41,12 +41,12 @@ public class NewArmSubsystem {
   
     public NewArmSubsystem() {
 
-        armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM, Constants.Canbus.DEFAULT);
-        armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM_2, Constants.Canbus.DEFAULT);
+        armMotor1 = new TalonFX(22, Constants.Canbus.DEFAULT);
+        armMotor2 = new TalonFX(24, Constants.Canbus.DEFAULT);
 
         //TRUE FOR THE BOTTOM MOTORS
         //FALSE FOR SHOOTER
-        armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.BIG_ARM, false));
+        armMotor2.setControl(new Follower(22, false));
        
         Slot1Configs slot1ConfigsSmall = new Slot1Configs();
         slot1ConfigsSmall.kP = manualSmallP;
