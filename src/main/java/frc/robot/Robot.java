@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
  
     newArm = new NewArmSubsystem();
  
-
+    teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     
     
     m_robotContainer =
@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    robotSubsystem.setCoastMode();
+    //robotSubsystem.setCoastMode();
   }
 
   @Override
