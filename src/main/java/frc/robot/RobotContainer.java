@@ -31,21 +31,14 @@ public class RobotContainer {
   private SendableChooser<Command> autonChooser;
 
   public RobotContainer(
-      ArmSubsystem arm,
-      NewArmSubsystem newArm,
-      SwerveSubsystem drive,
-      Pigeon2 gyro,
-      Limelight lime,
-      LightSensor cubeSensor,
-      LightSensor coneSensor,
-      SwerveOdometry odometry) {
+      NewArmSubsystem newArm) {
     configureBindings();
 
-    this.drive = drive;
-    this.arm = arm;
-    this.gyro = gyro;
-    this.lime = lime;
-    this.cubeSensor = cubeSensor;
+    // this.drive = drive;
+    // this.arm = arm;
+    // this.gyro = gyro;
+    // this.lime = lime;
+    // this.cubeSensor = cubeSensor;
 
     // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
     // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
@@ -67,16 +60,15 @@ public class RobotContainer {
 
   private void configureBindings() {}
 
-  // public Command getAutonomousCommand() {
-  //   return this.blueCenterCommand;
-  //   //return autonChooser.getSelected();
-  // }
-
   public Command getAutonomousCommand() {
-    // Load the path you want to follow using its name in the GUI
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
-
-    // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return AutoBuilder.followPathWithEvents(path);
+    return null;
   }
+
+  // public Command getAutonomousCommand() {
+  //   // Load the path you want to follow using its name in the GUI
+  //   PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
+
+  //   // Create a path following command using AutoBuilder. This will also trigger event markers.
+  //   return AutoBuilder.followPathWithEvents(path);
+  // }
 }
