@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.NewArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
   private Gamepad teleopDrive;
 
   private ArmSubsystem arm;
-  private NewArmSubsystem newArm;
+  private ShooterSubsystem newArm;
   private Limelight limelight;
   private LightSensor cubelightSensor;
   private LightSensor conelightSensor;
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     // Required to allow power to the switchable port on the power distrubution hub and allow sensor
     // to use max power
  
-    newArm = new NewArmSubsystem();
+    newArm = new ShooterSubsystem();
  
     teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.NewArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
@@ -31,7 +31,7 @@ public class RobotContainer {
   private SendableChooser<Command> autonChooser;
 
   public RobotContainer(
-      NewArmSubsystem newArm) {
+      ShooterSubsystem newArm) {
     configureBindings();
 
     // this.drive = drive;

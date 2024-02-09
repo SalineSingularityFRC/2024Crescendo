@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.NewArmSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** Main class to control the robot */
@@ -81,7 +81,7 @@ public class Gamepad {
           true);
   }
 
-  public void arm(NewArmSubsystem newArm) {
+  public void arm(ShooterSubsystem newArm) {
 
     // if (highTargetTimer.get() >= 0.25) {
     //   arm.highTarget2();
@@ -133,12 +133,12 @@ public class Gamepad {
     // } else
     
     if (driveController.getRawAxis(Constants.Gamepad.Button.RIGHT) > 0.05) {
-      newArm.setSmallArmSpeed(-Constants.Speed.ARM);
+      newArm.setShooterSpeed(-Constants.Speed.ARM);
       //arm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
     } else if (driveController.getRawButton(Constants.Gamepad.Button.RIGHT)) {
-      newArm.setSmallArmSpeed(Constants.Speed.ARM);
+      newArm.setShooterSpeed(Constants.Speed.ARM);
     } else {
-      newArm.setSmallArmSpeed(0);
+      newArm.setShooterSpeed(0);
     }
       //arm.setSmallArmSpeed(Constants.Speed.ARM + .001);
     // } else {

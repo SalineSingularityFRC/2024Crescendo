@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.Constants;
 
-public class NewArmSubsystem {
+public class ShooterSubsystem {
     public TalonFX armMotor1;
     public TalonFX armMotor2;
   
@@ -34,12 +34,8 @@ public class NewArmSubsystem {
     private final double manualSmallD = 0;
     private final double manualSmallS = 0.6; // counters static friction
   
-    private final double manualBigP = .53;
-    private final double manualBigI = 0;
-    private final double manualBigD = 0;
-    private final double manualBigS = 0.6;
   
-    public NewArmSubsystem() {
+    public ShooterSubsystem() {
 
         armMotor1 = new TalonFX(22, Constants.Canbus.DEFAULT);
         armMotor2 = new TalonFX(24, Constants.Canbus.DEFAULT);
@@ -69,7 +65,7 @@ public class NewArmSubsystem {
         armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
     }
 
-    public void setSmallArmSpeed(double speed) {
+    public void setShooterSpeed(double speed) {
         armMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
       }
 
