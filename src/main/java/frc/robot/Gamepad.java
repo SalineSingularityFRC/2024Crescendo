@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -21,15 +22,14 @@ public class Gamepad {
   private Timer clawOpenTimer = new Timer();
 
   private Joystick driveController;
-  private Joystick armController;
 
   /**
    * @param driveControllerPort Controller port the drive controller is connected to, probably 0
    * @param armControllerPort Controller port the arm controller is connect to, probably 1
    */
-  public Gamepad(int driveControllerPort, int armControllerPort) {
+  public Gamepad(int driveControllerPort) {
     driveController = new Joystick(driveControllerPort);
-    armController = new Joystick(armControllerPort);
+    //armController = new Joystick(armControllerPort);
   }
 
   // public void armPneumatics(
@@ -57,21 +57,21 @@ public class Gamepad {
       SwerveOdometry odometry) {
     // limelight commands below
 
-    if (armController.getPOV() == 0) {
-      limelight.turnToAngle(robotSubsystem);
-    }
+    // if (armController.getPOV() == 0) {
+    //   limelight.turnToAngle(robotSubsystem);
+    // }
 
-    if (driveController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
-      robotSubsystem.resetGyro();
-    }
+    // if (driveController.getRawButtonPressed(Constants.Gamepad.Button.X)) {
+    //   robotSubsystem.resetGyro();
+    // }
 
-    if (armController.getRawButton(Constants.Gamepad.Button.LEFT)) {
-      if (robotSubsystem.isCoast()) {
-        robotSubsystem.setBrakeMode();
-      } else {
-        robotSubsystem.setCoastMode();
-      }
-    }
+    // if (armController.getRawButton(Constants.Gamepad.Button.LEFT)) {
+    //   if (robotSubsystem.isCoast()) {
+    //     robotSubsystem.setBrakeMode();
+    //   } else {
+    //     robotSubsystem.setCoastMode();
+    //   }
+    // }
 
     robotSubsystem.drive(
           new SwerveSubsystem.SwerveRequest(
@@ -132,14 +132,16 @@ public class Gamepad {
     //   arm.setBigArmSpeed(Constants.Speed.ARM);
     // } else
     
-    if (driveController.getRawAxis(Constants.Gamepad.Button.RIGHT) > 0.05) {
-      newArm.setShooterSpeed(-Constants.Speed.ARM);
-      //arm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
-    } else if (driveController.getRawButton(Constants.Gamepad.Button.RIGHT)) {
-      newArm.setShooterSpeed(Constants.Speed.ARM);
-    } else {
-      newArm.setShooterSpeed(0);
-    }
+    // if (driveController.getRawAxis(Constants.Gamepad.Button.RIGHT) > 0.05) {
+    //   newArm.setShooterSpeed(-Constants.Speed.ARM);
+    //   //arm.setSmallArmSpeed(-Constants.Speed.ARM - .001);
+    // } else if (driveController.getRawButton(Constants.Gamepad.Button.RIGHT)) {
+    //   newArm.setShooterSpeed(Constants.Speed.ARM);
+    // } else {
+    //   newArm.setShooterSpeed(0);
+    // }
+
+
       //arm.setSmallArmSpeed(Constants.Speed.ARM + .001);
     // } else {
     //   arm.maintainPosition();

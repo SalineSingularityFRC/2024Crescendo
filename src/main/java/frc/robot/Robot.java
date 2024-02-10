@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -37,12 +38,12 @@ public class Robot extends TimedRobot {
  
     newArm = new ShooterSubsystem();
  
-    teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
+    //teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     
     
     m_robotContainer =
         new RobotContainer(
-            newArm);
+            newArm, new IntakeSubsystem());
    
   }
 
@@ -93,7 +94,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    teleopDrive.arm(newArm);
+    //teleopDrive.arm(newArm);
    
   }
 
