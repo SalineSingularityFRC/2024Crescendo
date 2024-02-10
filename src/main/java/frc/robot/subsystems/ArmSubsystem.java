@@ -49,9 +49,9 @@ public class ArmSubsystem {
   public ArmSubsystem() {
 
     //REPLACE ARM IDS WITH THE REAL MOTOR IDS
-    bigArmMotor = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM, Constants.Canbus.DEFAULT);
-    bigArmMotor2 = new TalonFX(Constants.CanId.Arm.Motor.BIG_ARM_2, Constants.Canbus.DEFAULT);
-bigArmMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.BIG_ARM, true));
+    bigArmMotor = new TalonFX(Constants.CanId.Arm.Motor.ARM_1, Constants.Canbus.DEFAULT);
+    bigArmMotor2 = new TalonFX(Constants.CanId.Arm.Motor.ARM_2, Constants.Canbus.DEFAULT);
+bigArmMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.ARM_1, true));
 
 
 

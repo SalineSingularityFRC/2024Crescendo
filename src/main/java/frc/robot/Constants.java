@@ -43,10 +43,11 @@ public final class Constants {
 
     public static final class Arm {
       public static final class Motor {
-        public static final int BIG_ARM = 6;
-        public static final int BIG_ARM_2 = 7;
-        public static final int SMALL_ARM = 31;
-        public static final int Compressor = 1;
+        public static final int ARM_1 = 0;
+        public static final int ARM_2 = 1;
+        public static final int SHOOTER_1 = 2;
+        public static final int SHOOTER_2 = 3;
+        public static final int INTAKE = 4;
       }
     }
 
