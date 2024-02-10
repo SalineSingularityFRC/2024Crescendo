@@ -71,10 +71,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    intake.setDefaultCommand(intake.stopMotor());
+    intake.setDefaultCommand(intake.stop());
     shooter.setDefaultCommand(shooter.stopMotor());
     arm.setDefaultCommand(arm.stopMotor());
-    armController.a().whileTrue(intake.moveMotor());
+    armController.a().whileTrue(intake.intake());
     armController.b().whileTrue(shooter.moveMotor());
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
