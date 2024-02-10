@@ -43,11 +43,11 @@ public final class Constants {
 
     public static final class Arm {
       public static final class Motor {
-        public static final int ARM_1 = 0;
-        public static final int ARM_2 = 1;
-        public static final int SHOOTER_1 = 2;
-        public static final int SHOOTER_2 = 3;
-        public static final int INTAKE = 4;
+        public static final int ARM_1 = 1;
+        public static final int ARM_2 = 2;
+        public static final int SHOOTER_1 = 3;
+        public static final int SHOOTER_2 = 4;
+        public static final int INTAKE = 5;
       }
     }
 
@@ -165,7 +165,7 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM = 2.5; // speed of the arms when adjusting manually
+    public static final double ARM = 100; // speed of the arms when adjusting manually
   }
 
   public static final class Distance {

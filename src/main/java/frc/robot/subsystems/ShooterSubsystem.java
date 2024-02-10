@@ -37,12 +37,12 @@ public class ShooterSubsystem {
   
     public ShooterSubsystem() {
 
-        armMotor1 = new TalonFX(22, Constants.Canbus.DEFAULT);
-        armMotor2 = new TalonFX(24, Constants.Canbus.DEFAULT);
+        armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.SHOOTER_1, Constants.Canbus.DEFAULT);
+        armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.SHOOTER_2, Constants.Canbus.DEFAULT);
 
         //TRUE FOR THE BOTTOM MOTORS
         //FALSE FOR SHOOTER
-        armMotor2.setControl(new Follower(22, false));
+        armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.SHOOTER_1, false));
        
         Slot1Configs slot1ConfigsSmall = new Slot1Configs();
         slot1ConfigsSmall.kP = manualSmallP;
