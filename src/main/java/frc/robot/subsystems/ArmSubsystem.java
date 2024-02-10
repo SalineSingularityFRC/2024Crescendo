@@ -54,6 +54,8 @@ public class ArmSubsystem extends SubsystemBase {
     // REPLACE ARM IDS WITH THE REAL MOTOR IDS
     bigArmMotor1 = new TalonFX(Constants.CanId.Arm.Motor.ARM_1, Constants.Canbus.DEFAULT);
     bigArmMotor2 = new TalonFX(Constants.CanId.Arm.Motor.ARM_2, Constants.Canbus.DEFAULT);
+    bigArmMotor1.setInverted(true);
+    bigArmMotor2.setInverted(true);
     bigArmMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.ARM_1, true));
 
     Slot1Configs slot1ConfigsBig = new Slot1Configs();
@@ -114,12 +116,21 @@ public class ArmSubsystem extends SubsystemBase {
         });
   }
 
-  public Command moveMotor() {
+  public Command moveMotorForward() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
-          setPosition(bigArmPos);
+          setArmSpeed(Constants.Speed.ARM);
+        });
+  }
+
+  public Command moveMotorBackward() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return run(
+        () -> {
+          setArmSpeed(-Constants.Speed.ARM);
         });
   }
 

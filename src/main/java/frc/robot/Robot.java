@@ -37,13 +37,14 @@ public class Robot extends TimedRobot {
     // to use max power
  
     newArm = new ShooterSubsystem();
+    arm = new ArmSubsystem();
  
     //teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     
     
     m_robotContainer =
         new RobotContainer(
-            newArm, new IntakeSubsystem());
+            newArm, new IntakeSubsystem(), arm);
    
   }
 

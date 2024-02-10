@@ -28,7 +28,6 @@ public class RobotContainer {
   // private SwerveCommand swerveCommand;
   // protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
-  protected ArmSubsystem arm;
   protected Pigeon2 gyro;
   protected Limelight lime;
   protected LightSensor cubeSensor;
@@ -36,12 +35,14 @@ public class RobotContainer {
   private SendableChooser<Command> autonChooser;
   protected IntakeSubsystem intake;
   protected ShooterSubsystem shooter;
+  protected ArmSubsystem arm;
   protected CommandXboxController armController;
 
   public RobotContainer(
-      ShooterSubsystem newShooter, IntakeSubsystem newIntake) {
+      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm) {
     intake = newIntake;
     shooter = newShooter;
+    arm = newArm;
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     configureBindings();
 
@@ -72,8 +73,11 @@ public class RobotContainer {
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopMotor());
     shooter.setDefaultCommand(shooter.stopMotor());
+    arm.setDefaultCommand(arm.stopMotor());
     armController.a().whileTrue(intake.moveMotor());
     armController.b().whileTrue(shooter.moveMotor());
+    armController.povUp().whileTrue(arm.moveMotorForward());
+    armController.povDown().whileTrue(arm.moveMotorBackward());
   }
 
   public Command getAutonomousCommand() {
