@@ -84,6 +84,12 @@ public final class Constants {
       public static final double SLIDER = -0.18003028;
       public static final double PICKUP_CONE = -0.272852;
     }
+
+    public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
+      public static final double AMP = 0;
+      public static final double SHOOTING = 0;
+      public static final double PICKUP = 0;
+    }
   }
 
   public static final class Inverted {
