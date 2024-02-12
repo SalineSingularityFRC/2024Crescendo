@@ -98,6 +98,24 @@ public class ArmSubsystem extends SubsystemBase {
         });
   }
 
+  public Command ampTarget() {
+    return runOnce(() -> {
+      setPosition(Constants.Position.MainArm.AMP);
+    });
+  }
+
+  public Command shootTarget() {
+    return runOnce(() -> {
+      setPosition(Constants.Position.MainArm.SHOOTING);
+    });
+  }
+
+  public Command pickupTarget() {
+    return runOnce(() -> {
+      setPosition(Constants.Position.MainArm.PICKUP);
+    });
+  }
+
   public void maintainPosition() {
     armMotor1.setControl(
         positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.1).withSlot(0));

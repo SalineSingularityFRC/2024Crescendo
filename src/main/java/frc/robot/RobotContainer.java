@@ -76,6 +76,9 @@ public class RobotContainer {
     arm.setDefaultCommand(arm.stopMotor());
     armController.a().whileTrue(intake.intake());
     armController.b().whileTrue(shooter.moveMotor());
+    armController.x().whileTrue(arm.pickupTarget());
+    armController.y().whileTrue(arm.shootTarget());
+    armController.rightBumper().whileTrue(arm.ampTarget());
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
   }
