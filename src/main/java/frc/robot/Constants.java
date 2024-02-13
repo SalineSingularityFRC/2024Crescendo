@@ -159,7 +159,8 @@ public final class Constants {
     public static final double TRACK_WIDTH = 0.85;
     public static final double WHEELBASE =
         1.1333; // the ratio between the width and the length is around 3:4
-    public static final double WheelRadius = 2.003; //2023 robot radius in inches
+    public static final double WHEELRADIUS = 2.003 * 0.0254; //2023 robot radius from inches to meters
+    public static final double RADIUSFACTOR = 1.1;
   }
 
   public static final class Speed {
@@ -184,6 +185,11 @@ public final class Constants {
   }
 
   public static final class PidGains {
+    public static final class PathPlanner {
+      public static final PID translation = new PID(5.5, 0.055, 0.02);
+      public static final PID rotation = new PID(1, 0, 0);
+    }
+    
     public static final class Limelight {
       public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
       public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};

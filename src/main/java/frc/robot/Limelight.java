@@ -49,7 +49,7 @@ public class Limelight {
     poseY = localization[1]; // vertical position on the field - = up, + = down
     poseZ = localization[2]; // forward backward position ont eh field
     poseYaw = localization[5] * (Math.PI/180); // angle of the robot 0 is straight
-    tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+    //tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
 
     tl = table.getEntry("tl").getDouble(0); // targeting latency
     cl = table.getEntry("cl").getDouble(0); // capture latency
