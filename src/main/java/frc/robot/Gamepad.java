@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -21,14 +22,14 @@ public class Gamepad {
   private Timer clawCloseTimer = new Timer();
   private Timer clawOpenTimer = new Timer();
 
-  private Joystick driveController;
+  private XboxController driveController;
 
   /**
    * @param driveControllerPort Controller port the drive controller is connected to, probably 0
    * @param armControllerPort Controller port the arm controller is connect to, probably 1
    */
   public Gamepad(int driveControllerPort) {
-    driveController = new Joystick(driveControllerPort);
+    driveController = new XboxController(driveControllerPort);
     //armController = new Joystick(armControllerPort);
   }
 
@@ -75,10 +76,10 @@ public class Gamepad {
 
     robotSubsystem.drive(
           new SwerveSubsystem.SwerveRequest(
-              driveController.getRawAxis(Constants.Gamepad.Axis.RIGHT),
-              -driveController.getRawAxis(Constants.Gamepad.Axis.LEFT_X),
-              -driveController.getRawAxis(Constants.Gamepad.Axis.LEFT_Y)),
-          true);
+            driveController.getRightTriggerAxis(),
+            driveController.getLeftX(),
+            driveController.getLeftY()),
+            true);
   }
 
   public void arm(ShooterSubsystem newArm) {

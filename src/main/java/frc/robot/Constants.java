@@ -5,14 +5,6 @@ package frc.robot;
  * All variables in this class should be marked public static and final
  */
 public final class Constants {
-
-  public static final class Analog {
-    public static final class SwerveModule {
-      public static final class Channel_ID {
-        public static final int FL = 1;
-      }
-    }
-  }
   public static final class CanId {
 
     public static final class CanCoder {
@@ -40,7 +32,7 @@ public final class Constants {
         public static final int BR = 14;
       }
     }
-
+    
     public static final class Arm {
       public static final class Motor {
         public static final int ARM_1 = 1;
@@ -67,24 +59,6 @@ public final class Constants {
   }
 
   public static final class Position {
-    public static final class BigArm {
-      public static final double HIGH = 0.578857;
-      public static final double MEDIUM = 0.437500;
-      public static final double PICKUP = 0.392578;
-      public static final double DEFAULT = 0.386475;
-      public static final double SLIDER = 0.595092; // Fine tune
-      public static final double PICKUPCONE = 0.47295;
-    }
-
-    public static final class SmallArm {
-      public static final double HIGH = -0.105736;
-      public static final double MEDIUM = 0.164062;
-      public static final double PICKUP = -0.014551;
-      public static final double DEFAULT = 0.322266;
-      public static final double SLIDER = -0.18003028;
-      public static final double PICKUP_CONE = -0.272852;
-    }
-
     public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
       public static final double AMP = 0;
       public static final double SHOOTING = 0;
@@ -93,7 +67,7 @@ public final class Constants {
   }
 
   public static final class Inverted {
-    // This is for moters
+    // This is for motors
     public static final boolean FL = false;
     public static final boolean FR = true;
     public static final boolean BL = false;
@@ -111,34 +85,9 @@ public final class Constants {
   }
 
   public static final class Gamepad {
-
     public static final class Controller {
       public static final int DRIVE = 0;
       public static final int ARM = 1;
-    }
-
-    public static final class Axis {
-      public static final int LEFT_X = 0;
-      public static final int LEFT_Y = 1;
-      public static final int RIGHT = 4;
-    }
-
-    public static final class Trigger {
-      public static final int LEFT = 2;
-      public static final int RIGHT = 3;
-    }
-
-    public static final class Button {
-      public static final int A = 1;
-      public static final int B = 2;
-      public static final int X = 3;
-      public static final int Y = 4;
-      public static final int LEFT = 5;
-      public static final int RIGHT = 6;
-      public static final int BACK = 7;
-      public static final int START = 8;
-      public static final int L_JOYSTICK = 9;
-      public static final int R_JOYSTICK = 10;
     }
   }
 
@@ -177,16 +126,7 @@ public final class Constants {
 
   }
 
-  public static final class Distance {
-    // CHARGE STATION COMMUNITY DISTANCE:
-    public static final double TO_BLUE_CHARGE_STATION = 96.4694981;
-    public static final double TO_RED_CHARGE_STATION = 99;
-    public static final double TO_CENTER_COMMUNITY = 100;
-    public static final double TO_OUTSIDE_COMMUNITY = 87.30208217;
-    // 1.832716884 is the number of inches per 1 encoder value
-    // ~80 (plus offset) to the center of the charge station for robot
-    // ~160 is the distance to leave the community plus some extra cushion
-  }
+  public static final class Distance {}
 
   public static final class AngleInaccuracy {
     public static final double MAX = Math.PI / 24;
