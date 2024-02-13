@@ -99,7 +99,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public Command ampTarget() {
-    return runOnce(() -> {
+    return runOnce(() -> {  
       setPosition(Constants.Position.MainArm.AMP);
     });
   }
