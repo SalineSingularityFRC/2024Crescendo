@@ -5,6 +5,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -47,6 +48,8 @@ public class RobotContainer {
     arm = newArm;
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
+
+    
     configureBindings();
 
     // this.drive = drive;
