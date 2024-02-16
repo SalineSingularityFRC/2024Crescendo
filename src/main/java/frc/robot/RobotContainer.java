@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.SwerveClasses.SwerveOdometry;
+import frc.robot.commands.DriveController;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -37,6 +38,7 @@ public class RobotContainer {
   protected ShooterSubsystem shooter;
   protected ArmSubsystem arm;
   protected CommandXboxController armController;
+  protected CommandXboxController driveController;
 
   public RobotContainer(
       ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm) {
@@ -44,6 +46,7 @@ public class RobotContainer {
     shooter = newShooter;
     arm = newArm;
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
+    driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
     configureBindings();
 
     // this.drive = drive;
@@ -78,6 +81,7 @@ public class RobotContainer {
     armController.b().whileTrue(shooter.moveMotor());
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
+    drive.setDefaultCommand(new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
   }
 
   public Command getAutonomousCommand() {
