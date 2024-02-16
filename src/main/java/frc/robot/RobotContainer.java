@@ -5,6 +5,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,6 +53,8 @@ public class RobotContainer {
     // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
     // this.rightSideCommand =
     //     new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+
+    NamedCommands.registerCommand("autoBalance", drive.autoBalanceCommand());
 
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
