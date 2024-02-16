@@ -27,7 +27,7 @@ public class RobotContainer {
   protected Limelight lime;
   protected LightSensor cubeSensor;
   protected LightSensor coneSensor;
-  private SendableChooser<Command> autonChooser;
+  protected SendableChooser<PathPlannerPath> pathChooser;
 
   public RobotContainer(
       ArmSubsystem arm,
@@ -53,14 +53,15 @@ public class RobotContainer {
     // this.rightSideCommand =
     //     new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
 
-    // this.autonChooser = new SendableChooser<Command>();
-    // this.autonChooser.setDefaultOption("BlueCenter", blueCenterCommand);
-    // this.autonChooser.addOption("RedCenter", redCenterCommand);
-    // this.autonChooser.addOption("LeftSide", leftSideCommand);
-    // this.autonChooser.addOption("RightSide", rightSideCommand);
-    // this.autonChooser.addOption("SwerveDriveCommand", swerveCommand);
+    this.pathChooser = new SendableChooser<PathPlannerPath>();
+    this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
+    this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
+    this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
+    this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
+    this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
+    this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
 
-    // SmartDashboard.putData("Auton Choices", autonChooser);
+    SmartDashboard.putData("Path Choices", pathChooser);
   }
 
   private void configureBindings() {}
@@ -72,9 +73,8 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // Load the path you want to follow using its name in the GUI
-    PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
 
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return AutoBuilder.followPathWithEvents(path);
+    return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 }

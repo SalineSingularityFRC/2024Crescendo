@@ -117,7 +117,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("tx", limelight.tx.getDouble(0));
     SmartDashboard.putNumber("ty", limelight.ty.getDouble(0));
     SmartDashboard.putNumber("ta", limelight.ta.getDouble(0));
-    SmartDashboard.putNumber("tl", limelight.tl.getDouble(0));
+    //SmartDashboard.putNumber("tl", limelight.tl.getDouble(0));
     CommandScheduler.getInstance().run();
   }
 

@@ -12,10 +12,11 @@ import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
 public class Limelight {
   private NetworkTable table;
-  public NetworkTableEntry tx, ty, ta, tl, ledMode, camMode, pipeLine, crop;
+  public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
 
   private double[] localization;
-  private double poseX, poseY, yaw;
+  private double poseX, poseY, poseZ, poseYaw, tid;
+  private double tl, cl, limeLatency;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -29,10 +30,10 @@ public class Limelight {
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
-    tl = table.getEntry("tl");
+    tx = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
+    ty = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
+    ta = table.getEntry("ta"); // target area (0-100%)
+    tv = table.getEntry("tv"); // 0 = no target found or 1 = target found
 
     // swap the limelight between vision processing (0) and drive camera (1)
     camMode = table.getEntry("camMode");
@@ -43,9 +44,16 @@ public class Limelight {
     pipeLine = table.getEntry("pipeline");
 
     localization = table.getEntry("botpose").getDoubleArray(new double[6]);
-    poseX = localization[0];
-    poseY = localization[1];
-    yaw = localization[5];
+    // xyz are in meters
+    poseX = localization[0]; // right left position on the field
+    poseY = localization[1]; // vertical position on the field - = up, + = down
+    poseZ = localization[2]; // forward backward position ont eh field
+    poseYaw = localization[5] * (Math.PI/180); // angle of the robot 0 is straight
+    //tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+
+    tl = table.getEntry("tl").getDouble(0); // targeting latency
+    cl = table.getEntry("cl").getDouble(0); // capture latency
+    limeLatency = tl + cl; // total latency for the pipeline (ms)
 
     double[] drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
