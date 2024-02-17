@@ -24,9 +24,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "3 Meter Without Spin"
+            "name": "Driving Infinitely"
           }
         }
       ]
