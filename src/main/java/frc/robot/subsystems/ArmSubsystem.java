@@ -23,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase {
   private MotionMagicConfigs motionMagicConfigsPresets;
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
-  private final double manualBigP = .53;
+  private final double manualBigP = .25;
   private final double manualBigI = 0;
   private final double manualBigD = 0;
   private final double manualBigS = 0.6;
@@ -35,8 +35,6 @@ public class ArmSubsystem extends SubsystemBase {
     // REPLACE ARM IDS WITH THE REAL MOTOR IDS
     armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.ARM_1, Constants.Canbus.DEFAULT);
     armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.ARM_2, Constants.Canbus.DEFAULT);
-    armMotor1.setInverted(false);
-    armMotor2.setInverted(false);
     armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.ARM_1, true));
 
     Slot1Configs slot1ConfigsBig = new Slot1Configs();

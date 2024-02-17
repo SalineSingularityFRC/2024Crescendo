@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
   private Limelight limelight;
   private LightSensor cubelightSensor;
   private LightSensor conelightSensor;
+  
   public static SwerveOdometry odometry;
   private final int FL = 0;
 
@@ -38,13 +39,14 @@ public class Robot extends TimedRobot {
  
     newArm = new ShooterSubsystem();
     arm = new ArmSubsystem();
- 
+    limelight = new Limelight();
+    robotSubsystem = new SwerveSubsystem();
     //teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     
     
     m_robotContainer =
         new RobotContainer(
-            newArm, new IntakeSubsystem(), arm);
+            newArm, new IntakeSubsystem(), arm, limelight, robotSubsystem);
    
   }
 

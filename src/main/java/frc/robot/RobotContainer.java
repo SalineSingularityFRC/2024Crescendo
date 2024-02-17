@@ -42,20 +42,20 @@ public class RobotContainer {
   protected CommandXboxController driveController;
 
   public RobotContainer(
-      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm) {
+      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm, Limelight lime, SwerveSubsystem drive) {
     intake = newIntake;
     shooter = newShooter;
     arm = newArm;
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
-
-    
+    this.drive = drive;
+    this.lime = lime;
     configureBindings();
 
-    // this.drive = drive;
+   
     // this.arm = arm;
     // this.gyro = gyro;
-    // this.lime = lime;
+    
     // this.cubeSensor = cubeSensor;
 
     // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
@@ -82,9 +82,11 @@ public class RobotContainer {
     arm.setDefaultCommand(arm.stopMotor());
     armController.a().whileTrue(intake.intake());
     armController.b().whileTrue(shooter.moveMotor());
+    armController.x().whileTrue(intake.ointake());
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
     drive.setDefaultCommand(new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
+    armController.y().whileTrue(lime.scoreRight(drive));
   }
 
   public Command getAutonomousCommand() {
