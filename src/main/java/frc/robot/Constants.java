@@ -165,9 +165,9 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 100; // speed of the arms when adjusting manually
-    public static final double INTAKE = 25;
-    public static final double ARM = 15;
+    public static final double SHOOTER = 100; // speed of the arms when adjusting manually in rotations per second
+    public static final double INTAKE = 25; // rotations per second
+    public static final double ARM = 15; // rotations per second
 
   }
 
