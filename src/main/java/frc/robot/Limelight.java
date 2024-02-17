@@ -207,25 +207,24 @@ public class Limelight extends SubsystemBase{
   public Command scoreRight(SwerveSubsystem d) {
     return run(
     () -> {
-      rightAprilTag(d);
+      turnRobot(d);
     });
   }
 
-  public void rightAprilTag(SwerveSubsystem d){
-    setpipeline(0);
-    double pos = table.getEntry("botpose_targetspace").getDoubleArray(new double[6])[5];
-    System.out.println(pos);
-    double rotation = turnController.calculate(pos);
-    System.out.println("'ROTATION: '" + rotation);
-    System.out.println("SET POINT " + turnController.getSetpoint());
-    if(turnController.atSetpoint()){
-      System.out.println("AT POINT");
-      //return true;
-    } else {
-    
-      d.drive(new SwerveRequest(rotation, 0, 0), false);
- 
-    }
+  public Command turnRobot(SwerveSubsystem d){
+    return run(
+    () -> {
+      setpipeline(0);
+      double pos = table.getEntry("botpose_targetspace").getDoubleArray(new double[6])[5];
+      System.out.println(pos);
+      double rotation = turnController.calculate(pos) * 100;
+      if(turnController.atSetpoint()){
+        
+      } else {
+        d.drive(new SwerveRequest(rotation, 0, 0), false);
+      }
+    });
+
     //return false;
   }
 
