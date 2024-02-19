@@ -50,6 +50,10 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.getConfigurator().apply(motorOutputConfigs);
     }
 
+    public double getShooterSpeed() {
+        return shooterMotor1.getVelocity().getValue();
+    }
+
     public Command stopMotor() {
         return run(
                 () -> {

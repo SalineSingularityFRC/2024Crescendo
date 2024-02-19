@@ -85,40 +85,7 @@ public class SwerveModule {
 
   }
 
-  public SwerveModule(
-      int Can_ID_driveMotor,
-      int Can_ID_angleMotor,
-      double zeroPosition,
-      int analogChannel,
-      String canNetwork,
-      boolean isInverted,
-      String name) { // add a zeroPosition thing
-
-    a_encoder = new AnalogEncoder(analogChannel);
-    SmartDashboard.putNumber("ANALOG OFFSET", a_encoder.getAbsolutePosition());
-    a_encoder.setDistancePerRotation(1);
-    driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
-    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-    current.SupplyCurrentLimit = 30;
-    current.SupplyCurrentLimitEnable = true;
-    driveMotor.getConfigurator().apply(current);
-    angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
-    this.name = name;
-    driveMotor.setInverted(isInverted);
-    if (isInverted) {
-      motorOutputConfigs.Inverted = InvertedValue.Clockwise_Positive;
-    } else {
-      motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
-    }
-
-    absolutePositionEncoderOffset = zeroPosition;
-    this.resetZeroAngle();
-
-  }
-
-  // Conversion to get rotations per second into meters per second and accounting
-  // for motor rotating the gear
-  public SwerveModuleState getState() {
+  public SwerveModuleState getState(){
 
     return new SwerveModuleState(driveMotor.getVelocity().getValue() * 2 * Math.PI * Constants.Measurement.WHEELRADIUS
         / Constants.MotorGearRatio.DRIVE * Constants.Measurement.RADIUSFACTOR, new Rotation2d(getEncoderPosition()));
