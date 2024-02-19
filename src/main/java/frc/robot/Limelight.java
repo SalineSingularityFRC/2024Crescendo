@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId.Swerve;
 import frc.robot.subsystems.ArmSubsystem;
@@ -212,21 +213,24 @@ public class Limelight extends SubsystemBase{
   }
 
   public Command turnRobot(SwerveSubsystem d){
-    return run(
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
     () -> {
       setpipeline(0);
       //YAW
       double pos = table.getEntry("botpose_targetspace").getDoubleArray(new double[6])[5];
       System.out.println(pos);
-      double rotation = turnController.calculate(pos) * 100;
-      if(turnController.atSetpoint()){
-        
-      } else {
-        d.drive(new SwerveRequest(rotation, 0, 0), false);
-      }
-    });
+      double rotation = turnController.calculate(pos);
+      d.drive(new SwerveRequest(rotation, 0, 0), false);
+    },
+    (_unused) -> {
 
-    //return false;
+    },
+    turnController::atSetpoint,
+    this, d
+    );
   }
 
   public boolean tagAlign() {

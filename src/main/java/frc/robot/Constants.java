@@ -196,7 +196,7 @@ public final class Constants {
     
     public static final class Limelight {
       public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
-      public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};
+      public static final double[] TURN_CONTROLLER = {0.1, 0, 0.0001};
       public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
     }
 

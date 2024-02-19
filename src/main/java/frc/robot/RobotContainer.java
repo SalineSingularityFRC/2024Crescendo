@@ -99,8 +99,8 @@ public class RobotContainer {
 
     // armController.b().whileTrue(shooter.moveMotor());
     // armController.x().whileTrue(intake.omoveMotor());
-    armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
-        .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
+    // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
+    //     .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
 
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
