@@ -43,10 +43,11 @@ public final class Constants {
 
     public static final class Arm {
       public static final class Motor {
-        public static final int BIG_ARM = 6;
-        public static final int BIG_ARM_2 = 7;
-        public static final int SMALL_ARM = 31;
-        public static final int Compressor = 1;
+        public static final int ARM_1 = 1;
+        public static final int ARM_2 = 2;
+        public static final int SHOOTER_1 = 3;
+        public static final int SHOOTER_2 = 4;
+        public static final int INTAKE = 5;
       }
     }
 
@@ -95,7 +96,7 @@ public final class Constants {
 
   public static final class Canbus {
     public static final String DEFAULT = "rio";
-    public static final String DRIVE_TRAIN = "drivetrain";
+    public static final String DRIVE_TRAIN = "rio";
   }
 
   public static final class Sensor {
@@ -166,7 +167,10 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM = 0.005; // speed of the arms when adjusting manually
+    public static final double SHOOTER = 100; // speed of the arms when adjusting manually
+    public static final double INTAKE = 25;
+    public static final double ARM = 15;
+
   }
 
   public static final class Distance {

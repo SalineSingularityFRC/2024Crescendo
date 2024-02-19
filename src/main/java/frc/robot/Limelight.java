@@ -6,17 +6,22 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.CanId.Swerve;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
-public class Limelight {
+public class Limelight extends SubsystemBase{
   private NetworkTable table;
   public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
 
-  private double[] localization;
-  private double poseX, poseY, poseZ, poseYaw, tid;
-  private double tl, cl, limeLatency;
+  private double[] botpose, targetspace;
+  public double poseX, poseY, poseYaw;
+  public double targetposeX, targetposeZ, targetposeYaw;
+  public double[] tid;
+  public double tl, cl, limeLatency;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -43,13 +48,18 @@ public class Limelight {
 
     pipeLine = table.getEntry("pipeline");
 
-    localization = table.getEntry("botpose").getDoubleArray(new double[6]);
+    botpose = table.getEntry("botpose").getDoubleArray(new double[6]);
     // xyz are in meters
-    poseX = localization[0]; // right left position on the field
-    poseY = localization[1]; // vertical position on the field - = up, + = down
-    poseZ = localization[2]; // forward backward position ont eh field
-    poseYaw = localization[5] * (Math.PI/180); // angle of the robot 0 is straight
-    //tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+    poseX = botpose[0]; // Points up the long side of the field
+    poseY = botpose[1]; // Points toward short side of the field
+    poseYaw = botpose[5] * (Math.PI/180); // angle of the robot 0 is straight
+    tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+
+    // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
+    targetspace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
+    targetposeX = targetspace[0]; // to the right of the target from front face
+    targetposeZ = targetspace[2]; // pointing out of the april tag
+    targetposeYaw = targetspace[5]; 
 
     tl = table.getEntry("tl").getDouble(0); // targeting latency
     cl = table.getEntry("cl").getDouble(0); // capture latency
@@ -63,7 +73,7 @@ public class Limelight {
     // driveController.setTolerance(0.5);
     double[] turn_gains = Constants.PidGains.Limelight.TURN_CONTROLLER;
     turnController = new PIDController(turn_gains[0], turn_gains[1], turn_gains[2]);
-    turnController.setSetpoint(9);
+    turnController.setSetpoint(0);
 
     double[] score_drive_gains = Constants.PidGains.Limelight.SCORE_DRIVE_CONTROLLER;
     scoreDriveController =
@@ -105,64 +115,64 @@ public class Limelight {
     }
   }
 
-  public boolean pickup(
-      SwerveSubsystem drive,
-      ArmSubsystem arm,
-      LightSensor cubeLightSensor,
-      LightSensor coneLightSensor,
-      boolean isCube,
-      boolean auton) {
+  // public boolean pickup(
+  //     SwerveSubsystem drive,
+  //     ArmSubsystem arm,
+  //     LightSensor cubeLightSensor,
+  //     LightSensor coneLightSensor,
+  //     boolean isCube,
+  //     boolean auton) {
 
-    if (isCube) {
-      setpipeline(2);
-    } else {
-      setpipeline(1); // is cone
-    }
+  //   if (isCube) {
+  //     setpipeline(2);
+  //   } else {
+  //     setpipeline(1); // is cone
+  //   }
 
-    arm.pickupTarget();
-    ledOff();
+  //   arm.pickupTarget();
+  //   ledOff();
 
 
-    if (tx.getDouble(0) < 6.5 || tx.getDouble(0) > 11.5) {
-      isTurningDone = false;
-    }
-    if (!isTurningDone) {
-      isTurningDone = turnAngle(drive, true);
-    } else {
+  //   if (tx.getDouble(0) < 6.5 || tx.getDouble(0) > 11.5) {
+  //     isTurningDone = false;
+  //   }
+  //   if (!isTurningDone) {
+  //     isTurningDone = turnAngle(drive, true);
+  //   } else {
 
-      double y = driveController.calculate(ty.getDouble(0));
-      if (y > 0) y += 0.06;
-      if (y < 0) y -= 0.06;
+  //     double y = driveController.calculate(ty.getDouble(0));
+  //     if (y > 0) y += 0.06;
+  //     if (y < 0) y -= 0.06;
 
-      if (this.pickupTimer.get() == 0) {
-        double speed = turnController.calculate(tx.getDouble(0));
-        drive.drive(new SwerveRequest(-speed, 0, -y * 2.5), false);
-      }
-    }
+  //     if (this.pickupTimer.get() == 0) {
+  //       double speed = turnController.calculate(tx.getDouble(0));
+  //       drive.drive(new SwerveRequest(-speed, 0, -y * 2.5), false);
+  //     }
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
-  public boolean turnAngle(SwerveSubsystem drive, boolean pickup) {
-    if (getIsTargetFound()) {
+  // public boolean turnAngle(SwerveSubsystem drive, boolean pickup) {
+  //   if (getIsTargetFound()) {
 
-      double speed = turnController.calculate(tx.getDouble(0));
-      if (speed > 0) speed += 0.05;
-      if (speed < 0) speed -= 0.05;
+  //     double speed = turnController.calculate(tx.getDouble(0));
+  //     if (speed > 0) speed += 0.05;
+  //     if (speed < 0) speed -= 0.05;
 
-      if (turnController.atSetpoint()) {
-        turnController.reset();
-        return true; // we are angled correctly
-      }
-      if (pickup) {
-        if (pickupTimer.get() == 0) drive.drive(new SwerveRequest(-speed, 0, 0), false);
-      } else {
-        drive.drive(new SwerveRequest(-speed, 0, 0), false);
-      }
-    }
+  //     if (turnController.atSetpoint()) {
+  //       turnController.reset();
+  //       return true; // we are angled correctly
+  //     }
+  //     if (pickup) {
+  //       if (pickupTimer.get() == 0) drive.drive(new SwerveRequest(-speed, 0, 0), false);
+  //     } else {
+  //       drive.drive(new SwerveRequest(-speed, 0, 0), false);
+  //     }
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   public boolean score(
       SwerveSubsystem drive, ArmSubsystem arm, boolean isCube) {
@@ -179,18 +189,51 @@ public class Limelight {
     return false;
   }
 
-  public void turnToAngle(SwerveSubsystem drive) {
-    double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180 / Math.PI); // in degree
-    double rotation = (180 - robotAngle) * 0.0061;
-    if (rotation >= minimumSpeed) {
-      rotation -= minimumSpeed;
-    } else if (rotation <= -minimumSpeed) {
-      rotation += minimumSpeed;
-    } else {
-      rotation = 0;
-      return;
-    }
+  // public void turnToAngle(SwerveSubsystem drive) {
+  //   double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180 / Math.PI); // in degree
+  //   double rotation = (180 - robotAngle) * 0.0061;
+  //   if (rotation >= minimumSpeed) {
+  //     rotation -= minimumSpeed;
+  //   } else if (rotation <= -minimumSpeed) {
+  //     rotation += minimumSpeed;
+  //   } else {
+  //     rotation = 0;
+  //     return;
+  //   }
 
-    drive.drive(new SwerveRequest(rotation, 0, 0), false);
+  //   drive.drive(new SwerveRequest(rotation, 0, 0), false);
+  // }
+
+  public Command scoreRight(SwerveSubsystem d) {
+    return run(
+    () -> {
+      turnRobot(d);
+    });
   }
+
+  public Command turnRobot(SwerveSubsystem d){
+    return run(
+    () -> {
+      setpipeline(0);
+      //YAW
+      double pos = table.getEntry("botpose_targetspace").getDoubleArray(new double[6])[5];
+      System.out.println(pos);
+      double rotation = turnController.calculate(pos) * 100;
+      if(turnController.atSetpoint()){
+        
+      } else {
+        d.drive(new SwerveRequest(rotation, 0, 0), false);
+      }
+    });
+
+    //return false;
+  }
+
+  public boolean tagAlign() {
+    if((targetposeX >= -0.075 && targetposeX <= 0.075)) {
+      return true;
+    }
+    return false;
+  }
+
 }
