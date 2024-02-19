@@ -10,12 +10,16 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.commands.DriveController;
+import frc.robot.commands.ShooterController;
+import frc.robot.commands.IntakeController;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -35,6 +39,7 @@ public class RobotContainer {
   protected LightSensor cubeSensor;
   protected LightSensor coneSensor;
   private SendableChooser<Command> autonChooser;
+  private WaitCommand shooWaitCommand;
   protected IntakeSubsystem intake;
   protected ShooterSubsystem shooter;
   protected ArmSubsystem arm;
@@ -42,29 +47,36 @@ public class RobotContainer {
   protected CommandXboxController driveController;
 
   public RobotContainer(
-      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm, Limelight lime, SwerveSubsystem drive) {
+      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm, Limelight lime,
+      SwerveSubsystem drive) {
     intake = newIntake;
     shooter = newShooter;
     arm = newArm;
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
+    shooWaitCommand = new WaitCommand(1.5);
+
     this.drive = drive;
     this.lime = lime;
     configureBindings();
 
-   
     // this.arm = arm;
     // this.gyro = gyro;
-    
+
     // this.cubeSensor = cubeSensor;
 
-    // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
-    // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive,
+    // gyro, odometry);
+    // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive,
+    // gyro, odometry);
 
-    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
-    // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
+    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro,
+    // odometry);
+    // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro,
+    // lime, cubeSensor);
     // this.rightSideCommand =
-    //     new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+    // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
+    // odometry);
 
     // this.autonChooser = new SendableChooser<Command>();
     // this.autonChooser.setDefaultOption("BlueCenter", blueCenterCommand);
@@ -80,12 +92,17 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.stop());
     shooter.setDefaultCommand(shooter.stopMotor());
     arm.setDefaultCommand(arm.stopMotor());
-    armController.a().whileTrue(intake.intake());
-    armController.b().whileTrue(shooter.moveMotor());
-    armController.x().whileTrue(intake.ointake());
+    armController.a().whileTrue(intake.moveMotor());
+
+    // armController.b().whileTrue(shooter.moveMotor());
+    // armController.x().whileTrue(intake.omoveMotor());
+    armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
+        .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
+
     armController.povUp().whileTrue(arm.moveMotorForward());
     armController.povDown().whileTrue(arm.moveMotorBackward());
-    drive.setDefaultCommand(new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
+    drive.setDefaultCommand(
+        new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
     armController.y().whileTrue(lime.scoreRight(drive));
   }
 
@@ -94,10 +111,11 @@ public class RobotContainer {
   }
 
   // public Command getAutonomousCommand() {
-  //   // Load the path you want to follow using its name in the GUI
-  //   PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
+  // // Load the path you want to follow using its name in the GUI
+  // PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
 
-  //   // Create a path following command using AutoBuilder. This will also trigger event markers.
-  //   return AutoBuilder.followPathWithEvents(path);
+  // // Create a path following command using AutoBuilder. This will also trigger
+  // event markers.
+  // return AutoBuilder.followPathWithEvents(path);
   // }
 }
