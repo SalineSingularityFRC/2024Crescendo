@@ -66,6 +66,8 @@ public class RobotContainer {
     // this.rightSideCommand =
     //     new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
 
+    NamedCommands.registerCommand("autoBalance", drive.autoBalanceCommand());
+
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
