@@ -37,6 +37,11 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
   }
 
+  //rotations per second
+  public double getIntakeSpeed() {
+    return intakeMotor.getVelocity().getValue();
+  }
+
   public void setBrakeMode() {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
@@ -48,13 +53,13 @@ public class IntakeSubsystem extends SubsystemBase {
           setIntakeSpeed(0);
         });
   }
-  public Command ointake() {
+  public Command omoveMotor() {
     return run(
         () -> {
           setIntakeSpeed(-Constants.Speed.INTAKE);
         });
   }
-  public Command intake() {
+  public Command moveMotor() {
     return run(
         () -> {
           setIntakeSpeed(Constants.Speed.INTAKE);
