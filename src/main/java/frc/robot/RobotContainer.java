@@ -45,7 +45,7 @@ public class RobotContainer {
   protected ArmSubsystem arm;
   protected CommandXboxController armController;
   protected CommandXboxController driveController;
-
+  private SendableChooser<PathPlannerPath> pathChooser;
   public RobotContainer(
       ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm, Limelight lime,
       SwerveSubsystem drive) {
@@ -78,14 +78,17 @@ public class RobotContainer {
     // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
     // odometry);
 
-    // this.autonChooser = new SendableChooser<Command>();
-    // this.autonChooser.setDefaultOption("BlueCenter", blueCenterCommand);
-    // this.autonChooser.addOption("RedCenter", redCenterCommand);
-    // this.autonChooser.addOption("LeftSide", leftSideCommand);
-    // this.autonChooser.addOption("RightSide", rightSideCommand);
-    // this.autonChooser.addOption("SwerveDriveCommand", swerveCommand);
+    //NamedCommands.registerCommand("autoBalance", drive.autoBalanceCommand());
 
-    // SmartDashboard.putData("Auton Choices", autonChooser);
+    this.pathChooser = new SendableChooser<PathPlannerPath>();
+    this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
+    this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
+    this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
+    this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
+    this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
+    this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
+
+    SmartDashboard.putData("Path Choices", pathChooser);
   }
 
   private void configureBindings() {
@@ -107,7 +110,10 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return null;
+    // Load the path you want to follow using its name in the GUI
+
+    // Create a path following command using AutoBuilder. This will also trigger event markers.
+    return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 
   // public Command getAutonomousCommand() {
