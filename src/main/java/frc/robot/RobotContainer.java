@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.SwerveClasses.SwerveOdometry;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.ShooterController;
 import frc.robot.commands.IntakeController;
@@ -36,8 +35,6 @@ public class RobotContainer {
   protected SwerveSubsystem drive;
   protected Pigeon2 gyro;
   protected Limelight lime;
-  protected LightSensor cubeSensor;
-  protected LightSensor coneSensor;
   private SendableChooser<Command> autonChooser;
   private WaitCommand shooWaitCommand;
   protected IntakeSubsystem intake;
@@ -46,18 +43,19 @@ public class RobotContainer {
   protected CommandXboxController armController;
   protected CommandXboxController driveController;
   private SendableChooser<PathPlannerPath> pathChooser;
-  public RobotContainer(
-      ShooterSubsystem newShooter, IntakeSubsystem newIntake, ArmSubsystem newArm, Limelight lime,
-      SwerveSubsystem drive) {
-    intake = newIntake;
-    shooter = newShooter;
-    arm = newArm;
+  public RobotContainer() {
+   
+    arm = new ArmSubsystem();
+    lime = new Limelight();
+    drive = new SwerveSubsystem();
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+    
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
-    shooWaitCommand = new WaitCommand(1.5);
+   
 
-    this.drive = drive;
-    this.lime = lime;
+
     configureBindings();
 
     // this.arm = arm;
@@ -92,18 +90,18 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    intake.setDefaultCommand(intake.stop());
-    shooter.setDefaultCommand(shooter.stopMotor());
-    arm.setDefaultCommand(arm.stopMotor());
-    armController.a().whileTrue(intake.moveMotor());
-
+    intake.setDefaultCommand(intake.stopIntaking());
+    shooter.setDefaultCommand(shooter.stopShooting());
+    arm.setDefaultCommand(arm.stopArm());
+    armController.a().whileTrue(intake.startIntake());
+    armController.x().whileTrue(intake.reverseIntake());
     // armController.b().whileTrue(shooter.moveMotor());
-    // armController.x().whileTrue(intake.omoveMotor());
+
     // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
     //     .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
 
-    armController.povUp().whileTrue(arm.moveMotorForward());
-    armController.povDown().whileTrue(arm.moveMotorBackward());
+    armController.povUp().whileTrue(arm.moveArmForward());
+    armController.povDown().whileTrue(arm.moveArmBackwards());
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
     armController.y().whileTrue(lime.scoreRight(drive));

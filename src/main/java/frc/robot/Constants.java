@@ -195,28 +195,28 @@ public final class Constants {
     }
     
     public static final class Limelight {
-      public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
-      public static final double[] TURN_CONTROLLER = {0.1, 0, 0.0001};
-      public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
+      public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
+      public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
+      public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
     }
 
     public static final class SwerveCommand {
-      public static final double[] X_CONTROLLER = {0.0001, 0, 0};
-      public static final double[] Y_CONTROLLER = {0.0001, 0, 0};
+      public static final PID X_CONTROLLER = new PID(0.0001, 0, 0);
+      public static final PID Y_CONTROLLER = new PID(0.0001, 0, 0);
     }
 
     public static final class DriveDistance {
-      public static final double[] DRIVE_DISTANCE = {0.1, 0, 0};
+      public static final PID DRIVE_DISTANCE = new PID(0.1, 0, 0);
     }
 
     public static final class GetOnChargeStation {
-      public static final double[] GET_ON_CHARGE_STATION = {0.1, 0, 0};
+      public static final PID GET_ON_CHARGE_STATION = new PID(0.1, 0, 0);
     }
 
     public static final class SwerveDistance {
-      public static final double[] SWERVE_DISTANCE = {0.1, 0, 0};
-      public static final double[] SWERVE_COMMAND_XCONTROLLER = {1, 0, 0};
-      public static final double[] SWERVE_COMMAND_YCONTROLLER = {1, 0, 0};
+      public static final PID SWERVE_DISTANCE = new PID(0.1, 0, 0);
+      public static final PID SWERVE_COMMAND_XCONTROLLER = new PID(1, 0, 0);
+      public static final PID SWERVE_COMMAND_YCONTROLLER = new PID(1, 0, 0);
     }
 
     public static final class TurnAngle {
@@ -224,8 +224,8 @@ public final class Constants {
     }
 
     public static final class SwerveModule {
-      public static final double[] DRIVE_PID_CONTROLLER = {.5, 0, 0};
-      public static final double[] TURNING_PID_CONTROLLER = {.2, 0, 0};
+      public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(.2, 0, 0);
     }
   }
 }

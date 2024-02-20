@@ -54,7 +54,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public double gyroZero = 0;
 
   private double targetAngle = Double.MAX_VALUE;
-
+  private static SwerveOdometry odometry;
   private double startingAngle;
 
   /*
@@ -124,13 +124,13 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       return getChassisSpeed(); // Maybe come back to this later
     };
     Supplier<Pose2d> supplier_position = () -> {
-      SmartDashboard.putNumber("PathPlanner_Odometry_X", Robot.odometry.position().getX());
-      SmartDashboard.putNumber("PathPlanner_Odometry_Y", Robot.odometry.position().getY());
-      SmartDashboard.putNumber("PathPlanner_Odometry_Angle", Robot.odometry.position().getRotation().getRadians());
-      return Robot.odometry.position(); // Maybe come back to this later
+      SmartDashboard.putNumber("PathPlanner_Odometry_X", odometry.position().getX());
+      SmartDashboard.putNumber("PathPlanner_Odometry_Y", odometry.position().getY());
+      SmartDashboard.putNumber("PathPlanner_Odometry_Angle", odometry.position().getRotation().getRadians());
+      return odometry.position(); // Maybe come back to this later
     };
     Consumer<Pose2d> consumer_position = pose -> {
-      Robot.odometry.setPosition(pose); // Maybe come back to this later
+      odometry.setPosition(pose); // Maybe come back to this later
     };
 
     // SwerveModuleState[] modules =

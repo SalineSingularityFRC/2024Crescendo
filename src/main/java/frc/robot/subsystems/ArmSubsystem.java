@@ -75,28 +75,28 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor2.getConfigurator().apply(motorOutputConfigs);
   }
 
-  public Command stopMotor() {
+  public Command stopArm() {
     return run(
         () -> {
-          maintainPosition();
+          maintainArmPosition();
         });
   }
 
-  public Command moveMotorForward() {
+  public Command moveArmForward() {
     return run(
         () -> {
           setArmSpeed(Constants.Speed.ARM);
         });
   }
 
-  public Command moveMotorBackward() {
+  public Command moveArmBackwards() {
     return run(
         () -> {
           setArmSpeed(-Constants.Speed.ARM);
         });
   }
 
-  public void maintainPosition() {
+  public void maintainArmPosition() {
     armMotor1.setControl(
         positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.1).withSlot(0));
   }

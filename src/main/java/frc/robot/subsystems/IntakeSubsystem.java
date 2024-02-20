@@ -47,19 +47,19 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 
-  public Command stop() {
+  public Command stopIntaking() {
     return run(
         () -> {
           setIntakeSpeed(0);
         });
   }
-  public Command omoveMotor() {
+  public Command reverseIntake() {
     return run(
         () -> {
           setIntakeSpeed(-Constants.Speed.INTAKE);
         });
   }
-  public Command moveMotor() {
+  public Command startIntake() {
     return run(
         () -> {
           setIntakeSpeed(Constants.Speed.INTAKE);

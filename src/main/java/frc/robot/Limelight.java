@@ -66,19 +66,19 @@ public class Limelight extends SubsystemBase{
     cl = table.getEntry("cl").getDouble(0); // capture latency
     limeLatency = tl + cl; // total latency for the pipeline (ms)
 
-    double[] drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
+    PID drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
-        new PIDController(drive_gains[0], drive_gains[1], drive_gains[2]); // 0.0056 orginally
+        new PIDController(drive_gains.P, drive_gains.I, drive_gains.D); // 0.0056 orginally
     driveController.setSetpoint(-18);
 
     // driveController.setTolerance(0.5);
-    double[] turn_gains = Constants.PidGains.Limelight.TURN_CONTROLLER;
-    turnController = new PIDController(turn_gains[0], turn_gains[1], turn_gains[2]);
+    PID turn_gains = Constants.PidGains.Limelight.TURN_CONTROLLER;
+    turnController = new PIDController(turn_gains.P, turn_gains.I, turn_gains.D);
     turnController.setSetpoint(0);
 
-    double[] score_drive_gains = Constants.PidGains.Limelight.SCORE_DRIVE_CONTROLLER;
+    PID score_drive_gains = Constants.PidGains.Limelight.SCORE_DRIVE_CONTROLLER;
     scoreDriveController =
-        new PIDController(score_drive_gains[0], score_drive_gains[1], score_drive_gains[2]);
+        new PIDController(score_drive_gains.P, score_drive_gains.I, score_drive_gains.D);
     scoreDriveController.setSetpoint(1.7); // FIND RIGHT TA VALUE
 
     // driveController.setTolerance(0.5);

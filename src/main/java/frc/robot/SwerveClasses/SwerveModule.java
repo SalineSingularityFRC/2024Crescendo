@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix6.hardware.CANcoder;
 
 import frc.robot.Constants;
+import frc.robot.PID;
 
 /*
  * This class owns the components of a single swerve module and is responsible for controlling
@@ -38,12 +39,12 @@ public class SwerveModule {
   private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
-  double[] drive_controller_gains = Constants.PidGains.SwerveModule.DRIVE_PID_CONTROLLER;
-  double[] turn_controller_gains = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
+  PID drive_controller_gains = Constants.PidGains.SwerveModule.DRIVE_PID_CONTROLLER;
+  PID turn_controller_gains = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
   private final PIDController m_drivePIDController = new PIDController(
-      drive_controller_gains[0], drive_controller_gains[1], drive_controller_gains[2]);
+      drive_controller_gains.P, drive_controller_gains.I, drive_controller_gains.D);
   private final PIDController m_turningPIDController = new PIDController(
-      turn_controller_gains[0], turn_controller_gains[1], turn_controller_gains[2]);
+      turn_controller_gains.P, turn_controller_gains.I, turn_controller_gains.D);
 
   private final double absolutePositionEncoderOffset;
   private String name;
