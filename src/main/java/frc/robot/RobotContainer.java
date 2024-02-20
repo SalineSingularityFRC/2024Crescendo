@@ -90,9 +90,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    intake.setDefaultCommand(intake.stop());
-    shooter.setDefaultCommand(shooter.stopMotor());
-    arm.setDefaultCommand(arm.stopMotor());
+    intake.setDefaultCommand(intake.stopIntaking());
+    shooter.setDefaultCommand(shooter.stopShooting());
+    arm.setDefaultCommand(arm.stopArm());
     armController.a().whileTrue(intake.startIntake());
     armController.x().whileTrue(intake.reverseIntake());
     // armController.b().whileTrue(shooter.moveMotor());
@@ -100,8 +100,8 @@ public class RobotContainer {
     // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
     //     .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
 
-    armController.povUp().whileTrue(arm.moveMotorForward());
-    armController.povDown().whileTrue(arm.moveMotorBackward());
+    armController.povUp().whileTrue(arm.moveArmForward());
+    armController.povDown().whileTrue(arm.moveArmBackwards());
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
     armController.y().whileTrue(lime.scoreRight(drive));

@@ -54,14 +54,14 @@ public class ShooterSubsystem extends SubsystemBase {
         return shooterMotor1.getVelocity().getValue();
     }
 
-    public Command stopMotor() {
+    public Command stopShooting() {
         return run(
                 () -> {
                     setShooterSpeed(0);
                 });
     }
 
-    public Command moveMotor() {
+    public Command startShooting() {
         return run(
                 () -> {
                     setShooterSpeed(Constants.Speed.SHOOTER);

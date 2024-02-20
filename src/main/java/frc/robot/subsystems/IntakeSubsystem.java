@@ -47,7 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 
-  public Command stop() {
+  public Command stopIntaking() {
     return run(
         () -> {
           setIntakeSpeed(0);
