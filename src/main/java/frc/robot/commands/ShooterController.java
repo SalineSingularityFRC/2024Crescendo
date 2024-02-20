@@ -18,6 +18,6 @@ public class ShooterController extends Command {
     }
 
     public boolean isFinished() {
-        return (shooterSubsystem.getShooterSpeed() == Constants.Speed.SHOOTER);
+        return (shooterSubsystem.getShooterSpeed() >= Constants.Speed.SHOOTER * 0.9); 
     }
 }

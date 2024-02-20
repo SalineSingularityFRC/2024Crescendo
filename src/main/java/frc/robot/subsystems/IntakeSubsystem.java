@@ -53,13 +53,13 @@ public class IntakeSubsystem extends SubsystemBase {
           setIntakeSpeed(0);
         });
   }
-  public Command omoveMotor() {
+  public Command reverseIntake() {
     return run(
         () -> {
           setIntakeSpeed(-Constants.Speed.INTAKE);
         });
   }
-  public Command moveMotor() {
+  public Command startIntake() {
     return run(
         () -> {
           setIntakeSpeed(Constants.Speed.INTAKE);
