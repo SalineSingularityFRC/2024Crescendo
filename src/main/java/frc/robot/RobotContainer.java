@@ -7,11 +7,21 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.SwerveClasses.SwerveOdometry;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.DriveController;
+import frc.robot.commands.ShooterController;
+import frc.robot.commands.IntakeController;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
@@ -23,36 +33,48 @@ public class RobotContainer {
   // private SwerveCommand swerveCommand;
   // protected ClawPneumatics clawPneumatics;
   protected SwerveSubsystem drive;
-  protected ArmSubsystem arm;
   protected Pigeon2 gyro;
   protected Limelight lime;
-  protected LightSensor cubeSensor;
-  protected LightSensor coneSensor;
-  protected SendableChooser<PathPlannerPath> pathChooser;
+  private SendableChooser<Command> autonChooser;
+  private WaitCommand shooWaitCommand;
+  protected IntakeSubsystem intake;
+  protected ShooterSubsystem shooter;
+  protected ArmSubsystem arm;
+  protected CommandXboxController armController;
+  protected CommandXboxController driveController;
+  private SendableChooser<PathPlannerPath> pathChooser;
+  public RobotContainer() {
+   
+    arm = new ArmSubsystem();
+    lime = new Limelight();
+    drive = new SwerveSubsystem();
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+    
+    armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
+    driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
+   
 
-  public RobotContainer(
-      ArmSubsystem arm,
-      SwerveSubsystem drive,
-      Pigeon2 gyro,
-      Limelight lime,
-      LightSensor cubeSensor,
-      LightSensor coneSensor,
-      SwerveOdometry odometry) {
+
     configureBindings();
 
-    this.drive = drive;
-    this.arm = arm;
-    this.gyro = gyro;
-    this.lime = lime;
-    this.cubeSensor = cubeSensor;
+    // this.arm = arm;
+    // this.gyro = gyro;
 
-    // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
-    // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive, gyro, odometry);
+    // this.cubeSensor = cubeSensor;
 
-    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro, odometry);
-    // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor);
+    // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive,
+    // gyro, odometry);
+    // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive,
+    // gyro, odometry);
+
+    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro,
+    // odometry);
+    // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro,
+    // lime, cubeSensor);
     // this.rightSideCommand =
-    //     new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor, odometry);
+    // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
+    // odometry);
 
     //NamedCommands.registerCommand("autoBalance", drive.autoBalanceCommand());
 
@@ -67,12 +89,23 @@ public class RobotContainer {
     SmartDashboard.putData("Path Choices", pathChooser);
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    intake.setDefaultCommand(intake.stopIntaking());
+    shooter.setDefaultCommand(shooter.stopShooting());
+    arm.setDefaultCommand(arm.stopArm());
+    armController.a().whileTrue(intake.startIntake());
+    armController.x().whileTrue(intake.reverseIntake());
+    // armController.b().whileTrue(shooter.moveMotor());
 
-  // public Command getAutonomousCommand() {
-  //   return this.blueCenterCommand;
-  //   //return autonChooser.getSelected();
-  // }
+    // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
+    //     .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
+
+    armController.povUp().whileTrue(arm.moveArmForward());
+    armController.povDown().whileTrue(arm.moveArmBackwards());
+    drive.setDefaultCommand(
+        new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
+    armController.y().whileTrue(lime.scoreRight(drive));
+  }
 
   public Command getAutonomousCommand() {
     // Load the path you want to follow using its name in the GUI
@@ -80,4 +113,13 @@ public class RobotContainer {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
+
+  // public Command getAutonomousCommand() {
+  // // Load the path you want to follow using its name in the GUI
+  // PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
+
+  // // Create a path following command using AutoBuilder. This will also trigger
+  // event markers.
+  // return AutoBuilder.followPathWithEvents(path);
+  // }
 }

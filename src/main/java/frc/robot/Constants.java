@@ -43,10 +43,11 @@ public final class Constants {
 
     public static final class Arm {
       public static final class Motor {
-        public static final int BIG_ARM = 6;
-        public static final int BIG_ARM_2 = 7;
-        public static final int SMALL_ARM = 31;
-        public static final int Compressor = 1;
+        public static final int ARM_1 = 1;
+        public static final int ARM_2 = 2;
+        public static final int SHOOTER_1 = 3;
+        public static final int SHOOTER_2 = 4;
+        public static final int INTAKE = 5;
       }
     }
 
@@ -95,7 +96,7 @@ public final class Constants {
 
   public static final class Canbus {
     public static final String DEFAULT = "rio";
-    public static final String DRIVE_TRAIN = "drivetrain";
+    public static final String DRIVE_TRAIN = "rio";
   }
 
   public static final class Sensor {
@@ -166,7 +167,10 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double ARM = 0.005; // speed of the arms when adjusting manually
+    public static final double SHOOTER = 100; // speed of the arms when adjusting manually in rotations per second
+    public static final double INTAKE = 25; // rotations per second
+    public static final double ARM = 15; // rotations per second
+
   }
 
   public static final class Distance {
@@ -191,28 +195,28 @@ public final class Constants {
     }
     
     public static final class Limelight {
-      public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
-      public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};
-      public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
+      public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
+      public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
+      public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
     }
 
     public static final class SwerveCommand {
-      public static final double[] X_CONTROLLER = {0.0001, 0, 0};
-      public static final double[] Y_CONTROLLER = {0.0001, 0, 0};
+      public static final PID X_CONTROLLER = new PID(0.0001, 0, 0);
+      public static final PID Y_CONTROLLER = new PID(0.0001, 0, 0);
     }
 
     public static final class DriveDistance {
-      public static final double[] DRIVE_DISTANCE = {0.1, 0, 0};
+      public static final PID DRIVE_DISTANCE = new PID(0.1, 0, 0);
     }
 
     public static final class GetOnChargeStation {
-      public static final double[] GET_ON_CHARGE_STATION = {0.1, 0, 0};
+      public static final PID GET_ON_CHARGE_STATION = new PID(0.1, 0, 0);
     }
 
     public static final class SwerveDistance {
-      public static final double[] SWERVE_DISTANCE = {0.1, 0, 0};
-      public static final double[] SWERVE_COMMAND_XCONTROLLER = {1, 0, 0};
-      public static final double[] SWERVE_COMMAND_YCONTROLLER = {1, 0, 0};
+      public static final PID SWERVE_DISTANCE = new PID(0.1, 0, 0);
+      public static final PID SWERVE_COMMAND_XCONTROLLER = new PID(1, 0, 0);
+      public static final PID SWERVE_COMMAND_YCONTROLLER = new PID(1, 0, 0);
     }
 
     public static final class TurnAngle {
@@ -220,8 +224,8 @@ public final class Constants {
     }
 
     public static final class SwerveModule {
-      public static final double[] DRIVE_PID_CONTROLLER = {.5, 0, 0};
-      public static final double[] TURNING_PID_CONTROLLER = {.2, 0, 0};
+      public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(.2, 0, 0);
     }
   }
 }
