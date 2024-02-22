@@ -67,16 +67,11 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
 
-    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BR] = new Vector(
-        -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-
     Translation2d[] wheel = new Translation2d[4];
-    for (int i = 0; i < vectorKinematics.length; i++) {
-      wheel[i] = new Translation2d(vectorKinematics[i].x, vectorKinematics[i].y);
-    }
+    wheel[0] = new Translation2d(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    wheel[1] = new Translation2d(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    wheel[2] = new Translation2d(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
+    wheel[3] = new Translation2d(-Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
 
     swerveDriveKinematics = new SwerveDriveKinematics(wheel);
 
