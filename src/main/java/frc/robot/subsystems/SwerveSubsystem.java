@@ -67,11 +67,10 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
 
-    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BR] = new Vector(
-        -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
+    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+    vectorKinematics[BR] = new Vector(-Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
 
     Translation2d[] wheel = new Translation2d[4];
     for (int i = 0; i < vectorKinematics.length; i++) {
@@ -148,7 +147,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
             new PIDConstants(Constants.PidGains.PathPlanner.rotation.P, Constants.PidGains.PathPlanner.rotation.I,
             Constants.PidGains.PathPlanner.rotation.D), // Rotation PID constants
             4.5, // Max module speed, in m/s
-            0.70832, // Drive base radius in meters. Distance from robot center to furthest module.
+            Constants.Measurement.DRIVEBASERADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
