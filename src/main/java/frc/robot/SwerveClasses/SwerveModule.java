@@ -89,7 +89,7 @@ public class SwerveModule {
   public SwerveModuleState getState(){
 
     return new SwerveModuleState(driveMotor.getVelocity().getValue() * 2 * Math.PI * Constants.Measurement.WHEELRADIUS
-        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.RADIUSFACTOR, new Rotation2d(getEncoderPosition()));
+        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.WHEELRADIUSFACTOR, new Rotation2d(getEncoderPosition()));
   }
 
   public void coast() {
@@ -167,6 +167,6 @@ public class SwerveModule {
   // the gear
   public double getPosition() {
     return driveMotor.getPosition().getValue() * 2 * Math.PI * Constants.Measurement.WHEELRADIUS
-        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.RADIUSFACTOR;
+        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.WHEELRADIUSFACTOR;
   }
 }
