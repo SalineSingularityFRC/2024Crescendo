@@ -156,12 +156,15 @@ public final class Constants {
     // trackWidth - lateral distance between pairs of wheels on different sides of
     // the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
+    // driveBaseRadius - distance from robot center to furthest module.
+    // radiusFactor - to account for real world factors of the wheel radius
     // THIS IS IMPORTANT FOR A RECTANGULAR ROBOT
-    public static final double TRACK_WIDTH = 0.85;
-    public static final double WHEELBASE =
-        1.1333; // the ratio between the width and the length is around 3:4
-    public static final double WHEELRADIUS = 2.003 * 0.0254; //2023 robot radius from inches to meters
-    public static final double RADIUSFACTOR = 1.1;
+    // In meters
+    public static final double TRACK_WIDTH = 18.75 * 0.0254; // Inches to meters
+    public static final double WHEELBASE = 22.75 * 0.0254; // Inches to meters
+    public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
+    public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
+    public static final double WHEELRADIUSFACTOR = 1.1;
   }
 
   public static final class Speed {
