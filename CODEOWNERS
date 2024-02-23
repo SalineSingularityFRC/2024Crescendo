@@ -3,6 +3,9 @@
 
 # These owners will be the default owners for everything in the repo.
 *       @Bandyosh
+*       @hongb007
+*       @sethgi
+*       @JoshuaJacobson
 
 # Order is important. The last matching pattern has the most precedence.
 # So if a pull request only touches java files, only these owners
