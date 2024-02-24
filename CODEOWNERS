@@ -3,12 +3,15 @@
 
 # These owners will be the default owners for everything in the repo.
 *       @Bandyosh
+*       @hongb007
+*       @sethgi
+*       @JoshuaJacobson
 
 # Order is important. The last matching pattern has the most precedence.
 # So if a pull request only touches java files, only these owners
 # will be requested to review.
-*.java   @JoshuaJacobson @github/java
-*.java   @Bandyosh @github/java
-*.java   @hongb007 @github/java
-*.java   @sethgi @github/java
+*.java   @JoshuaJacobson 
+*.java   @Bandyosh 
+*.java   @hongb007
+*.java   @sethgi 
 # You can also use email addresses if you prefer.

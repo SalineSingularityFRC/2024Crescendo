@@ -16,13 +16,17 @@ import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
 public class Limelight extends SubsystemBase{
   private NetworkTable table;
-  public NetworkTableEntry tx, ty, ta, tv, ledMode, camMode, pipeLine, crop;
+  public NetworkTableEntry TX, TY, TA, TV, ledMode, camMode, pipeLine, crop;
 
   private double[] botpose, targetspace;
-  public double poseX, poseY, poseYaw;
-  public double targetposeX, targetposeZ, targetposeYaw;
+  public NetworkTableEntry poseX, poseY, poseYaw;
+  public NetworkTableEntry targetposeX, targetposeZ, targetposeYaw;
   public double[] tid;
-  public double tl, cl, limeLatency;
+  public NetworkTableEntry tl, cl;
+  public double limeLatency;
+
+  public double tx, ty, ta, botX, botY, botYaw, targetX, targetZ, targetYaw;
+  public double tv;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -36,10 +40,15 @@ public class Limelight extends SubsystemBase{
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
 
-    tx = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
-    ty = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
-    ta = table.getEntry("ta"); // target area (0-100%)
-    tv = table.getEntry("tv"); // 0 = no target found or 1 = target found
+    TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
+    TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
+    TA = table.getEntry("ta"); // target area (0-100%)
+    TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
+
+    ta = TX.getDouble(0.0);
+    ty = TY.getDouble(0.0);
+    ta = TA.getDouble(0.0);
+    tv = TV.getDouble(0.0);
 
     // swap the limelight between vision processing (0) and drive camera (1)
     camMode = table.getEntry("camMode");
@@ -51,20 +60,28 @@ public class Limelight extends SubsystemBase{
 
     botpose = table.getEntry("botpose").getDoubleArray(new double[6]);
     // xyz are in meters
-    poseX = botpose[0]; // Points up the long side of the field
-    poseY = botpose[1]; // Points toward short side of the field
-    poseYaw = botpose[5] * (Math.PI/180); // angle of the robot 0 is straight
-    tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+    // poseX = botpose[0]; // Points up the long side of the field
+    // poseY = botpose[1]; // Points toward short side of the field
+    // poseYaw = botpose[5] * (Math.PI/180); // angle of the robot 0 is straight
+    // tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
+
+    botX = poseX.getDouble(0.0);
+    botY = poseY.getDouble(0.0);
+    botYaw = poseYaw.getDouble(0.0) * (Math.PI/180);
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
     targetspace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);
-    targetposeX = targetspace[0]; // to the right of the target from front face
-    targetposeZ = targetspace[2]; // pointing out of the april tag
-    targetposeYaw = targetspace[5]; 
+    // targetposeX = targetspace[0]; // to the right of the target from front face
+    // targetposeZ = targetspace[2]; // pointing out of the april tag
+    // targetposeYaw = targetspace[5]; 
 
-    tl = table.getEntry("tl").getDouble(0); // targeting latency
-    cl = table.getEntry("cl").getDouble(0); // capture latency
-    limeLatency = tl + cl; // total latency for the pipeline (ms)
+    targetX = targetposeX.getDouble(0.0);
+    targetZ = targetposeZ.getDouble(0.0);
+    targetYaw = targetposeYaw.getDouble(0.0) * (Math.PI/180);
+
+    // tl = table.getEntry("tl").getDouble(0); // targeting latency
+    // cl = table.getEntry("cl").getDouble(0); // capture latency
+    // limeLatency = tl + cl; // total latency for the pipeline (ms)
 
     PID drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
@@ -108,7 +125,7 @@ public class Limelight extends SubsystemBase{
   }
 
   public boolean getIsTargetFound() {
-    double a = ta.getDouble(0);
+    double a = ta;
     if (a <= 0.05) {
       return false;
     } else {
@@ -183,7 +200,7 @@ public class Limelight extends SubsystemBase{
     } else {
       setpipeline(3);
     }
-    if (tx.getDouble(0) < 6.5 || tx.getDouble(0) > 11.5) {
+    if (tx < 6.5 || tx > 11.5) {
       isTurningDone = false;
     }
 
@@ -220,7 +237,7 @@ public class Limelight extends SubsystemBase{
     () -> {
       setpipeline(0);
       //YAW
-      double pos = table.getEntry("botpose_targetspace").getDoubleArray(new double[6])[5];
+      double pos = targetYaw;
       System.out.println(pos);
       double rotation = turnController.calculate(pos);
       d.drive(new SwerveRequest(rotation, 0, 0), false);
@@ -234,9 +251,9 @@ public class Limelight extends SubsystemBase{
   }
 
   public boolean tagAlign() {
-    if((targetposeX >= -0.075 && targetposeX <= 0.075)) {
-      return true;
-    }
+    // if(Math.abs(targetX) = 0.075) {
+    //   return true;
+    // }
     return false;
   }
 
