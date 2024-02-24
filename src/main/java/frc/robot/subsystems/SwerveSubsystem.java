@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -65,7 +66,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
+    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
 
 
     vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
@@ -188,8 +189,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at
     // neutral position
-      
-    if (Math.abs(swerveRequest.movement.x) < 0.05
+      if (Math.abs(swerveRequest.movement.x) < 0.05
         && Math.abs(swerveRequest.movement.y) < 0.05
         && Math.abs(swerveRequest.rotation) < 0.05) {
 
@@ -282,11 +282,18 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public double getRobotAngle() {
     // return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
     return (((gyro.getAngle() - gyroZero)) * Math.PI)
-        / 180; // returns in counterclockwise hence why 360 minus
+       / 180; // returns in counterclockwise hence why 360 minus
+
     // it is gyro.getAngle() - 180 because the pigeon for this robot is facing
     // backwards
   }
 
+  public Command resetGyroCommand() {
+    return runOnce(
+      () -> {
+          resetGyro();
+      });
+  }
   public void resetGyro() {
     // gyro.reset();
     gyroZero = gyro.getAngle();

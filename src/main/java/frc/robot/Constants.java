@@ -84,14 +84,19 @@ public final class Constants {
       public static final double SLIDER = -0.18003028;
       public static final double PICKUP_CONE = -0.272852;
     }
+    public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
+      public static final double AMP = 0;
+      public static final double SHOOTING = 0;
+      public static final double PICKUP = 0;
+    }
   }
 
   public static final class Inverted {
     // This is for moters
-    public static final boolean FL = false;
-    public static final boolean FR = true;
-    public static final boolean BL = false;
-    public static final boolean BR = true;
+    public static final boolean FL = true;
+    public static final boolean FR = false;
+    public static final boolean BL = true;
+    public static final boolean BR = false;
   }
 
   public static final class Canbus {
@@ -138,16 +143,16 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.612305) * 2 * Math.PI;
-    public static final double FR = (0.500977) * 2 * Math.PI;
-    public static final double BL = (0.083008) * 2 * Math.PI;
-    public static final double BR = (0.443115) * 2 * Math.PI;
+    public static final double FL = (0.284180) * 2 * Math.PI;
+    public static final double FR = (0.703857) * 2 * Math.PI;
+    public static final double BL = (0.687256) * 2 * Math.PI;
+    public static final double BR = (0.832031) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
     public static final double DRIVE = 8.14;
     public static final double ANGLE =
-        12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
+        150.0/7.0;//12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
     public static final int SMALL = 7;
   }
@@ -228,7 +233,7 @@ public final class Constants {
 
     public static final class SwerveModule {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
-      public static final PID TURNING_PID_CONTROLLER = new PID(.2, 0, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(.05, 0, 0);
     }
   }
 }

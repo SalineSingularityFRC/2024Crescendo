@@ -31,7 +31,7 @@ public class SwerveModule {
    * An instance of the TalonFX class to handle the drive motor
    * An instance of the CANcoder class to handle the encoder
    */
-  private SwerveAngle angleMotor;
+  public SwerveAngle angleMotor;
   private AnalogEncoder a_encoder;
   private CANcoder c_encoder;
   private TalonFX driveMotor;
@@ -73,6 +73,7 @@ public class SwerveModule {
     current.SupplyCurrentLimitEnable = true;
     driveMotor.getConfigurator().apply(current);
     angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+    
     this.name = name;
     driveMotor.setInverted(isInverted);
     if (isInverted) {
@@ -126,20 +127,10 @@ public class SwerveModule {
 
     driveMotor.set(driveOutput);
     angleMotor.setAngle(state.angle.getRadians());
+    //SmartDashboard.putNumber(name + " Angle", state.angle.getRadians() - getState().angle.getRadians());
   }
 
   public double getEncoderPosition() {
-    if (!isCan && a_encoder != null) {
-      double pos = (a_encoder.getAbsolutePosition() - absolutePositionEncoderOffset);
-
-      while (pos < 0) {
-        pos += 1;
-      }
-      pos *= Math.PI * 2;
-      SmartDashboard.putNumber("ABS ENCODER POS", pos);
-      // SmartDashboard.putBoolean("code triggered", true);
-      return pos;
-    }
 
     return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
         - absolutePositionEncoderOffset;

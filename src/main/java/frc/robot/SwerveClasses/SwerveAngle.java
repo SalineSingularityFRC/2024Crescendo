@@ -5,6 +5,8 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
@@ -20,12 +22,12 @@ public class SwerveAngle {
   private TalonFX angleMotor;
   private PositionVoltage positionTarget;
 
-  private final double kP = 12.0;
+  private final double kP = 8.5;
   private final double kI = 0.0;
-  private final double kD = 0.0;
+  private final double kD = 0.;
 
-  private final double kS = 0.05;
-
+  private final double kS = 0.02;
+  public int angleMotorID;
   /*
    * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has
    * and it needs to initialize the falcon motor and configure it (things like PID values and such)
@@ -33,6 +35,7 @@ public class SwerveAngle {
 
   public SwerveAngle(int angleMotorId, String canNetwork) {
     angleMotor = new TalonFX(angleMotorId, canNetwork);
+    angleMotorID = angleMotorId;
     MotorOutputConfigs configs = new MotorOutputConfigs();
     zeroPositionOffset = 0;
     positionTarget = new PositionVoltage(0).withSlot(0);
@@ -112,6 +115,9 @@ public class SwerveAngle {
         positionTarget.withPosition(
             Constants.MotorGearRatio.ANGLE * (targetAngle / (2 * Math.PI))));
 
+    if(angleMotorID == 15){
+      SmartDashboard.putNumber("Goofy Math", (Constants.MotorGearRatio.ANGLE * (targetAngle / (2 * Math.PI))) - angleMotor.getPosition().getValue());
+    }
     if (Math.abs(delta % Math.PI) > Constants.AngleInaccuracy.MAX
         && Math.abs(delta % Math.PI) < Math.PI - Constants.AngleInaccuracy.MAX) {
       return AnglePosition.Moving; // Wheel is still in the process of turning
@@ -123,7 +129,7 @@ public class SwerveAngle {
    * Returns the angle (in radians) that the Talon is currently reporting we are in
    * minus our offset
    */
-  private double getAngle() {
+  public double getAngle() {
     double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
     double wheelRadians = talonRadians / Constants.MotorGearRatio.ANGLE;
     return wheelRadians - zeroPositionOffset;

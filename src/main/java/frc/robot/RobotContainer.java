@@ -32,7 +32,7 @@ public class RobotContainer {
   // private RightSideCommand rightSideCommand;
   // private SwerveCommand swerveCommand;
   // protected ClawPneumatics clawPneumatics;
-  protected SwerveSubsystem drive;
+  public SwerveSubsystem drive;
   protected Pigeon2 gyro;
   protected Limelight lime;
   private SendableChooser<Command> autonChooser;
@@ -92,13 +92,14 @@ public class RobotContainer {
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopIntaking());
     shooter.setDefaultCommand(shooter.stopShooting());
-    arm.setDefaultCommand(arm.stopArm());
+    arm.setDefaultCommand(arm.maintainArm());
     armController.a().whileTrue(intake.startIntake());
     armController.x().whileTrue(intake.reverseIntake());
-    // armController.b().whileTrue(shooter.moveMotor());
+    driveController.x().onTrue(drive.resetGyroCommand());
+    armController.b().whileTrue(shooter.startShooting());
 
     // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
-    //     .andThen(shooter.moveMotor()).alongWith(intake.moveMotor()));
+    //     .andThen(shooter.startShooting()).alongWith(intake.stopShooting()));
 
     armController.povUp().whileTrue(arm.moveArmForward());
     armController.povDown().whileTrue(arm.moveArmBackwards());
