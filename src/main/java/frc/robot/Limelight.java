@@ -238,7 +238,7 @@ public class Limelight extends SubsystemBase{
       setpipeline(0);
       //YAW
       double pos = targetYaw;
-      System.out.println(pos);
+     
       double rotation = turnController.calculate(pos);
       d.drive(new SwerveRequest(rotation, 0, 0), false);
     },

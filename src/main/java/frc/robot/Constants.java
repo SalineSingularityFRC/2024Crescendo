@@ -92,11 +92,11 @@ public final class Constants {
   }
 
   public static final class Inverted {
-    // This is for moters
-    public static final boolean FL = true;
-    public static final boolean FR = false;
-    public static final boolean BL = true;
-    public static final boolean BR = false;
+    // This is for motors
+    public static final boolean FL = false;
+    public static final boolean FR = true;
+    public static final boolean BL = false;
+    public static final boolean BR = true;
   }
 
   public static final class Canbus {
@@ -143,10 +143,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.284180) * 2 * Math.PI;
-    public static final double FR = (0.703857) * 2 * Math.PI;
-    public static final double BL = (0.687256) * 2 * Math.PI;
-    public static final double BR = (0.832031) * 2 * Math.PI;
+    public static final double FL = (0.487793) * 2 * Math.PI;
+    public static final double FR = (0.694092) * 2 * Math.PI;
+    public static final double BL = (0.686279) * 2 * Math.PI;
+    public static final double BR = (0.831543) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -175,7 +175,7 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 100; // speed of the arms when adjusting manually in rotations per second
+    public static final double SHOOTER = 70; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 15; // rotations per second
 
@@ -233,7 +233,7 @@ public final class Constants {
 
     public static final class SwerveModule {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
-      public static final PID TURNING_PID_CONTROLLER = new PID(.05, 0, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(8.5, 0, 0.17, 0.02);
     }
   }
 }

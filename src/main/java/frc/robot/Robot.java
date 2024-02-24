@@ -43,8 +43,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    System.out.println(m_robotContainer.drive.swerveModules[0].angleMotor.getAngle());
-    //SmartDashboard.putNumber("SWERVE MODULE FL", m_robotContainer.drive.swerveModules[0].angleMotor.getAngle());
+   
+    SmartDashboard.putNumber("SWERVE MODULE FR", m_robotContainer.drive.swerveModules[1].getEncoderPosition());
   }
 
   @Override

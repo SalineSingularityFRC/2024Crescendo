@@ -1,11 +1,15 @@
 package frc.robot.SwerveClasses;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -67,6 +71,12 @@ public class SwerveModule {
       String name) { // add a zeroPosition thing
     this.isCan = true;
     c_encoder = new CANcoder(Can_ID_encoder, canNetwork);
+
+    CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
+    cancoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    cancoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    c_encoder.getConfigurator().apply(cancoderConfig);
+
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 30;
@@ -125,9 +135,19 @@ public class SwerveModule {
 
     double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 
-    driveMotor.set(driveOutput);
-    angleMotor.setAngle(state.angle.getRadians());
-    //SmartDashboard.putNumber(name + " Angle", state.angle.getRadians() - getState().angle.getRadians());
+  
+    switch(angleMotor.setAngle(-state.angle.getRadians())){
+      case Positive:
+          driveMotor.set(driveOutput);
+          break;
+      case Negative:
+        driveMotor.set(-driveOutput);
+        break;
+      default:
+        break;
+    }
+    
+
   }
 
   public double getEncoderPosition() {

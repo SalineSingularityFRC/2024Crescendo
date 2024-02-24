@@ -205,29 +205,29 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       SmartDashboard.putNumber("BL WHEEL", swerveModules[BL].getPosition());
       SmartDashboard.putNumber("BR WHEEL", swerveModules[BR].getPosition());
       // this is to drive straight
-      if (Math.abs(swerveRequest.rotation) < 0.05) {
-        if (targetAngle == Double.MAX_VALUE) {
-          targetAngle = getRobotAngle();
-        } else {
-          double difference = getRobotAngle() - targetAngle;
-          swerveRequest.rotation = difference;
-        }
-      } else {
-        targetAngle = Double.MAX_VALUE;
-      }
+    //   if (Math.abs(swerveRequest.rotation) < 0.05) {
+    //     if (targetAngle == Double.MAX_VALUE) {
+    //       targetAngle = getRobotAngle();
+    //     } else {
+    //       double difference = getRobotAngle() - targetAngle;
+    //       swerveRequest.rotation = difference;
+    //     }
+    //   } else {
+    //     targetAngle = Double.MAX_VALUE;
+    //   }
     }
 
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
     if (fieldCentric) {
-      double difference = (startingAngle - currentRobotAngle) % (2 * Math.PI);
+      double difference = currentRobotAngle % (2*Math.PI);//(startingAngle - currentRobotAngle) % (2 * Math.PI);
       x = -swerveRequest.movement.y * Math.sin(difference)
           + swerveRequest.movement.x * Math.cos(difference);
       y = swerveRequest.movement.y * Math.cos(difference)
           + swerveRequest.movement.x * Math.sin(difference);
     }
 
-    this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
+    this.chassisSpeeds = new ChassisSpeeds(x, y, swerveRequest.rotation);
 
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);

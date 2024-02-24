@@ -17,7 +17,7 @@ public class DriveController extends Command {
     }
 
     public void execute() {
-        m_swerve.drive(new SwerveSubsystem.SwerveRequest(m_rotation.getAsDouble(), m_x.getAsDouble(), m_y.getAsDouble()), true);
+        m_swerve.drive(new SwerveSubsystem.SwerveRequest(-m_rotation.getAsDouble(),-m_x.getAsDouble(),- m_y.getAsDouble()), true);
     }
 
     public boolean isFinished() {

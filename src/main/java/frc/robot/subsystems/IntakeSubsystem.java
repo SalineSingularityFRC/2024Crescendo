@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private TalonFX intakeMotor;
+  public TalonFX intakeMotor;
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
@@ -43,14 +43,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setBrakeMode() {
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 
   public Command stopIntaking() {
-    return run(
+    return runOnce(
         () -> {
-          setIntakeSpeed(0);
+          intakeMotor.stopMotor();
         });
   }
   public Command reverseIntake() {

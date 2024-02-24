@@ -17,8 +17,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveController;
-import frc.robot.commands.ShooterController;
-import frc.robot.commands.IntakeController;
+import frc.robot.commands.ShootCommand;
+import frc.robot.commands.StartShootCommand;
+import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -76,7 +77,10 @@ public class RobotContainer {
     // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
     // odometry);
 
-    //NamedCommands.registerCommand("autoBalance", drive.autoBalanceCommand());
+    NamedCommands.registerCommand("Shoot", new ShootCommand(shooter, intake));
+    NamedCommands.registerCommand("Intake", intake.startIntake());
+    NamedCommands.registerCommand("Home", arm.goHome());
+    
 
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
@@ -93,18 +97,22 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.stopIntaking());
     shooter.setDefaultCommand(shooter.stopShooting());
     arm.setDefaultCommand(arm.maintainArm());
-    armController.a().whileTrue(intake.startIntake());
-    armController.x().whileTrue(intake.reverseIntake());
+
+    armController.x().whileTrue(intake.startIntake());
+    armController.a().whileTrue(intake.reverseIntake());
     driveController.x().onTrue(drive.resetGyroCommand());
-    armController.b().whileTrue(shooter.startShooting());
+    armController.b().whileTrue(new ShootCommand(shooter, intake));
 
-    // armController.b().onTrue(new IntakeController(intake).andThen(new ShooterController(shooter))
-    //     .andThen(shooter.startShooting()).alongWith(intake.stopShooting()));
+    armController.povUp()
+      .and(arm::isNotAtTop)
+      .onTrue(arm.moveArmForward());
 
-    armController.povUp().whileTrue(arm.moveArmForward());
-    armController.povDown().whileTrue(arm.moveArmBackwards());
+    armController.povDown()
+      .and(arm::isNotAtBottom)
+      .onTrue(arm.moveArmBackwards());
+
     drive.setDefaultCommand(
-        new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX));
     //armController.y().whileTrue(lime.scoreRight(drive));
   }
 

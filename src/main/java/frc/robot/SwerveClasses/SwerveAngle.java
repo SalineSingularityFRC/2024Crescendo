@@ -1,13 +1,16 @@
 package frc.robot.SwerveClasses;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.PID;
 
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to
@@ -22,11 +25,6 @@ public class SwerveAngle {
   private TalonFX angleMotor;
   private PositionVoltage positionTarget;
 
-  private final double kP = 8.5;
-  private final double kI = 0.0;
-  private final double kD = 0.;
-
-  private final double kS = 0.02;
   public int angleMotorID;
   /*
    * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has
@@ -39,16 +37,23 @@ public class SwerveAngle {
     MotorOutputConfigs configs = new MotorOutputConfigs();
     zeroPositionOffset = 0;
     positionTarget = new PositionVoltage(0).withSlot(0);
-
+    
+    PID turnPID = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
     Slot0Configs slot0Configs = new Slot0Configs();
-    slot0Configs.kP = kP;
-    slot0Configs.kI = kI;
-    slot0Configs.kD = kD;
-    slot0Configs.kS = kS;
+    slot0Configs.kP = turnPID.P;
+    slot0Configs.kI = turnPID.I;
+    slot0Configs.kD = turnPID.D;;
+    slot0Configs.kS = turnPID.S;
+
+    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+    current.SupplyCurrentLimit = 20;
+    current.SupplyCurrentLimitEnable = true;
 
     configs.NeutralMode = NeutralModeValue.Brake;
     angleMotor.getConfigurator().apply(slot0Configs);
     angleMotor.getConfigurator().apply(configs);
+    angleMotor.getConfigurator().apply(current);
+    
     angleMotor.setInverted(false);
   }
 
