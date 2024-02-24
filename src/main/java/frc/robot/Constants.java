@@ -76,7 +76,7 @@ public final class Constants {
 
   public static final class Canbus {
     public static final String DEFAULT = "rio";
-    public static final String DRIVE_TRAIN = "drivetrain";
+    public static final String DRIVE_TRAIN = "rio";
   }
 
   public static final class Sensor {
@@ -93,10 +93,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.609131) * 2 * Math.PI;
-    public static final double FR = (0.501953) * 2 * Math.PI;
-    public static final double BL = (0.090576) * 2 * Math.PI;
-    public static final double BR = (0.434326) * 2 * Math.PI;
+    public static final double FL = (0.612305) * 2 * Math.PI;
+    public static final double FR = (0.500977) * 2 * Math.PI;
+    public static final double BL = (0.083008) * 2 * Math.PI;
+    public static final double BR = (0.443115) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -111,18 +111,23 @@ public final class Constants {
     // trackWidth - lateral distance between pairs of wheels on different sides of
     // the robot
     // wheelBase - distance between pairs of wheels on the same side of the robot
+    // driveBaseRadius - distance from robot center to furthest module.
+    // radiusFactor - to account for real world factors of the wheel radius
     // THIS IS IMPORTANT FOR A RECTANGULAR ROBOT
-    public static final double TRACK_WIDTH = 0.85;
-    public static final double WHEELBASE =
-        1.1333; // the ratio between the width and the length is around 3:4
+    // In meters
+    public static final double TRACK_WIDTH = 18.75 * 0.0254; // Inches to meters
+    public static final double WHEELBASE = 22.75 * 0.0254; // Inches to meters
+    public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
+    public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
+    public static final double WHEELRADIUSFACTOR = 1.1;
   }
 
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 100; // speed of the arms when adjusting manually
-    public static final double INTAKE = 25;
-    public static final double ARM = 25;
+    public static final double SHOOTER = 100; // speed of the arms when adjusting manually in rotations per second
+    public static final double INTAKE = 25; // rotations per second
+    public static final double ARM = 15; // rotations per second
 
   }
 
@@ -133,29 +138,34 @@ public final class Constants {
   }
 
   public static final class PidGains {
+    public static final class PathPlanner {
+      public static final PID translation = new PID(5.5, 0.055, 0.02);
+      public static final PID rotation = new PID(1, 0, 0);
+    }
+    
     public static final class Limelight {
-      public static final double[] DRIVE_CONTROLLER = {0.0025, 0, 0};
-      public static final double[] TURN_CONTROLLER = {0.001, 0, 0.0001};
-      public static final double[] SCORE_DRIVE_CONTROLLER = {0.0056, 0, 0};
+      public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
+      public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
+      public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
     }
 
     public static final class SwerveCommand {
-      public static final double[] X_CONTROLLER = {0.0001, 0, 0};
-      public static final double[] Y_CONTROLLER = {0.0001, 0, 0};
+      public static final PID X_CONTROLLER = new PID(0.0001, 0, 0);
+      public static final PID Y_CONTROLLER = new PID(0.0001, 0, 0);
     }
 
     public static final class DriveDistance {
-      public static final double[] DRIVE_DISTANCE = {0.1, 0, 0};
+      public static final PID DRIVE_DISTANCE = new PID(0.1, 0, 0);
     }
 
     public static final class GetOnChargeStation {
-      public static final double[] GET_ON_CHARGE_STATION = {0.1, 0, 0};
+      public static final PID GET_ON_CHARGE_STATION = new PID(0.1, 0, 0);
     }
 
     public static final class SwerveDistance {
-      public static final double[] SWERVE_DISTANCE = {0.1, 0, 0};
-      public static final double[] SWERVE_COMMAND_XCONTROLLER = {1, 0, 0};
-      public static final double[] SWERVE_COMMAND_YCONTROLLER = {1, 0, 0};
+      public static final PID SWERVE_DISTANCE = new PID(0.1, 0, 0);
+      public static final PID SWERVE_COMMAND_XCONTROLLER = new PID(1, 0, 0);
+      public static final PID SWERVE_COMMAND_YCONTROLLER = new PID(1, 0, 0);
     }
 
     public static final class TurnAngle {
@@ -163,8 +173,8 @@ public final class Constants {
     }
 
     public static final class SwerveModule {
-      public static final double[] DRIVE_PID_CONTROLLER = {.5, 0, 0};
-      public static final double[] TURNING_PID_CONTROLLER = {.2, 0, 0};
+      public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(.2, 0, 0);
     }
   }
 }

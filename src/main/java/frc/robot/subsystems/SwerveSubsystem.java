@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.SwerveClasses.SwerveModule;
@@ -31,7 +32,7 @@ import frc.robot.SwerveClasses.Vector;
  * This class provides functions to drive at a given angle and direction,
  * and performs the calculations required to achieve that
  */
-public class SwerveSubsystem implements Subsystem {
+public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   // public class SwerveSubsystem implements UpdateManager.Updatable {
   /*
    * This class should own the pidgeon 2.0 IMU gyroscope that we will be using and
@@ -53,7 +54,7 @@ public class SwerveSubsystem implements Subsystem {
   public double gyroZero = 0;
 
   private double targetAngle = Double.MAX_VALUE;
-
+  private static SwerveOdometry odometry;
   private double startingAngle;
 
   /*
@@ -64,13 +65,13 @@ public class SwerveSubsystem implements Subsystem {
    */
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
-    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
+    gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DEFAULT);
 
-    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH / 2.0, Constants.Measurement.WHEELBASE / 2.0);
-    vectorKinematics[BR] = new Vector(
-        -Constants.Measurement.TRACK_WIDTH / 2.0, -Constants.Measurement.WHEELBASE / 2.0);
+
+    vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+    vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
+    vectorKinematics[BL] = new Vector(-Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+    vectorKinematics[BR] = new Vector(-Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
 
     Translation2d[] wheel = new Translation2d[4];
     for (int i = 0; i < vectorKinematics.length; i++) {
@@ -85,7 +86,7 @@ public class SwerveSubsystem implements Subsystem {
         Constants.CanId.Angle.FL,
         Constants.CanId.CanCoder.FL,
         Constants.WheelOffset.FL,
-        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Canbus.DEFAULT,
         Constants.Inverted.FL,
         "FL");
     swerveModules[FR] = new SwerveModule(
@@ -93,7 +94,7 @@ public class SwerveSubsystem implements Subsystem {
         Constants.CanId.Angle.FR,
         Constants.CanId.CanCoder.FR,
         Constants.WheelOffset.FR,
-        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Canbus.DEFAULT,
         Constants.Inverted.FR,
         "FR");
     swerveModules[BL] = new SwerveModule(
@@ -101,7 +102,7 @@ public class SwerveSubsystem implements Subsystem {
         Constants.CanId.Angle.BL,
         Constants.CanId.CanCoder.BL,
         Constants.WheelOffset.BL,
-        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Canbus.DEFAULT,
         Constants.Inverted.BL,
         "BL");
     swerveModules[BR] = new SwerveModule(
@@ -109,34 +110,31 @@ public class SwerveSubsystem implements Subsystem {
         Constants.CanId.Angle.BR,
         Constants.CanId.CanCoder.BR,
         Constants.WheelOffset.BR,
-        Constants.Canbus.DRIVE_TRAIN,
+        Constants.Canbus.DEFAULT,
         Constants.Inverted.BR,
         "BR");
 
-    Consumer<ChassisSpeeds> consumer_chasis =
-        ch_speed -> {
-          SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
-          setModuleStates(modules);
-        };
-    Supplier<ChassisSpeeds> supplier_chasis =
-        () -> {
-          SmartDashboard.putNumber("Chassis_PathPlanner_X", getChassisSpeed().vxMetersPerSecond);
-          SmartDashboard.putNumber("Chassis_PathPlanner_Y", getChassisSpeed().vyMetersPerSecond);
-          return getChassisSpeed(); // Maybe come back to this later
-        };
-    Supplier<Pose2d> supplier_position =
-        () -> {
-          SmartDashboard.putNumber("PathPlanner_Odometry_X", Robot.odometry.position().getX());
-          SmartDashboard.putNumber("PathPlanner_Odometry_Y", Robot.odometry.position().getY());
-          SmartDashboard.putNumber("PathPlanner_Odometry_Angle", Robot.odometry.position().getRotation().getRadians());          
-          return Robot.odometry.position(); // Maybe come back to this later
-        };
-    Consumer<Pose2d> consumer_position =
-        pose -> {
-          Robot.odometry.setPosition(pose); // Maybe come back to this later
-        };
-       
-    // SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
+    Consumer<ChassisSpeeds> consumer_chasis = ch_speed -> {
+      SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
+      setModuleStates(modules);
+    };
+    Supplier<ChassisSpeeds> supplier_chasis = () -> {
+      SmartDashboard.putNumber("Chassis_PathPlanner_X", getChassisSpeed().vxMetersPerSecond);
+      SmartDashboard.putNumber("Chassis_PathPlanner_Y", getChassisSpeed().vyMetersPerSecond);
+      return getChassisSpeed(); // Maybe come back to this later
+    };
+    Supplier<Pose2d> supplier_position = () -> {
+      SmartDashboard.putNumber("PathPlanner_Odometry_X", odometry.position().getX());
+      SmartDashboard.putNumber("PathPlanner_Odometry_Y", odometry.position().getY());
+      SmartDashboard.putNumber("PathPlanner_Odometry_Angle", odometry.position().getRotation().getRadians());
+      return odometry.position(); // Maybe come back to this later
+    };
+    Consumer<Pose2d> consumer_position = pose -> {
+      odometry.setPosition(pose); // Maybe come back to this later
+    };
+
+    // SwerveModuleState[] modules =
+    // swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
     // setModuleStates(modules);
 
     AutoBuilder.configureHolonomic(
@@ -145,10 +143,12 @@ public class SwerveSubsystem implements Subsystem {
         supplier_chasis, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         consumer_chasis, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-            new PIDConstants(3.1, 0.0, 0.02), // Translation PID constants
-            new PIDConstants(2, 0.0, 0.0), // Rotation PID constants
+            new PIDConstants(Constants.PidGains.PathPlanner.translation.P, Constants.PidGains.PathPlanner.translation.I,
+                Constants.PidGains.PathPlanner.translation.D), // Translation PID constants
+            new PIDConstants(Constants.PidGains.PathPlanner.rotation.P, Constants.PidGains.PathPlanner.rotation.I,
+            Constants.PidGains.PathPlanner.rotation.D), // Rotation PID constants
             4.5, // Max module speed, in m/s
-            0.70832, // Drive base radius in meters. Distance from robot center to furthest module.
+            Constants.Measurement.DRIVEBASERADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
@@ -188,6 +188,7 @@ public class SwerveSubsystem implements Subsystem {
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at
     // neutral position
+      
     if (Math.abs(swerveRequest.movement.x) < 0.05
         && Math.abs(swerveRequest.movement.y) < 0.05
         && Math.abs(swerveRequest.rotation) < 0.05) {
@@ -225,13 +226,12 @@ public class SwerveSubsystem implements Subsystem {
       y = swerveRequest.movement.y * Math.cos(difference)
           + swerveRequest.movement.x * Math.sin(difference);
     }
-    
+
     this.chassisSpeeds = new ChassisSpeeds(y, x, swerveRequest.rotation);
 
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
 
-    
   }
 
   public ChassisSpeeds getChassisSpeed() {
@@ -251,7 +251,7 @@ public class SwerveSubsystem implements Subsystem {
     swerveModules[BR].setDesiredState(desiredStates[3]);
   }
 
-    public SwerveModuleState[] getModuleStates() {
+  public SwerveModuleState[] getModuleStates() {
     // The 2nd Parameter is for MaxSpeedMetersPerSecond
     // Initial Value was 3
     // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
@@ -261,10 +261,10 @@ public class SwerveSubsystem implements Subsystem {
     states[FR] = swerveModules[FR].getState();
     states[BL] = swerveModules[BL].getState();
     states[BR] = swerveModules[BR].getState();
-    
 
     return states;
   }
+
   public void setModuleState(SwerveModuleState desiredStates) {
     // The 2nd Parameter is for MaxSpeedMetersPerSecond
     // Initial Value was 3
