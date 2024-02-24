@@ -65,9 +65,9 @@ public class Limelight extends SubsystemBase{
     // poseYaw = botpose[5] * (Math.PI/180); // angle of the robot 0 is straight
     // tid = table.getEntry("tid").getDoubleArray(new double[6]); // id of the primary in view April tag
 
-    botX = poseX.getDouble(0.0);
-    botY = poseY.getDouble(0.0);
-    botYaw = poseYaw.getDouble(0.0) * (Math.PI/180);
+    // botX = poseX.getDouble(0.0);
+    // botY = poseY.getDouble(0.0);
+    // botYaw = poseYaw.getDouble(0.0) * (Math.PI/180);
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
     targetspace = table.getEntry("botpose_targetspace").getDoubleArray(new double[6]);

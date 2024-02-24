@@ -46,7 +46,7 @@ public class RobotContainer {
   public RobotContainer() {
    
     arm = new ArmSubsystem();
-    lime = new Limelight();
+   // lime = new Limelight();
     drive = new SwerveSubsystem();
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
@@ -104,7 +104,7 @@ public class RobotContainer {
     armController.povDown().whileTrue(arm.moveArmBackwards());
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftX, driveController::getLeftY));
-    armController.y().whileTrue(lime.scoreRight(drive));
+    //armController.y().whileTrue(lime.scoreRight(drive));
   }
 
   public Command getAutonomousCommand() {

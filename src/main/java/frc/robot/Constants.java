@@ -16,7 +16,7 @@ public final class Constants {
   public static final class CanId {
 
     public static final class CanCoder {
-      public static final int GYRO = 0;
+      public static final int GYRO = 10;
       public static final int FL = 43;
       public static final int FR = 44;
       public static final int BL = 42;
@@ -96,7 +96,7 @@ public final class Constants {
 
   public static final class Canbus {
     public static final String DEFAULT = "rio";
-    public static final String DRIVE_TRAIN = "rio";
+    public static final String DRIVE_TRAIN = "drivetrain";
   }
 
   public static final class Sensor {
