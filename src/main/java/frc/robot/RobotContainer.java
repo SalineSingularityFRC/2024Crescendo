@@ -6,6 +6,7 @@ package frc.robot;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -44,6 +45,8 @@ public class RobotContainer {
   protected CommandXboxController armController;
   protected CommandXboxController driveController;
   private SendableChooser<PathPlannerPath> pathChooser;
+    private SendableChooser<PathPlannerAuto> pathAutonChooser;
+
   public RobotContainer() {
    
     arm = new ArmSubsystem();
@@ -77,12 +80,15 @@ public class RobotContainer {
     // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
     // odometry);
 
-    NamedCommands.registerCommand("Shoot", new ShootCommand(shooter, intake));
+    NamedCommands.registerCommand("Shoot", new ShootCommand(shooter, intake, arm));
     NamedCommands.registerCommand("Intake", intake.startIntake());
     NamedCommands.registerCommand("Home", arm.goHome());
     
 
     this.pathChooser = new SendableChooser<PathPlannerPath>();
+    
+    this.pathAutonChooser = new SendableChooser<PathPlannerAuto>();
+
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
     this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
@@ -90,7 +96,11 @@ public class RobotContainer {
     this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
     this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
 
+
+    //this.pathAutonChooser.setDefaultOption("3 - METER",  new PathPlannerAuto("New Auto"));
+
     SmartDashboard.putData("Path Choices", pathChooser);
+    SmartDashboard.putData("Auton Choices", pathAutonChooser);
   }
 
   private void configureBindings() {
@@ -101,15 +111,20 @@ public class RobotContainer {
     armController.x().whileTrue(intake.startIntake());
     armController.a().whileTrue(intake.reverseIntake());
     driveController.x().onTrue(drive.resetGyroCommand());
-    armController.b().whileTrue(new ShootCommand(shooter, intake));
+    armController.b().whileTrue(new ShootCommand(shooter, intake, arm));
 
+
+    armController.y().whileTrue(arm.shootTarget());
+    driveController.y().whileTrue(arm.ampTarget());
+
+    armController.rightBumper().whileTrue(arm.pickupTarget());
     armController.povUp()
       .and(arm::isNotAtTop)
-      .onTrue(arm.moveArmForward());
+      .whileTrue(arm.moveArmForward());
 
     armController.povDown()
       .and(arm::isNotAtBottom)
-      .onTrue(arm.moveArmBackwards());
+      .whileTrue(arm.moveArmBackwards());
 
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX));
@@ -120,7 +135,8 @@ public class RobotContainer {
     // Load the path you want to follow using its name in the GUI
 
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
+    return new PathPlannerAuto("Blue-Left");
+  //  return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 
   // public Command getAutonomousCommand() {

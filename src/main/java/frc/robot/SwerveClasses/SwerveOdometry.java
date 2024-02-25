@@ -49,7 +49,7 @@ public class SwerveOdometry {
     swerveOdometry =
         new SwerveDriveOdometry(
             swerveKinematics,
-            gyro.getRotation2d().times(1),
+            new Rotation2d(subsystem.getRobotAngle()),
             new SwerveModulePosition[] {
               new SwerveModulePosition(
                   subsystem.swerveModules[FL].getPosition(),
@@ -70,7 +70,7 @@ public class SwerveOdometry {
 
   public void update() {
     swerveOdometry.update(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -93,7 +93,7 @@ public class SwerveOdometry {
     
     Rotation2d rotation = swerveOdometry.getPoseMeters().getRotation();
     //rotation.times(360);
-    return new Pose2d(new Translation2d(x, y), rotation);
+    return new Pose2d(new Translation2d(x, -y), rotation.times(-1));
   }
 
   public double getRotation() {
@@ -110,7 +110,7 @@ public double getY() {
 
   public void resetPosition() {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -130,7 +130,7 @@ public double getY() {
 
     public void setPosition(Pose2d pos) {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),

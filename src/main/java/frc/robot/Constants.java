@@ -85,9 +85,9 @@ public final class Constants {
       public static final double PICKUP_CONE = -0.272852;
     }
     public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
-      public static final double AMP = 0;
-      public static final double SHOOTING = 0;
-      public static final double PICKUP = 0;
+      public static final double AMP = 49.305664;
+      public static final double SHOOTING = 10.333496;
+      public static final double PICKUP = 1;
     }
   }
 
@@ -143,10 +143,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.487793) * 2 * Math.PI;
-    public static final double FR = (0.694092) * 2 * Math.PI;
-    public static final double BL = (0.686279) * 2 * Math.PI;
-    public static final double BR = (0.831543) * 2 * Math.PI;
+    public static final double FL = (0.484131) * 2 * Math.PI;
+    public static final double FR = (0.700195) * 2 * Math.PI;
+    public static final double BL = (0.752441) * 2 * Math.PI;
+    public static final double BR = (0.824951) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -169,7 +169,7 @@ public final class Constants {
     public static final double WHEELBASE = 22.75 * 0.0254; // Inches to meters
     public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
-    public static final double WHEELRADIUSFACTOR = 1;
+    public static final double WHEELRADIUSFACTOR = 1.155;
   }
 
   public static final class Speed {
@@ -199,7 +199,7 @@ public final class Constants {
   public static final class PidGains {
     public static final class PathPlanner {
       public static final PID translation = new PID(5.5, 0.055, 0.02);
-      public static final PID rotation = new PID(1, 0, 0);
+      public static final PID rotation = new PID(.4, 0, .004);
     }
     
     public static final class Limelight {

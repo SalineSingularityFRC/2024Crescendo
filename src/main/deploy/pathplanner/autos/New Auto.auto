@@ -14,19 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1 Meter Without Spin"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3 Meter Without Spin"
+            "pathName": "3 Meter - 90 Degree Spin"
           }
         }
       ]

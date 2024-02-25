@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -7,6 +8,7 @@ import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -25,10 +27,10 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFX armMotor1;
   private TalonFX armMotor2;
 
-  private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
+ // private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
 
-  //private PositionVoltage positionTargetPreset = new PositionVoltage(0).withSlot(1).withEnableFOC(true);
-
+  private PositionVoltage positionTargetPreset = new PositionVoltage(0).withSlot(0).withEnableFOC(true);
+  //private PositionTorqueCurrentFOC positionTargetPreset = new PositionTorqueCurrentFOC(0).withSlot(0);
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
   private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
   private MotionMagicConfigs motionMagicConfigsPresets;
@@ -39,10 +41,13 @@ public class ArmSubsystem extends SubsystemBase {
   private final double manualBigD = 0;
   private final double manualBigS = 0.03;
 
-  private final double slot0P = 3;
+  //OLD PID CONSTANTS
+  private final double slot0P = 1.5;
   private final double slot0I = 0;
-  private final double slot0D = 0;
-  private final double slot0S = 0.01;
+  private final double slot0D = 0.2;
+  private final double slot0S = 0.0;
+
+
 
   public double armMotorPosition;
 
@@ -52,6 +57,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.ARM_1, Constants.Canbus.DEFAULT);
     armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.ARM_2, Constants.Canbus.DEFAULT);
     armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.ARM_1, true));
+
+    HardwareLimitSwitchConfigs limitSwitchConfigs = new HardwareLimitSwitchConfigs();
+    limitSwitchConfigs.ReverseLimitAutosetPositionEnable = true;
+    limitSwitchConfigs.ReverseLimitAutosetPositionValue = 0;
+    limitSwitchConfigs.ForwardLimitAutosetPositionEnable = false;
 
     Slot0Configs slot0ConfigsBig = new Slot0Configs();
     slot0ConfigsBig.kP = slot0P;
@@ -68,7 +78,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     armMotor1.getConfigurator().apply(slot0ConfigsBig);
     armMotor1.getConfigurator().apply(slot1ConfigsBig);
-
+    armMotor1.getConfigurator().apply(limitSwitchConfigs);
     motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
     motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40 / 30;
     motionMagicConfigsPresets.MotionMagicAcceleration = 100 / 40;
@@ -82,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmSpeed(double speed) {
-    
+    //System.out.println("ARM SPEED");
     armMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.1).withSlot(1));
     armMotorPosition = armMotor1.getPosition().getValue();
   }
@@ -138,10 +148,23 @@ public class ArmSubsystem extends SubsystemBase {
     });
   }
 
-  public Command shootTarget() {
-    return runOnce(() -> {
+
+  public Command shootTarget(){
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
+    () -> {
       setPosition(Constants.Position.MainArm.SHOOTING);
-    });
+    },
+    (_unused) -> {
+
+    },
+    ()->{
+      return Math.abs(Constants.Position.MainArm.SHOOTING - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+    },
+    this
+    );
   }
 
   public Command pickupTarget() {
@@ -169,9 +192,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void maintainArmPosition() {
-    armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
+    //System.out.println("MAINTAIN");
+   // armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
     armMotor1.setControl(
-        positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.03).withSlot(0));
+        positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.03 * 12).withSlot(0));
   }
 
   public Command goHome(){
@@ -180,7 +204,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }, 
     () -> {
-      setArmSpeed(-Constants.Speed.ARM);
+      setArmSpeed(-Constants.Speed.ARM*4);
     },
     (_unused) -> {
 

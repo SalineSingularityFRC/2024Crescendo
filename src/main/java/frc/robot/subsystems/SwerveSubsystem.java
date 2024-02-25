@@ -55,7 +55,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public double gyroZero = 0;
 
   private double targetAngle = Double.MAX_VALUE;
-  private static SwerveOdometry odometry;
+  public SwerveOdometry odometry;
   private double startingAngle;
 
   /*
@@ -67,7 +67,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
-
+   
 
     vectorKinematics[FL] = new Vector(Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
     vectorKinematics[FR] = new Vector(Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
@@ -115,14 +115,24 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         Constants.Inverted.BR,
         "BR");
 
+    odometry = new SwerveOdometry(this);
+    odometry.resetPosition();
     Consumer<ChassisSpeeds> consumer_chasis = ch_speed -> {
+      double ySpeed = ch_speed.vyMetersPerSecond;
+      ch_speed.vyMetersPerSecond = -ch_speed.vxMetersPerSecond;
+      ch_speed.vxMetersPerSecond = ySpeed;
+      ch_speed.omegaRadiansPerSecond = -ch_speed.omegaRadiansPerSecond;
       SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
       setModuleStates(modules);
     };
     Supplier<ChassisSpeeds> supplier_chasis = () -> {
-      SmartDashboard.putNumber("Chassis_PathPlanner_X", getChassisSpeed().vxMetersPerSecond);
-      SmartDashboard.putNumber("Chassis_PathPlanner_Y", getChassisSpeed().vyMetersPerSecond);
-      return getChassisSpeed(); // Maybe come back to this later
+  
+      ChassisSpeeds temp = getChassisSpeed();
+     // temp.vyMetersPerSecond = -temp.vyMetersPerSecond;
+      temp.omegaRadiansPerSecond = -temp.omegaRadiansPerSecond;
+      SmartDashboard.putNumber("Chassis_PathPlanner_X", temp.vxMetersPerSecond);
+      SmartDashboard.putNumber("Chassis_PathPlanner_Y", temp.vyMetersPerSecond);
+      return temp; // Maybe come back to this later
     };
     Supplier<Pose2d> supplier_position = () -> {
       SmartDashboard.putNumber("PathPlanner_Odometry_X", odometry.position().getX());
@@ -131,6 +141,8 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       return odometry.position(); // Maybe come back to this later
     };
     Consumer<Pose2d> consumer_position = pose -> {
+      //System.out.println("CONSUMER");
+      SmartDashboard.putNumber("CONSUMER", 0);
       odometry.setPosition(pose); // Maybe come back to this later
     };
 
@@ -232,12 +244,18 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
 
+     SmartDashboard.putNumber("ODOMETRY X", odometry.position().getX());
+     SmartDashboard.putNumber("ODOMETRY Y", odometry.position().getY());
+      SmartDashboard.putNumber("ODOMETRY ROtation", odometry.position().getRotation().getRadians());
   }
 
   public ChassisSpeeds getChassisSpeed() {
     return swerveDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
+  public void periodic(){
+   odometry.update();
+  }
   /*
    * Odometry
    */
