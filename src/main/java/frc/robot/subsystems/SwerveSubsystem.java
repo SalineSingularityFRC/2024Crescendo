@@ -256,6 +256,12 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public void periodic(){
    odometry.update();
   }
+
+  public void disabledPeriodic(){
+    SmartDashboard.putNumber("Get Angle Clamped [FL]", swerveModules[FL].angleMotor.getAngleClamped());
+    SmartDashboard.putNumber("Get Encoder Position [FL]", swerveModules[FL].getEncoderPosition());
+  }
+  
   /*
    * Odometry
    */
