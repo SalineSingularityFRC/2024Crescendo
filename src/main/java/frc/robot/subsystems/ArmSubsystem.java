@@ -167,11 +167,26 @@ public class ArmSubsystem extends SubsystemBase {
     );
   }
 
+  public Command climberTarget(){
+    return new FunctionalCommand(
+    () -> {}, 
+    () -> {
+      setPosition(Constants.Position.MainArm.CLIMBER);
+    },
+    (_unused) -> {},
+    () -> {
+      return Math.abs(Constants.Position.MainArm.CLIMBER - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+    },
+    this
+    );
+  }
+
   public Command pickupTarget() {
     return runOnce(() -> {
       setPosition(Constants.Position.MainArm.PICKUP);
     });
   }
+
   public Command maintainArm() {
     return run(() -> {
       maintainArmPosition();

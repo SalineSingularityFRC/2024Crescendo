@@ -48,6 +48,7 @@ public final class Constants {
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
         public static final int INTAKE = 5;
+        public static final int CLIMBER = 1902831283; // obvious placeholder
       }
     }
 
@@ -84,10 +85,16 @@ public final class Constants {
       public static final double SLIDER = -0.18003028;
       public static final double PICKUP_CONE = -0.272852;
     }
-    public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
+    public static final class MainArm {
       public static final double AMP = 49.305664;
       public static final double SHOOTING = 10.333496;
       public static final double PICKUP = 1;
+      public static final double CLIMBER = 0; // PLACEHOLDER
+    }
+
+    public static final class Climber { // PLACEHOLDERS
+      public static final double UP = 1;
+      public static final double DOWN = 0;
     }
   }
 
@@ -178,7 +185,7 @@ public final class Constants {
     public static final double SHOOTER = 70; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 15; // rotations per second
-
+    public static final double CLIMBER = 15;
   }
 
   public static final class Distance {
