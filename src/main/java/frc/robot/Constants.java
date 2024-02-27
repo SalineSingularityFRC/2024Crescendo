@@ -166,7 +166,7 @@ public final class Constants {
     // THIS IS IMPORTANT FOR A RECTANGULAR ROBOT
     // In meters
     public static final double TRACK_WIDTH = 18.75 * 0.0254; // Inches to meters
-    public static final double WHEELBASE = 22.75 * 0.0254; // Inches to meters
+    public static final double WHEEL_BASE = 22.75 * 0.0254; // Inches to meters
     public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
     public static final double WHEELRADIUSFACTOR = 1.155;
