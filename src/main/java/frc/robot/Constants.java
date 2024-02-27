@@ -87,7 +87,7 @@ public final class Constants {
     public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
       public static final double AMP = 49.305664;
       public static final double SHOOTING = 10.333496;
-      public static final double PICKUP = 1;
+      public static final double PICKUP = 0;
     }
   }
 
@@ -143,10 +143,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.484131) * 2 * Math.PI;
-    public static final double FR = (0.700195) * 2 * Math.PI;
-    public static final double BL = (0.752441) * 2 * Math.PI;
-    public static final double BR = (0.824951) * 2 * Math.PI;
+    public static final double FL = (0.514404) * 2 * Math.PI;
+    public static final double FR = (0.300049) * 2 * Math.PI;
+    public static final double BL = (0.195557) * 2 * Math.PI;
+    public static final double BR = (0.165771) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {

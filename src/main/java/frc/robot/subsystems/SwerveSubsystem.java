@@ -246,7 +246,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
      SmartDashboard.putNumber("ODOMETRY X", odometry.position().getX());
      SmartDashboard.putNumber("ODOMETRY Y", odometry.position().getY());
-      SmartDashboard.putNumber("ODOMETRY ROtation", odometry.position().getRotation().getRadians());
+    SmartDashboard.putNumber("ODOMETRY ROtation", odometry.position().getRotation().getRadians());
   }
 
   public ChassisSpeeds getChassisSpeed() {
@@ -257,6 +257,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
    odometry.update();
     SmartDashboard.putNumber("Get Angle Clamped [FL]", swerveModules[FL].angleMotor.getAngleClamped());
     SmartDashboard.putNumber("Get Encoder Position [FL]", swerveModules[FL].getEncoderPosition());
+    SmartDashboard.putNumber(("GetRobotAngle"), getRobotAngle());
   }
 
   public void disabledPeriodic(){
@@ -306,7 +307,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
    */
   public double getRobotAngle() {
     // return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
-    return (((gyro.getAngle() - gyroZero)) * Math.PI)
+    return -(((gyro.getAngle() - gyroZero)) * Math.PI)
        / 180; // returns in counterclockwise hence why 360 minus
 
     // it is gyro.getAngle() - 180 because the pigeon for this robot is facing
@@ -322,6 +323,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public void resetGyro() {
     // gyro.reset();
     gyroZero = gyro.getAngle();
+    odometry.resetPosition();
     this.startingAngle = getRobotAngle();
   }
 

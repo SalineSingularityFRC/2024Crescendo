@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AutonIntakeCommand;
+import frc.robot.commands.AutonShooterCommand;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StartShootCommand;
@@ -80,8 +82,9 @@ public class RobotContainer {
     // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
     // odometry);
 
-    NamedCommands.registerCommand("Shoot", new ShootCommand(shooter, intake, arm));
-    NamedCommands.registerCommand("Intake", intake.startIntake());
+    NamedCommands.registerCommand("Shoot", new AutonShooterCommand(shooter, intake, arm));
+    NamedCommands.registerCommand("Intake", new AutonIntakeCommand(shooter, intake, arm));
+    NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
     NamedCommands.registerCommand("Home", arm.goHome());
     
 
@@ -90,6 +93,7 @@ public class RobotContainer {
     this.pathAutonChooser = new SendableChooser<PathPlannerAuto>();
 
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
+    this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
     this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
     this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
@@ -118,6 +122,7 @@ public class RobotContainer {
     driveController.y().whileTrue(arm.ampTarget());
 
     armController.rightBumper().whileTrue(arm.pickupTarget());
+    armController.leftBumper().whileTrue(arm.goHome());
     armController.povUp()
       .and(arm::isNotAtTop)
       .whileTrue(arm.moveArmForward());
@@ -136,7 +141,7 @@ public class RobotContainer {
 
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     return new PathPlannerAuto("Blue-Left");
-  //  return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
+   //return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 
   // public Command getAutonomousCommand() {

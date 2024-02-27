@@ -65,4 +65,11 @@ public class IntakeSubsystem extends SubsystemBase {
           setIntakeSpeed(Constants.Speed.INTAKE);
         });
   }
+
+public Command intakeContinue() {
+    return run(
+        () -> {
+       
+      });
+  }
 }
