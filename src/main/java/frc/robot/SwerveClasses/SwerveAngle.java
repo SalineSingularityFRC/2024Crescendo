@@ -54,7 +54,7 @@ public class SwerveAngle {
     angleMotor.getConfigurator().apply(configs);
     angleMotor.getConfigurator().apply(current);
     
-    angleMotor.setInverted(false);
+    angleMotor.setInverted(true);
   }
 
   /*
