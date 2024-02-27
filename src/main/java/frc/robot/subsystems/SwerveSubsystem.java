@@ -118,10 +118,10 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     odometry = new SwerveOdometry(this);
     odometry.resetPosition();
     Consumer<ChassisSpeeds> consumer_chasis = ch_speed -> {
-      double ySpeed = ch_speed.vyMetersPerSecond;
-      ch_speed.vyMetersPerSecond = -ch_speed.vxMetersPerSecond;
-      ch_speed.vxMetersPerSecond = ySpeed;
-      ch_speed.omegaRadiansPerSecond = -ch_speed.omegaRadiansPerSecond;
+    //  double ySpeed = ch_speed.vyMetersPerSecond;
+      //ch_speed.vyMetersPerSecond = -ch_speed.vxMetersPerSecond;
+      //ch_speed.vxMetersPerSecond = ySpeed;
+      //ch_speed.omegaRadiansPerSecond = -ch_speed.omegaRadiansPerSecond;
       SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
       setModuleStates(modules);
     };
@@ -129,7 +129,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   
       ChassisSpeeds temp = getChassisSpeed();
      // temp.vyMetersPerSecond = -temp.vyMetersPerSecond;
-      temp.omegaRadiansPerSecond = -temp.omegaRadiansPerSecond;
+      //temp.omegaRadiansPerSecond = -temp.omegaRadiansPerSecond;
       SmartDashboard.putNumber("Chassis_PathPlanner_X", temp.vxMetersPerSecond);
       SmartDashboard.putNumber("Chassis_PathPlanner_Y", temp.vyMetersPerSecond);
       return temp; // Maybe come back to this later
@@ -255,11 +255,12 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
   public void periodic(){
    odometry.update();
+    SmartDashboard.putNumber("Get Angle Clamped [FL]", swerveModules[FL].angleMotor.getAngleClamped());
+    SmartDashboard.putNumber("Get Encoder Position [FL]", swerveModules[FL].getEncoderPosition());
   }
 
   public void disabledPeriodic(){
-    SmartDashboard.putNumber("Get Angle Clamped [FL]", swerveModules[FL].angleMotor.getAngleClamped());
-    SmartDashboard.putNumber("Get Encoder Position [FL]", swerveModules[FL].getEncoderPosition());
+ 
   }
   
   /*

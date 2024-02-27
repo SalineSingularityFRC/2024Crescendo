@@ -73,7 +73,7 @@ public class SwerveModule {
     c_encoder = new CANcoder(Can_ID_encoder, canNetwork);
 
     CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
-    cancoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    cancoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     cancoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
     c_encoder.getConfigurator().apply(cancoderConfig);
 
@@ -136,7 +136,7 @@ public class SwerveModule {
     //double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 
   
-    switch(angleMotor.setAngle(-desiredState.angle.getRadians())){
+    switch(angleMotor.setAngle(desiredState.angle.getRadians())){
       case Positive:
           driveMotor.set(driveOutput);
           break;
