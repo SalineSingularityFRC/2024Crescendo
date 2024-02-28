@@ -167,6 +167,24 @@ public class ArmSubsystem extends SubsystemBase {
     );
   }
 
+  public Command autonShootTarget(){
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
+    () -> {
+      setPosition(Constants.Position.MainArm.AUTONSHOOT);
+    },
+    (_unused) -> {
+
+    },
+    ()->{
+      return Math.abs(Constants.Position.MainArm.AUTONSHOOT - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+    },
+    this
+    );
+  }
+
   public Command pickupTarget() {
     return runOnce(() -> {
       setPosition(Constants.Position.MainArm.PICKUP);
@@ -204,7 +222,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }, 
     () -> {
-      setArmSpeed(-Constants.Speed.ARM*4);
+      setArmSpeed(-Constants.Speed.ARM*2);
     },
     (_unused) -> {
 

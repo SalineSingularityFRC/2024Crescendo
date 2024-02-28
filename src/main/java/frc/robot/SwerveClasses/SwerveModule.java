@@ -124,19 +124,22 @@ public class SwerveModule {
     angleMotor.setZeroAngle(getEncoderPosition());
   }
 
+  public double getAngleClamped(){
+    return angleMotor.getAngleClamped();
+  }
   /*
    * This method is used in Swerve Odometry
    */
   public void setDesiredState(SwerveModuleState desiredState) {
 
-    //SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
+    SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
 
-    double driveOutput = m_drivePIDController.calculate(driveMotor.get(), desiredState.speedMetersPerSecond);
+    double driveOutput = m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
 
     //double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 
   
-    switch(angleMotor.setAngle(desiredState.angle.getRadians())){
+    switch(angleMotor.setAngle(state.angle.getRadians())){
       case Positive:
           driveMotor.set(driveOutput);
           break;

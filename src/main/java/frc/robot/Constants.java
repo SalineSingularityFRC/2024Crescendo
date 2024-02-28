@@ -86,8 +86,9 @@ public final class Constants {
     }
     public static final class MainArm { // THE 0'S ARE CURRENTLY PLACEHOLDERS
       public static final double AMP = 49.305664;
-      public static final double SHOOTING = 10.333496;
+      public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
+      public static final double AUTONSHOOT = 11.942383;
     }
   }
 
@@ -143,10 +144,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.514404) * 2 * Math.PI;
-    public static final double FR = (0.300049) * 2 * Math.PI;
-    public static final double BL = (0.195557) * 2 * Math.PI;
-    public static final double BR = (0.165771) * 2 * Math.PI;
+    public static final double FL = (0.512207) * 2 * Math.PI;
+    public static final double FR = (0.298828) * 2 * Math.PI;
+    public static final double BL = (0.165283) * 2 * Math.PI;
+    public static final double BR = (0.168945) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -177,7 +178,7 @@ public final class Constants {
         1; // what the max speed should be divided by, 1 is max power
     public static final double SHOOTER = 70; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
-    public static final double ARM = 15; // rotations per second
+    public static final double ARM = 30; // rotations per second
 
   }
 
@@ -233,7 +234,7 @@ public final class Constants {
 
     public static final class SwerveModule {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
-      public static final PID TURNING_PID_CONTROLLER = new PID(8.5, 0, 0.17, 0.02);
+      public static final PID TURNING_PID_CONTROLLER = new PID(7, 0, 0.3, 0);
     }
   }
 }

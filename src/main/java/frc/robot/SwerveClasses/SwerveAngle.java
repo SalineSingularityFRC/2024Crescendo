@@ -36,7 +36,7 @@ public class SwerveAngle {
     angleMotorID = angleMotorId;
     MotorOutputConfigs configs = new MotorOutputConfigs();
     zeroPositionOffset = 0;
-    positionTarget = new PositionVoltage(0).withSlot(0);
+    positionTarget = new PositionVoltage(0).withSlot(0).withFeedForward(0.2);
     
     PID turnPID = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
     Slot0Configs slot0Configs = new Slot0Configs();
@@ -46,7 +46,7 @@ public class SwerveAngle {
     slot0Configs.kS = turnPID.S;
 
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-    current.SupplyCurrentLimit = 20;
+    current.SupplyCurrentLimit = 15;
     current.SupplyCurrentLimitEnable = true;
 
     configs.NeutralMode = NeutralModeValue.Brake;
@@ -101,16 +101,16 @@ public class SwerveAngle {
      tl;dr: turns the wheel the shortest possible distance by giving it the option to turn both
      counterclockwise and clockwise
     */
-    if (delta > (Math.PI / 2) || delta < -(Math.PI / 2)) {
-      if (delta > (Math.PI / 2)) {
-        targetAngle += Math.PI;
-      } else if (delta < -(Math.PI / 2)) {
-        targetAngle -= Math.PI;
-      }
-      currentPosition = AnglePosition.Negative;
-    } else {
+    // if (delta > (Math.PI / 2) || delta < -(Math.PI / 2)) {
+    //   if (delta > (Math.PI / 2)) {
+    //     targetAngle += Math.PI;
+    //   } else if (delta < -(Math.PI / 2)) {
+    //     targetAngle -= Math.PI;
+    //   }
+    //   currentPosition = AnglePosition.Negative;
+    // } else {
       currentPosition = AnglePosition.Positive;
-    }
+    // }
 
     targetAngle += remainderRotations;
     targetAngle += zeroPositionOffset;

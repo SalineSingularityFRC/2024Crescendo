@@ -9,8 +9,10 @@ public class AutonIntakeCommand extends SequentialCommandGroup {
    public AutonIntakeCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
+        shooter.setShooterBrake(),
         arm.pickupTarget(),
-        intake.startIntake()
+        intake.startIntake(),
+        shooter.setShooterCoast()
     );
    }
 }

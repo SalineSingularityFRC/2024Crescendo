@@ -9,7 +9,7 @@ public class AutonShooterCommand extends SequentialCommandGroup {
    public AutonShooterCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
-        arm.shootTarget(),
+        arm.autonShootTarget(),
         new ReverseIntakeCommand(intake),
         intake.stopIntaking(),
         new StartShootCommand(shooter), 

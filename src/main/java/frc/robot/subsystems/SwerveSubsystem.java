@@ -10,6 +10,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -232,7 +233,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
     if (fieldCentric) {
-      double difference = currentRobotAngle % (2*Math.PI);//(startingAngle - currentRobotAngle) % (2 * Math.PI);
+      double difference = -(currentRobotAngle % (2*Math.PI));//(startingAngle - currentRobotAngle) % (2 * Math.PI);
       x = -swerveRequest.movement.y * Math.sin(difference)
           + swerveRequest.movement.x * Math.cos(difference);
       y = swerveRequest.movement.y * Math.cos(difference)
@@ -291,6 +292,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return states;
   }
 
+
   public void setModuleState(SwerveModuleState desiredStates) {
     // The 2nd Parameter is for MaxSpeedMetersPerSecond
     // Initial Value was 3
@@ -320,6 +322,36 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
           resetGyro();
       });
   }
+
+    public Command rotate90(){
+      return runOnce(
+      () -> {
+        
+          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+        
+          SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+          modules[FL].angle = new Rotation2d(swerveModules[FL].getAngleClamped() + Math.PI / 8);
+          modules[FR].angle = new Rotation2d(swerveModules[FR].getAngleClamped()+ Math.PI / 8);
+          modules[BR].angle = new Rotation2d(swerveModules[BR].getAngleClamped()+ Math.PI / 8);
+          modules[BL].angle = new Rotation2d(swerveModules[BL].getAngleClamped()+ Math.PI / 8);
+          modules[FL].speedMetersPerSecond = 0.02;
+          modules[FR].speedMetersPerSecond = 0.02;
+          modules[BR].speedMetersPerSecond = 0.02;
+          modules[BL].speedMetersPerSecond = 0.02;
+          setModuleStates(modules);
+      });
+  }
+
+    public Command stopDriving(){
+      return runOnce(
+      () -> {
+        
+          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+          SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+          setModuleStates(modules);
+      });
+  }
+
   public void resetGyro() {
     // gyro.reset();
     gyroZero = gyro.getAngle();

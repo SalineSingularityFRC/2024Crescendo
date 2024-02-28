@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -86,6 +88,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Intake", new AutonIntakeCommand(shooter, intake, arm));
     NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
     NamedCommands.registerCommand("Home", arm.goHome());
+    NamedCommands.registerCommand("StopDriving", drive.stopDriving());
     
 
     this.pathChooser = new SendableChooser<PathPlannerPath>();
@@ -113,16 +116,22 @@ public class RobotContainer {
     arm.setDefaultCommand(arm.maintainArm());
 
     armController.x().whileTrue(intake.startIntake());
+    armController.x().onTrue(shooter.setShooterBrake());
+    armController.x().onFalse(shooter.setShooterCoast());
+
     armController.a().whileTrue(intake.reverseIntake());
-    driveController.x().onTrue(drive.resetGyroCommand());
-    armController.b().whileTrue(new ShootCommand(shooter, intake, arm));
+       armController.b().whileTrue(new ShootCommand(shooter, intake, arm));
 
 
     armController.y().whileTrue(arm.shootTarget());
-    driveController.y().whileTrue(arm.ampTarget());
-
+ 
     armController.rightBumper().whileTrue(arm.pickupTarget());
     armController.leftBumper().whileTrue(arm.goHome());
+
+    armController.povLeft().whileTrue(arm.ampTarget());
+
+    driveController.povUp().whileTrue(
+      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
     armController.povUp()
       .and(arm::isNotAtTop)
       .whileTrue(arm.moveArmForward());
@@ -131,8 +140,11 @@ public class RobotContainer {
       .and(arm::isNotAtBottom)
       .whileTrue(arm.moveArmBackwards());
 
+    armController.back().onTrue(drive.rotate90());
+
+    driveController.x().onTrue(drive.resetGyroCommand());
     drive.setDefaultCommand(
-        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX));
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 1));
     //armController.y().whileTrue(lime.scoreRight(drive));
   }
 

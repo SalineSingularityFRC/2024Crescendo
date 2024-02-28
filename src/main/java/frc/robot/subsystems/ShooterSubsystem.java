@@ -57,6 +57,26 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.getConfigurator().apply(motorOutputConfigs);
     }
 
+    public void setBrakeMode() {
+        motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
+        shooterMotor1.getConfigurator().apply(motorOutputConfigs);
+        shooterMotor2.getConfigurator().apply(motorOutputConfigs);
+    }
+
+    public Command setShooterBrake(){
+        return runOnce(
+            () -> {
+                setBrakeMode();
+            }
+        );
+    }
+    public Command setShooterCoast(){
+        return runOnce(
+            () -> {
+                setCoastMode();
+            }
+        );
+    }
     public double getShooterSpeed() {
         return shooterMotor1.getVelocity().getValue();
     }
