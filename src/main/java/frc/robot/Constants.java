@@ -89,7 +89,7 @@ public final class Constants {
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
       public static final double AUTONSIDESHOOT = 11.942383;
-       public static final double AUTONLMIDDLESHOOT = 11.942383;
+       public static final double AUTONLMIDDLESHOOT = 9;
     }
   }
 

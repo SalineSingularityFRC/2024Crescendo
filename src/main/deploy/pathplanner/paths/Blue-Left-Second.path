@@ -43,9 +43,9 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Blue-Left",
   "previewStartingState": {
-    "rotation": 45.0,
+    "rotation": 50.5,
     "velocity": 0
   },
   "useDefaultConstraints": true
