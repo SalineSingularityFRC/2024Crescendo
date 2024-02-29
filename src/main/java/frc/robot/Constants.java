@@ -88,7 +88,8 @@ public final class Constants {
       public static final double AMP = 49.305664;
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
-      public static final double AUTONSHOOT = 11.942383;
+      public static final double AUTONSIDESHOOT = 11.942383;
+       public static final double AUTONLMIDDLESHOOT = 11.942383;
     }
   }
 
@@ -144,10 +145,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.512207) * 2 * Math.PI;
-    public static final double FR = (0.298828) * 2 * Math.PI;
-    public static final double BL = (0.165283) * 2 * Math.PI;
-    public static final double BR = (0.168945) * 2 * Math.PI;
+    public static final double FL = (0.514648) * 2 * Math.PI;
+    public static final double FR = (0.300293) * 2 * Math.PI;
+    public static final double BL = (0.162109) * 2 * Math.PI;
+    public static final double BR = (0.173096) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -176,7 +177,7 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 70; // speed of the arms when adjusting manually in rotations per second
+    public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
 

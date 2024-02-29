@@ -5,14 +5,13 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutonShooterCommand extends SequentialCommandGroup {
-   public AutonShooterCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
+public class AutonPrepNoteCommand extends SequentialCommandGroup {
+   public AutonPrepNoteCommand(ShooterSubsystem shooter, IntakeSubsystem intake) {
 
     addCommands(
-        new StartShootCommand(shooter),
-        new StartIntakeCommand(intake),
+        new ReverseIntakeCommand(intake),
         intake.stopIntaking(),
-        shooter.stopShooting()
+        shooter.startShooting()
     );
    }
 }

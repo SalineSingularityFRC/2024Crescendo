@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.49658323186179365,
-      "y": 7.13932351511849
+      "x": 1.3,
+      "y": 5.55
     },
     "rotation": 0
   },
@@ -12,35 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Blue-Left-Inital"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Home"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SidePreShoot"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "name": "Home"
           }
         },
         {
@@ -69,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Left-Second"
+                  "pathName": "Blue-Middle-Inital"
                 }
               },
               {
@@ -94,13 +68,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Left-Third"
+                  "pathName": "Blue-Middle-Final"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "SidePreShoot"
+                  "name": "MiddlePreShoot"
                 }
               }
             ]

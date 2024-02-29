@@ -166,16 +166,16 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
-          // Enum alliance = Alliance.Blue;
-          // // Boolean supplier that controls when the path will be mirrored for the red
-          // alliance
-          // // This will flip the path being followed to the red side of the field.
-          // // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+          //Enum alliance = Alliance.Blue;
+          // Boolean supplier that controls when the path will be mirrored for the red
+          //alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-          // // var alliance = DriverStation.getAlliance();
-          // // if (alliance.isPresent()) {
-          // return alliance.get() == DriverStation.Alliance.Red;
-          // }
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+          }
           return false;
         },
         this // Reference to this subsystem to set requirements

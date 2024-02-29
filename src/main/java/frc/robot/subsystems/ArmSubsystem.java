@@ -24,7 +24,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
 public class ArmSubsystem extends SubsystemBase {
-  private TalonFX armMotor1;
+  public TalonFX armMotor1;
   private TalonFX armMotor2;
 
  // private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
@@ -167,19 +167,19 @@ public class ArmSubsystem extends SubsystemBase {
     );
   }
 
-  public Command autonShootTarget(){
+  public Command autonShootTarget(double pos){
     return new FunctionalCommand(
     () -> {
 
     }, 
     () -> {
-      setPosition(Constants.Position.MainArm.AUTONSHOOT);
+      setPosition(pos);
     },
     (_unused) -> {
 
     },
     ()->{
-      return Math.abs(Constants.Position.MainArm.AUTONSHOOT - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+      return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 0.5;
     },
     this
     );
@@ -222,7 +222,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }, 
     () -> {
-      setArmSpeed(-Constants.Speed.ARM*2);
+      setArmSpeed(-Constants.Speed.ARM*1);
     },
     (_unused) -> {
 

@@ -19,8 +19,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.AmpPositionCommand;
+import frc.robot.commands.AutonHomeCommand;
 import frc.robot.commands.AutonIntakeCommand;
+import frc.robot.commands.AutonMiddlePreShooter;
+import frc.robot.commands.AutonPreShootCommand;
 import frc.robot.commands.AutonShooterCommand;
+import frc.robot.commands.AutonSidePreShooter;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StartShootCommand;
@@ -66,31 +71,14 @@ public class RobotContainer {
 
     configureBindings();
 
-    // this.arm = arm;
-    // this.gyro = gyro;
-
-    // this.cubeSensor = cubeSensor;
-
-    // this.blueCenterCommand = new BlueCenterCommand(arm, clawPneumatics, drive,
-    // gyro, odometry);
-    // this.redCenterCommand = new RedCenterCommand(arm, clawPneumatics, drive,
-    // gyro, odometry);
-
-    // this.swerveCommand = new SwerveCommand(arm, clawPneumatics, drive, gyro,
-    // odometry);
-    // this.leftSideCommand = new LeftSideCommand(arm, clawPneumatics, drive, gyro,
-    // lime, cubeSensor);
-    // this.rightSideCommand =
-    // new RightSideCommand(arm, clawPneumatics, drive, gyro, lime, cubeSensor,
-    // odometry);
-
     NamedCommands.registerCommand("Shoot", new AutonShooterCommand(shooter, intake, arm));
     NamedCommands.registerCommand("Intake", new AutonIntakeCommand(shooter, intake, arm));
     NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
-    NamedCommands.registerCommand("Home", arm.goHome());
+    NamedCommands.registerCommand("Home", new AutonHomeCommand(shooter, intake, arm));
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
+    NamedCommands.registerCommand("MiddlePreShoot", new AutonMiddlePreShooter(shooter, intake, arm));
+    NamedCommands.registerCommand("SidePreShoot", new AutonSidePreShooter(shooter, intake, arm));
     
-
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     
     this.pathAutonChooser = new SendableChooser<PathPlannerAuto>();
@@ -130,8 +118,8 @@ public class RobotContainer {
 
     armController.povLeft().whileTrue(arm.ampTarget());
 
-    driveController.povUp().whileTrue(
-      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
+    // driveController.povUp().whileTrue(
+      // new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
     armController.povUp()
       .and(arm::isNotAtTop)
       .whileTrue(arm.moveArmForward());
@@ -142,9 +130,18 @@ public class RobotContainer {
 
     armController.back().onTrue(drive.rotate90());
 
-    driveController.x().onTrue(drive.resetGyroCommand());
+    driveController.x().onTrue(arm.shootTarget());
+    driveController.a().whileTrue(intake.startIntake());
+    driveController.b().whileTrue(intake.reverseIntake());
+    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.startShooting()));
+
+    driveController.leftTrigger().whileTrue(intake.startIntake());
+    driveController.leftTrigger().onTrue(arm.pickupTarget());
+  
+    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));
+    driveController.back().whileTrue(drive.resetGyroCommand());
     drive.setDefaultCommand(
-        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 1));
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4));
     //armController.y().whileTrue(lime.scoreRight(drive));
   }
 
@@ -156,12 +153,5 @@ public class RobotContainer {
    //return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 
-  // public Command getAutonomousCommand() {
-  // // Load the path you want to follow using its name in the GUI
-  // PathPlannerPath path = PathPlannerPath.fromPathFile("Left");
 
-  // // Create a path following command using AutoBuilder. This will also trigger
-  // event markers.
-  // return AutoBuilder.followPathWithEvents(path);
-  // }
 }
