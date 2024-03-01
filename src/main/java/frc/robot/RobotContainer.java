@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.AmpPositionCommand;
@@ -26,11 +28,14 @@ import frc.robot.commands.AutonMiddlePreShooter;
 import frc.robot.commands.AutonPreShootCommand;
 import frc.robot.commands.AutonShooterCommand;
 import frc.robot.commands.AutonSidePreShooter;
+import frc.robot.commands.ClimberDownCommand;
+import frc.robot.commands.ClimberUpCommand;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StartShootCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -46,15 +51,17 @@ public class RobotContainer {
   public SwerveSubsystem drive;
   protected Pigeon2 gyro;
   protected Limelight lime;
-  private SendableChooser<Command> autonChooser;
-  private WaitCommand shooWaitCommand;
   protected IntakeSubsystem intake;
   protected ShooterSubsystem shooter;
   protected ArmSubsystem arm;
+  protected ClimberSubsystem climber;
   protected CommandXboxController armController;
   protected CommandXboxController driveController;
   private SendableChooser<PathPlannerPath> pathChooser;
-    private SendableChooser<PathPlannerAuto> pathAutonChooser;
+  private SendableChooser<PathPlannerAuto> pathAutonChooser;
+
+  private Command ClimberUpCommand = climber.moveClimberUp();
+  private Command ClimberDownCommand = climber.moveClimberDown();
 
   public RobotContainer() {
    
