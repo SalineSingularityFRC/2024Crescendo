@@ -24,6 +24,6 @@ public class StartIntakeCommand extends Command {
 
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
-        return (pos - initalPosition >= 4);
+        return (pos - initalPosition >= 5);
     }
 }

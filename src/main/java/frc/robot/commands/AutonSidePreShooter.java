@@ -10,7 +10,10 @@ public class AutonSidePreShooter extends SequentialCommandGroup{
     public AutonSidePreShooter(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
-        new AutonPreShootCommand(shooter, intake, arm, Constants.Position.MainArm.AUTONSIDESHOOT)
+        arm.autonShootTarget(Constants.Position.MainArm.AUTONSIDESHOOT),
+        new ReverseIntakeCommand(intake),
+        intake.stopIntaking(),
+        shooter.autonStartUpShooter()
     );
    }
 }

@@ -10,7 +10,10 @@ public class AutonMiddlePreShooter extends SequentialCommandGroup{
     public AutonMiddlePreShooter(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
-        new AutonPreShootCommand(shooter, intake, arm, Constants.Position.MainArm.AUTONLMIDDLESHOOT)
+        arm.autonShootTarget(Constants.Position.MainArm.AUTONLMIDDLESHOOT),
+        new ReverseIntakeCommand(intake),
+        intake.stopIntaking(),
+        shooter.autonStartUpShooter()
     );
    }
 }

@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -94,5 +95,23 @@ public class ShooterSubsystem extends SubsystemBase {
                     setShooterSpeed(Constants.Speed.SHOOTER);
                 });
     }
+
+public Command autonStartUpShooter(){
+    return new FunctionalCommand(
+    () -> {}, 
+    () -> {
+     setShooterSpeed(Constants.Speed.SHOOTER);
+    },
+    (_unused) -> {},
+    () -> {
+        System.out.println("Half Shooter Speed " + Constants.Speed.SHOOTER * 0.4);
+        System.out.println("Current Shooter Speed " + getShooterSpeed());
+
+      return Math.abs(Constants.Speed.SHOOTER * 0.4 - getShooterSpeed()) < 10;
+    },
+    this
+    );
+  }
+
 
 }

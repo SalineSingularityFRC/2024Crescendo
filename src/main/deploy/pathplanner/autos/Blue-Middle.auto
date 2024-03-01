@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "MiddlePreShoot"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [

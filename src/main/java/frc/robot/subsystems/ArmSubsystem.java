@@ -215,7 +215,8 @@ public class ArmSubsystem extends SubsystemBase {
     return armMotor1.getReverseLimit().getValue() != ReverseLimitValue.ClosedToGround;
   }
 
-    public boolean isAtBottom(){
+  public boolean isAtBottom(){
+    System.out.println(armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround);
     return armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
   }
 

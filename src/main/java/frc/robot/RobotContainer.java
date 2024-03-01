@@ -32,6 +32,7 @@ import frc.robot.commands.ClimberDownCommand;
 import frc.robot.commands.ClimberUpCommand;
 import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StartShootCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -60,8 +61,6 @@ public class RobotContainer {
   private SendableChooser<PathPlannerPath> pathChooser;
   private SendableChooser<PathPlannerAuto> pathAutonChooser;
 
-  private Command ClimberUpCommand = climber.moveClimberUp();
-  private Command ClimberDownCommand = climber.moveClimberDown();
 
   public RobotContainer() {
    
@@ -70,11 +69,9 @@ public class RobotContainer {
     drive = new SwerveSubsystem();
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
-    
+    climber = new ClimberSubsystem();
     armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
     driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
-   
-
 
     configureBindings();
 
@@ -109,6 +106,7 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.stopIntaking());
     shooter.setDefaultCommand(shooter.stopShooting());
     arm.setDefaultCommand(arm.maintainArm());
+    climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
     armController.x().whileTrue(intake.startIntake());
     armController.x().onTrue(shooter.setShooterBrake());
@@ -117,7 +115,7 @@ public class RobotContainer {
     armController.a().whileTrue(intake.reverseIntake());
        armController.b().whileTrue(new ShootCommand(shooter, intake, arm));
 
-
+    
     armController.y().whileTrue(arm.shootTarget());
  
     armController.rightBumper().whileTrue(arm.pickupTarget());
@@ -140,11 +138,13 @@ public class RobotContainer {
 
 
     //DRIVE CONTROLLER
-    driveController.rightBumper().onTrue(new ClimberUpCommand(climber, arm));
-    driveController.leftBumper().onTrue(new ClimberDownCommand(climber, arm));
+    driveController.leftBumper().whileTrue(new ClimberUpCommand(climber, arm));
+    driveController.rightBumper().whileTrue(new ClimberDownCommand(climber, arm));
 
     driveController.x().onTrue(arm.shootTarget());
-    driveController.a().whileTrue(intake.startIntake());
+    driveController.a()
+      .whileTrue(arm.pickupTarget().andThen(intake.startIntake().alongWith(shooter.setShooterBrake())));
+    
     driveController.b().whileTrue(intake.reverseIntake());
     driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.startShooting()));
 
@@ -153,6 +153,15 @@ public class RobotContainer {
   
     driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));
     driveController.back().whileTrue(drive.resetGyroCommand());
+
+    driveController.start()
+      .and(arm::isNotAtTop)
+      .whileTrue(arm.moveArmForward());
+
+    driveController.leftTrigger()
+      .and(arm::isNotAtBottom)
+      .whileTrue(arm.moveArmBackwards());
+
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4));
     //armController.y().whileTrue(lime.scoreRight(drive));

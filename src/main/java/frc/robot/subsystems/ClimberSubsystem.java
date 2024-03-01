@@ -18,11 +18,12 @@ public class ClimberSubsystem extends SubsystemBase {
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
-  private final double manualSmallP = 0.5;
-  private final double manualSmallI = 0;
+  private final double manualSmallP = 0.25;
+  private final double manualSmallI = .0025;
   private final double manualSmallD = 0;
   private final double manualSmallS = 0;
 
+  public double climberMotorPosition;
   public ClimberSubsystem() {
     climberMotor = new TalonFX(Constants.CanId.Arm.Motor.CLIMBER, Constants.Canbus.DEFAULT);
 
@@ -33,11 +34,13 @@ public class ClimberSubsystem extends SubsystemBase {
     slot1ConfigsSmall.kS = manualSmallS;
     climberMotor.getConfigurator().apply(slot1ConfigsSmall);
 
+    climberMotorPosition = climberMotor.getPosition().getValue();
     setBrakeMode();
   }
 
-  public void setClimberPosition(double climberPos) {
-    climberMotor.setControl(positionTargetPreset.withPosition(climberPos).withFeedForward(0.1).withSlot(0));
+  public void setClimberSpeed(double speed) {
+    climberMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.1).withSlot(1));
+    climberMotorPosition = climberMotor.getPosition().getValue();
   }
 
   public void setBrakeMode() {
@@ -46,24 +49,26 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public Command moveClimberUp() {
-    return new FunctionalCommand(
-      () -> {},
-      () -> setClimberPosition(Constants.Position.Climber.UP),
-      (_unused) -> {},
-      () -> {
-        return Math.abs(0 - climberMotor.getPosition().getValueAsDouble()) < 0.5;
-      },
-      this);
+    return run(() -> {
+      setClimberSpeed(Constants.Speed.CLIMBER);
+    });
   }
 
   public Command moveClimberDown() {
-    return new FunctionalCommand(
-      () -> {},
-      () -> {setClimberPosition(Constants.Position.Climber.DOWN);},
-      (_unused) -> {},
-      () -> {
-        return Math.abs(Constants.Position.Climber.DOWN - climberMotor.getPosition().getValueAsDouble()) < 0.5;
-      },
-      this);
+    return run(() -> {
+      setClimberSpeed(-Constants.Speed.CLIMBER);
+    });
   }
+
+  public void maintainClimberPosition() {
+   
+    climberMotor.setControl(
+        positionTargetPreset.withPosition(climberMotorPosition).withFeedForward(0.03 * 12).withSlot(1));
+  }
+  public Command maintainClimberPosCommand() {
+    return run(() -> {
+      maintainClimberPosition();
+    });
+  }
+  
 }

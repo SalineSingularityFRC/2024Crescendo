@@ -48,7 +48,7 @@ public final class Constants {
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
         public static final int INTAKE = 5;
-        public static final int CLIMBER = 1902831283; // obvious placeholder
+        public static final int CLIMBER = 20; 
       }
     }
 
@@ -69,7 +69,7 @@ public final class Constants {
 
   public static final class Position {
     public static final class MainArm {
-      public static final double AMP = 49.305664;
+      public static final double AMP = 44.168945;
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
       public static final double AUTONSIDESHOOT = 11.942383;
@@ -170,7 +170,7 @@ public final class Constants {
     public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double CLIMBER = 15;
+    public static final double CLIMBER = 45;
   }
 
   public static final class Distance {

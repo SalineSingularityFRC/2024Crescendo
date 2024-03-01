@@ -51,6 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
     return runOnce(
         () -> {
           intakeMotor.stopMotor();
+          
         });
   }
   public Command reverseIntake() {
