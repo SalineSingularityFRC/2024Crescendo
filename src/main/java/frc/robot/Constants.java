@@ -68,29 +68,18 @@ public final class Constants {
   }
 
   public static final class Position {
-    public static final class BigArm {
-      public static final double HIGH = 0.578857;
-      public static final double MEDIUM = 0.437500;
-      public static final double PICKUP = 0.392578;
-      public static final double DEFAULT = 0.386475;
-      public static final double SLIDER = 0.595092; // Fine tune
-      public static final double PICKUPCONE = 0.47295;
-    }
-
-    public static final class SmallArm {
-      public static final double HIGH = -0.105736;
-      public static final double MEDIUM = 0.164062;
-      public static final double PICKUP = -0.014551;
-      public static final double DEFAULT = 0.322266;
-      public static final double SLIDER = -0.18003028;
-      public static final double PICKUP_CONE = -0.272852;
-    }
     public static final class MainArm {
       public static final double AMP = 49.305664;
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
       public static final double AUTONSIDESHOOT = 11.942383;
-       public static final double AUTONLMIDDLESHOOT = 9;
+      public static final double AUTONLMIDDLESHOOT = 9;
+      public static final double CLIMBER = 0;
+    }
+    
+    public static final class Climber { // PLACEHOLDERS
+      public static final double UP = 1;
+      public static final double DOWN = 0;
     }
   }
 

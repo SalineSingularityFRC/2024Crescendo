@@ -48,10 +48,10 @@ public class ClimberSubsystem extends SubsystemBase {
   public Command moveClimberUp() {
     return new FunctionalCommand(
       () -> {},
-      () -> {setClimberPosition(Constants.Position.Climber.UP);},
+      () -> setClimberPosition(Constants.Position.Climber.UP),
       (_unused) -> {},
       () -> {
-        return Math.abs(Constants.Position.Climber.UP - climberMotor.getPosition().getValueAsDouble()) < 0.5;
+        return Math.abs(0 - climberMotor.getPosition().getValueAsDouble()) < 0.5;
       },
       this);
   }
