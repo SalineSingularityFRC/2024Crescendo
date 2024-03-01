@@ -137,6 +137,12 @@ public class RobotContainer {
 
     armController.back().onTrue(drive.rotate90());
 
+
+
+    //DRIVE CONTROLLER
+    driveController.rightBumper().onTrue(new ClimberUpCommand(climber, arm));
+    driveController.leftBumper().onTrue(new ClimberDownCommand(climber, arm));
+
     driveController.x().onTrue(arm.shootTarget());
     driveController.a().whileTrue(intake.startIntake());
     driveController.b().whileTrue(intake.reverseIntake());
