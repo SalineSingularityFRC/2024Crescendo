@@ -11,7 +11,7 @@ public class AutonHomeCommand extends ParallelRaceGroup {
    public AutonHomeCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
-        new AutonPrepNoteCommand(shooter, intake),
+        //new AutonPrepNoteCommand(shooter, intake),
         arm.goHome()
     );
    }

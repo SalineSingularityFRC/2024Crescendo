@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -34,6 +35,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setIntakeSpeed(double speed) {
+    SmartDashboard.putNumber("Intake Val", speed);
+    //intakeMotor.set(speed/90.0);
     intakeMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
   }
 
@@ -41,6 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public double getIntakeSpeed() {
     return intakeMotor.getVelocity().getValue();
   }
+
 
   public void setBrakeMode() {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;

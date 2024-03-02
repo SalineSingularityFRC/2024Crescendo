@@ -65,14 +65,15 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor1.getConfigurator().apply(motorOutputConfigs);
         shooterMotor2.getConfigurator().apply(motorOutputConfigs);
     }
-    public void periodic(){
-        if(currentSpeed == 0){
-            shooterMotor1.stopMotor();
-        } else {
-            setShooterSpeed(currentSpeed);
-        }
+
+    // public void periodic(){
+    //     if(currentSpeed == 0){
+    //         shooterMotor1.stopMotor();
+    //     } else {
+    //         setShooterSpeed(currentSpeed);
+    //     }
        
-    }
+    // }
     public Command setShooterBrake(){
         return runOnce(
             () -> {
@@ -94,6 +95,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command stopShooting() {
         return runOnce(
                 () -> {
+                    shooterMotor1.stopMotor();
                     currentSpeed = 0;
                 });
     }
@@ -111,7 +113,8 @@ public Command autonStartUpShooter(){
         SmartDashboard.putBoolean("Auton Start UP Shooter", false);
     }, 
     () -> {
-        currentSpeed = Constants.Speed.SHOOTER;
+        //currentSpeed = ;
+        setShooterSpeed(Constants.Speed.SHOOTER);
     },
     (__unused) -> {
         SmartDashboard.putBoolean("Auton Start UP Shooter", true);

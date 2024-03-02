@@ -111,6 +111,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopIntaking());
+    //shooter.setDefaultCommand(shooter.stopShooting());
     //shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
     climber.setDefaultCommand(climber.maintainClimberPosCommand());
@@ -149,8 +150,10 @@ public class RobotContainer {
     driveController.rightBumper().whileTrue(new ClimberDownCommand(climber, arm));
 
     driveController.x().onTrue(arm.shootTarget());
+
+     driveController.a().onTrue(arm.pickupTarget());
     driveController.a()
-      .whileTrue(arm.pickupTarget().andThen(intake.startIntake().alongWith(shooter.setShooterBrake())));
+      .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
     
     driveController.b().whileTrue(intake.reverseIntake());
     driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.startShooting()));
@@ -159,6 +162,7 @@ public class RobotContainer {
     driveController.leftTrigger().onTrue(arm.pickupTarget());
   
     driveController.rightTrigger().whileTrue(new TeleopShootCommand(shooter, intake, arm));
+    
     driveController.rightTrigger().onFalse(shooter.stopShooting());
     driveController.back().whileTrue(drive.resetGyroCommand());
 

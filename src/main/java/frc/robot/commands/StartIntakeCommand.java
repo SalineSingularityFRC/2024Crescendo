@@ -21,7 +21,7 @@ public class StartIntakeCommand extends Command {
     }
 
     public void execute() {
-        intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE/10);
+        intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE * 10);
     }
 
     public boolean isFinished() {

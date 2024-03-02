@@ -179,6 +179,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     },
     ()->{
+     
       return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 0.5;
     },
     this
