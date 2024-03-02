@@ -113,7 +113,7 @@ public class RobotContainer {
     armController.x().onFalse(shooter.setShooterCoast());
 
     armController.a().whileTrue(intake.reverseIntake());
-       armController.b().whileTrue(new ShootCommand(shooter, intake, arm));
+       armController.b().whileTrue(new ShootCommand(shooter, intake, arm, drive));
 
     
     armController.y().whileTrue(arm.shootTarget());
@@ -151,7 +151,7 @@ public class RobotContainer {
     driveController.leftTrigger().whileTrue(intake.startIntake());
     driveController.leftTrigger().onTrue(arm.pickupTarget());
   
-    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));
+    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm, drive));
     driveController.back().whileTrue(drive.resetGyroCommand());
 
     driveController.start()

@@ -363,6 +363,19 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return swerveModules[module];
   }
 
+  public Command setBrakeModeCommand(){
+    return runOnce(
+    () -> {
+      setBrakeMode();
+    });
+  }
+
+  public Command setCoastModeCommand(){
+    return runOnce(
+    () -> {
+      setCoastMode();
+    });
+  }
   public void setBrakeMode() {
     for (int i = 0; i < 4; i++) {
       swerveModules[i].setBrakeMode();

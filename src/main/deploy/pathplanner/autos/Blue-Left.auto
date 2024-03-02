@@ -22,25 +22,24 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Home"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SidePreShoot"
-                      }
-                    }
-                  ]
+                  "name": "Home"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SidePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
           }
         },
         {

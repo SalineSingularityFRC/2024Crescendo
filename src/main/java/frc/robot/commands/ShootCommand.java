@@ -4,17 +4,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class ShootCommand extends SequentialCommandGroup {
-   public ShootCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
+   public ShootCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm, SwerveSubsystem s) {
 
     addCommands(
-        new ReverseIntakeCommand(intake),
-        intake.stopIntaking(),
+        s.setBrakeModeCommand(),
         new StartShootCommand(shooter), 
         new StartIntakeCommand(intake),
         intake.stopIntaking(),
-        shooter.stopShooting()
+        shooter.stopShooting(),
+        s.setCoastModeCommand()
     );
    }
 }
