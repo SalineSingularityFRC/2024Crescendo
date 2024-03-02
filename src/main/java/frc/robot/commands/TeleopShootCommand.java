@@ -12,10 +12,10 @@ public class TeleopShootCommand extends SequentialCommandGroup {
     addCommands(
         new ReverseIntakeCommand(intake),
         intake.stopIntaking(),
-        new StartShootCommand(shooter), 
-        new StartIntakeCommand(intake),
-        intake.stopIntaking(),
-        shooter.stopShooting()
+        new StartShootCommand(shooter),
+        new TeleIntakeShootCommand(intake, shooter),
+        intake.stopIntaking()
+        // shooter.stopShooting()
     );
    }
 }

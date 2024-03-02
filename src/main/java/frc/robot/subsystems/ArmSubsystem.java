@@ -238,7 +238,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }, 
     () -> {
-      setArmSpeed(-Constants.Speed.ARM*1);
+      setArmSpeed(-Constants.Speed.ARM*1.2);
     },
     (_unused) -> {
 

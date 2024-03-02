@@ -8,7 +8,7 @@ public class ClimberDownCommand extends SequentialCommandGroup {
    public ClimberDownCommand(ClimberSubsystem climber, ArmSubsystem arm) {
 
     addCommands(
-        arm.ampTarget(),
+        
         climber.moveClimberDown()
     );
    }

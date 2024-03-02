@@ -40,10 +40,13 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 50.5,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue-Left",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

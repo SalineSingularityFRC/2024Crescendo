@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
         slot1Configs.kS = manualSmallS;
 
         CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-        current.SupplyCurrentLimit = 15;
+        current.SupplyCurrentLimit = 50;
         current.SupplyCurrentLimitEnable = true;
         shooterMotor1.getConfigurator().apply(current);
         shooterMotor2.getConfigurator().apply(current);
@@ -50,7 +50,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooterSpeed(double speed) {
-        shooterMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
+        //shooterMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
+        shooterMotor1.set(speed/90.0);
     }
 
     public void setCoastMode() {
@@ -65,7 +66,12 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.getConfigurator().apply(motorOutputConfigs);
     }
     public void periodic(){
-        setShooterSpeed(currentSpeed);
+        if(currentSpeed == 0){
+            shooterMotor1.stopMotor();
+        } else {
+            setShooterSpeed(currentSpeed);
+        }
+       
     }
     public Command setShooterBrake(){
         return runOnce(
@@ -88,13 +94,12 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command stopShooting() {
         return runOnce(
                 () -> {
-                    shooterMotor1.stopMotor();
                     currentSpeed = 0;
                 });
     }
 
     public Command startShooting() {
-        return run(
+        return runOnce(
                 () -> {
                     currentSpeed = (Constants.Speed.SHOOTER);
                 });

@@ -60,7 +60,7 @@ public class RobotContainer {
   protected CommandXboxController armController;
   protected CommandXboxController driveController;
   private SendableChooser<PathPlannerPath> pathChooser;
-  private SendableChooser<PathPlannerAuto> pathAutonChooser;
+  private SendableChooser<String> pathAutonChooser;
 
 
   public RobotContainer() {
@@ -86,7 +86,13 @@ public class RobotContainer {
     
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     
-    this.pathAutonChooser = new SendableChooser<PathPlannerAuto>();
+    this.pathAutonChooser = new SendableChooser<String>();
+    this.pathAutonChooser.setDefaultOption("Blue-Left", "Blue-Left");
+    this.pathAutonChooser.addOption("Blue-Middle", "Blue-Middle");
+    this.pathAutonChooser.addOption("Blue-Right", "Blue-Right");
+    this.pathAutonChooser.addOption("Red-Left", "Blue-Right");
+    this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
+    this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
 
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
@@ -105,7 +111,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopIntaking());
-    //shooter.setDefaultCommand(shooter.stopShooting());
+    //shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
     climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
@@ -153,7 +159,7 @@ public class RobotContainer {
     driveController.leftTrigger().onTrue(arm.pickupTarget());
   
     driveController.rightTrigger().whileTrue(new TeleopShootCommand(shooter, intake, arm));
-    driveController.rightTrigger().whileFalse(shooter.stopShooting());
+    driveController.rightTrigger().onFalse(shooter.stopShooting());
     driveController.back().whileTrue(drive.resetGyroCommand());
 
     driveController.start()
@@ -173,7 +179,7 @@ public class RobotContainer {
     // Load the path you want to follow using its name in the GUI
 
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return new PathPlannerAuto("Blue-Left");
+    return new PathPlannerAuto(this.pathAutonChooser.getSelected());
    //return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
   }
 

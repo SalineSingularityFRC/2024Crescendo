@@ -16,6 +16,7 @@ public class StartShootCommand extends Command {
 
     public void execute() {
         shooterSubsystem.setShooterSpeed(Constants.Speed.SHOOTER);
+   
         SmartDashboard.putBoolean("StartShooterCommand", false);
     }
 

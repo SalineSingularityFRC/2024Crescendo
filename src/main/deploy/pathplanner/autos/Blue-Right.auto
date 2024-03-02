@@ -12,7 +12,7 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -22,22 +22,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Home"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SidePreShoot"
-                      }
-                    }
-                  ]
+                  "name": "Home"
                 }
               }
             ]
@@ -50,13 +37,32 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot"
+                  "name": "SidePreShoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "StopDriving"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDriving"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
                 }
               }
             ]
@@ -88,7 +94,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {

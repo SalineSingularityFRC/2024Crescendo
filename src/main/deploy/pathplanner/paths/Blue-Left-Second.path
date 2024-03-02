@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Blue-Left",
   "previewStartingState": {
-    "rotation": 50.5,
+    "rotation": 55.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
