@@ -170,7 +170,7 @@ public class ArmSubsystem extends SubsystemBase {
   public Command autonShootTarget(double pos){
     return new FunctionalCommand(
     () -> {
-
+      
     }, 
     () -> {
       setPosition(pos);

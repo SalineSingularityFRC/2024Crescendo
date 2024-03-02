@@ -34,6 +34,7 @@ import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StartShootCommand;
+import frc.robot.commands.TeleopShootCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -104,7 +105,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopIntaking());
-    shooter.setDefaultCommand(shooter.stopShooting());
+    //shooter.setDefaultCommand(shooter.stopShooting());
     arm.setDefaultCommand(arm.maintainArm());
     climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
@@ -151,7 +152,8 @@ public class RobotContainer {
     driveController.leftTrigger().whileTrue(intake.startIntake());
     driveController.leftTrigger().onTrue(arm.pickupTarget());
   
-    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm, drive));
+    driveController.rightTrigger().whileTrue(new TeleopShootCommand(shooter, intake, arm));
+    driveController.rightTrigger().whileFalse(shooter.stopShooting());
     driveController.back().whileTrue(drive.resetGyroCommand());
 
     driveController.start()

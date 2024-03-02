@@ -16,10 +16,13 @@ public class StartShootCommand extends Command {
 
     public void execute() {
         shooterSubsystem.setShooterSpeed(Constants.Speed.SHOOTER);
-        SmartDashboard.putNumber("Shooter Speed", shooterSubsystem.shooterMotor1.getVelocity().getValue());
+        SmartDashboard.putBoolean("StartShooterCommand", false);
     }
 
     public boolean isFinished() {
+        if(shooterSubsystem.getShooterSpeed() >= Constants.Speed.SHOOTER * 0.9){
+            SmartDashboard.putBoolean("StartShooterCommand", true);
+        }
         return (shooterSubsystem.getShooterSpeed() >= Constants.Speed.SHOOTER * 0.9); 
     }
 }

@@ -44,7 +44,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setBrakeMode() {
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     climberMotor.getConfigurator().apply(motorOutputConfigs);
   }
 

@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
    
-    SmartDashboard.putNumber("SWERVE MODULE FR", m_robotContainer.drive.swerveModules[1].getEncoderPosition());
+    //SmartDashboard.putNumber("SWERVE MODULE FR", m_robotContainer.drive.swerveModules[1].getEncoderPosition());
   }
 
   @Override
@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.shooter.stopShooting();
     //robotSubsystem.setCoastMode();
   }
 

@@ -6,18 +6,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class ShootCommand extends SequentialCommandGroup {
-   public ShootCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm, SwerveSubsystem s) {
+public class TeleopShootCommand extends SequentialCommandGroup {
+   public TeleopShootCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
         new ReverseIntakeCommand(intake),
         intake.stopIntaking(),
-        s.setBrakeModeCommand(),
         new StartShootCommand(shooter), 
         new StartIntakeCommand(intake),
         intake.stopIntaking(),
-        shooter.stopShooting(),
-        s.setCoastModeCommand()
+        shooter.stopShooting()
     );
    }
 }

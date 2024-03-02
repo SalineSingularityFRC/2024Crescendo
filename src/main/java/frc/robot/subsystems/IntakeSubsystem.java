@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setBrakeMode() {
-    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 

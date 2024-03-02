@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -15,6 +16,7 @@ public class ReverseIntakeCommand extends Command {
 
     public void initialize(){
         this.initalPosition = intakeSubsystem.intakeMotor.getPosition().getValue();
+        SmartDashboard.putBoolean("Reverse Intake Command", false);
     }
 
     public void execute() {
@@ -23,6 +25,9 @@ public class ReverseIntakeCommand extends Command {
 
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
+        if(pos - initalPosition <= -0.2){
+            SmartDashboard.putBoolean("Reverse Intake Command", true);
+        }
         return (pos - initalPosition <= -0.2);
         //return (intakeSubsystem.getIntakeSpeed() <= -Constants.Speed.INTAKE/10);
     }

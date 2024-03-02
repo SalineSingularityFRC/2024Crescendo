@@ -31,15 +31,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "SidePreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDriving"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "SidePreShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDriving"
+                }
+              }
+            ]
           }
         },
         {

@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +17,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
     public TalonFX shooterMotor1;
     private TalonFX shooterMotor2;
-
+    public double currentSpeed;
     private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
     private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
@@ -44,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.getConfigurator().apply(current);
         
         shooterMotor1.getConfigurator().apply(slot1Configs);
-
+        
         setCoastMode();
     }
 
@@ -63,7 +64,9 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor1.getConfigurator().apply(motorOutputConfigs);
         shooterMotor2.getConfigurator().apply(motorOutputConfigs);
     }
-
+    public void periodic(){
+        setShooterSpeed(currentSpeed);
+    }
     public Command setShooterBrake(){
         return runOnce(
             () -> {
@@ -86,28 +89,31 @@ public class ShooterSubsystem extends SubsystemBase {
         return runOnce(
                 () -> {
                     shooterMotor1.stopMotor();
+                    currentSpeed = 0;
                 });
     }
 
     public Command startShooting() {
         return run(
                 () -> {
-                    setShooterSpeed(Constants.Speed.SHOOTER);
+                    currentSpeed = (Constants.Speed.SHOOTER);
                 });
     }
 
 public Command autonStartUpShooter(){
     return new FunctionalCommand(
-    () -> {}, 
     () -> {
-     setShooterSpeed(Constants.Speed.SHOOTER);
+        SmartDashboard.putBoolean("Auton Start UP Shooter", false);
+    }, 
+    () -> {
+        currentSpeed = Constants.Speed.SHOOTER;
     },
-    (_unused) -> {},
+    (__unused) -> {
+        SmartDashboard.putBoolean("Auton Start UP Shooter", true);
+    },
     () -> {
-        System.out.println("Half Shooter Speed " + Constants.Speed.SHOOTER * 0.4);
-        System.out.println("Current Shooter Speed " + getShooterSpeed());
-
-      return Math.abs(Constants.Speed.SHOOTER * 0.4 - getShooterSpeed()) < 10;
+      return getShooterSpeed() >= Constants.Speed.SHOOTER * 0.4;
+    
     },
     this
     );
