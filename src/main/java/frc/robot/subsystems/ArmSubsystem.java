@@ -217,7 +217,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtBottom(){
-    System.out.println(armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround);
+    SmartDashboard.putBoolean("Is at bottom ", armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround);
     return armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
   }
 

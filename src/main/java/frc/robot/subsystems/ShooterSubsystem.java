@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -52,6 +53,15 @@ public class ShooterSubsystem extends SubsystemBase {
     public void setShooterSpeed(double speed) {
         //shooterMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
         shooterMotor1.set(speed/90.0);
+    }
+    WaitCommand wait = new WaitCommand(0.5);
+    public Command teleopShootCommand(){
+        return run(
+            () -> {
+                wait.initialize();
+                setShooterSpeed(Constants.Speed.SHOOTER);
+            }
+        );
     }
 
     public void setCoastMode() {

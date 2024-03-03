@@ -31,6 +31,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [

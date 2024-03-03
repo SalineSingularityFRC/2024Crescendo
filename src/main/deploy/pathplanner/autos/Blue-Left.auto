@@ -69,6 +69,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Home"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [

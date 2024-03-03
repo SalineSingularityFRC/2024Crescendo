@@ -38,7 +38,7 @@ public class SwerveModule {
   public SwerveAngle angleMotor;
   private AnalogEncoder a_encoder;
   private CANcoder c_encoder;
-  private TalonFX driveMotor;
+  public TalonFX driveMotor;
 
   private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();

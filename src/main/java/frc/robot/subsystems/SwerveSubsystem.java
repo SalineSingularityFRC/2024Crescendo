@@ -346,9 +346,13 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       return runOnce(
       () -> {
         
-          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
-          SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-          setModuleStates(modules);
+          // ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+          // SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+          // setModuleStates(modules);
+          swerveModules[FR].driveMotor.stopMotor();
+          swerveModules[FL].driveMotor.stopMotor();
+          swerveModules[BR].driveMotor.stopMotor();
+          swerveModules[BL].driveMotor.stopMotor();
       });
   }
 

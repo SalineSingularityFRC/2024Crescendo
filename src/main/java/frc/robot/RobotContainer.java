@@ -34,6 +34,7 @@ import frc.robot.commands.DriveController;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.StartIntakeCommand;
 import frc.robot.commands.StartShootCommand;
+import frc.robot.commands.TeleopPreShootCommand;
 import frc.robot.commands.TeleopShootCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -158,8 +159,13 @@ public class RobotContainer {
     driveController.b().whileTrue(intake.reverseIntake());
     driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.startShooting()));
 
-    driveController.leftTrigger().whileTrue(intake.startIntake());
-    driveController.leftTrigger().onTrue(arm.pickupTarget());
+    // driveController.leftTrigger().whileTrue(intake.startIntake());
+    // driveController.leftTrigger().onTrue(arm.pickupTarget());
+
+    driveController.leftTrigger().onTrue(new TeleopPreShootCommand(shooter, intake).andThen(shooter.teleopShootCommand()));
+
+    // driveController.leftTrigger().whileTrue(shooter.teleopShootCommand());
+   driveController.leftTrigger().onFalse(shooter.stopShooting());
   
     driveController.rightTrigger().whileTrue(new TeleopShootCommand(shooter, intake, arm));
     
@@ -170,9 +176,9 @@ public class RobotContainer {
       .and(arm::isNotAtTop)
       .whileTrue(arm.moveArmForward());
 
-    driveController.leftTrigger()
-      .and(arm::isNotAtBottom)
-      .whileTrue(arm.moveArmBackwards());
+    // driveController.leftTrigger()
+    //   .and(arm::isNotAtBottom)
+    //   .whileTrue(arm.moveArmBackwards());
 
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4));

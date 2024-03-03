@@ -29,6 +29,6 @@ public class StartIntakeCommand extends Command {
         if(pos - initalPosition >= 5){
             SmartDashboard.putBoolean("Intake Command", true);
         }
-        return (pos - initalPosition >= 5);
+        return (pos - initalPosition >= 10);
     }
 }
