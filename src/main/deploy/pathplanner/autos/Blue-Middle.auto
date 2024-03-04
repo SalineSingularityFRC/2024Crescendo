@@ -12,15 +12,41 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Home"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Home"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MiddlePreShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDriving"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MiddlePreShoot"
+                }
+              }
+            ]
           }
         },
         {
@@ -68,7 +94,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {

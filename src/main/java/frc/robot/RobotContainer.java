@@ -84,7 +84,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
     NamedCommands.registerCommand("MiddlePreShoot", new AutonMiddlePreShooter(shooter, intake, arm));
     NamedCommands.registerCommand("SidePreShoot", new AutonSidePreShooter(shooter, intake, arm));
-    
+    NamedCommands.registerCommand("Wait", new WaitCommand(3));
+  
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     
     this.pathAutonChooser = new SendableChooser<String>();
