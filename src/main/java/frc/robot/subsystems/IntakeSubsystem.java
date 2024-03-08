@@ -6,12 +6,13 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private TalonFX intakeMotor;
+  public TalonFX intakeMotor;
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
@@ -34,6 +35,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setIntakeSpeed(double speed) {
+    SmartDashboard.putNumber("Intake Val", speed);
+    //intakeMotor.set(speed/90.0);
     intakeMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
   }
 
@@ -42,15 +45,17 @@ public class IntakeSubsystem extends SubsystemBase {
     return intakeMotor.getVelocity().getValue();
   }
 
+
   public void setBrakeMode() {
     motorOutputConfigs.NeutralMode = NeutralModeValue.Brake;
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 
   public Command stopIntaking() {
-    return run(
+    return runOnce(
         () -> {
-          setIntakeSpeed(0);
+          intakeMotor.stopMotor();
+          
         });
   }
   public Command reverseIntake() {
@@ -64,5 +69,12 @@ public class IntakeSubsystem extends SubsystemBase {
         () -> {
           setIntakeSpeed(Constants.Speed.INTAKE);
         });
+  }
+
+public Command intakeContinue() {
+    return run(
+        () -> {
+       
+      });
   }
 }

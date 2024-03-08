@@ -1,11 +1,16 @@
 package frc.robot.SwerveClasses;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.PID;
 
 /**
  * This class owns a single Swerve Module's angle motor and is responsible for driving that motor to
@@ -20,12 +25,7 @@ public class SwerveAngle {
   private TalonFX angleMotor;
   private PositionVoltage positionTarget;
 
-  private final double kP = 12.0;
-  private final double kI = 0.0;
-  private final double kD = 0.0;
-
-  private final double kS = 0.05;
-
+  public int angleMotorID;
   /*
    * Our constructor needs to take a parameter that determines which CAN ID the falcon we are using has
    * and it needs to initialize the falcon motor and configure it (things like PID values and such)
@@ -33,20 +33,28 @@ public class SwerveAngle {
 
   public SwerveAngle(int angleMotorId, String canNetwork) {
     angleMotor = new TalonFX(angleMotorId, canNetwork);
+    angleMotorID = angleMotorId;
     MotorOutputConfigs configs = new MotorOutputConfigs();
     zeroPositionOffset = 0;
-    positionTarget = new PositionVoltage(0).withSlot(0);
-
+    positionTarget = new PositionVoltage(0).withSlot(0).withFeedForward(0.2);
+    
+    PID turnPID = Constants.PidGains.SwerveModule.TURNING_PID_CONTROLLER;
     Slot0Configs slot0Configs = new Slot0Configs();
-    slot0Configs.kP = kP;
-    slot0Configs.kI = kI;
-    slot0Configs.kD = kD;
-    slot0Configs.kS = kS;
+    slot0Configs.kP = turnPID.P;
+    slot0Configs.kI = turnPID.I;
+    slot0Configs.kD = turnPID.D;;
+    slot0Configs.kS = turnPID.S;
+
+    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+    current.SupplyCurrentLimit = 15;
+    current.SupplyCurrentLimitEnable = true;
 
     configs.NeutralMode = NeutralModeValue.Brake;
     angleMotor.getConfigurator().apply(slot0Configs);
     angleMotor.getConfigurator().apply(configs);
-    angleMotor.setInverted(false);
+    angleMotor.getConfigurator().apply(current);
+    
+    angleMotor.setInverted(true);
   }
 
   /*
@@ -93,16 +101,16 @@ public class SwerveAngle {
      tl;dr: turns the wheel the shortest possible distance by giving it the option to turn both
      counterclockwise and clockwise
     */
-    if (delta > (Math.PI / 2) || delta < -(Math.PI / 2)) {
-      if (delta > (Math.PI / 2)) {
-        targetAngle += Math.PI;
-      } else if (delta < -(Math.PI / 2)) {
-        targetAngle -= Math.PI;
-      }
-      currentPosition = AnglePosition.Negative;
-    } else {
+    // if (delta > (Math.PI / 2) || delta < -(Math.PI / 2)) {
+    //   if (delta > (Math.PI / 2)) {
+    //     targetAngle += Math.PI;
+    //   } else if (delta < -(Math.PI / 2)) {
+    //     targetAngle -= Math.PI;
+    //   }
+    //   currentPosition = AnglePosition.Negative;
+    // } else {
       currentPosition = AnglePosition.Positive;
-    }
+    // }
 
     targetAngle += remainderRotations;
     targetAngle += zeroPositionOffset;
@@ -112,6 +120,9 @@ public class SwerveAngle {
         positionTarget.withPosition(
             Constants.MotorGearRatio.ANGLE * (targetAngle / (2 * Math.PI))));
 
+    if(angleMotorID == 15){
+      SmartDashboard.putNumber("Goofy Math", (Constants.MotorGearRatio.ANGLE * (targetAngle / (2 * Math.PI))) - angleMotor.getPosition().getValue());
+    }
     if (Math.abs(delta % Math.PI) > Constants.AngleInaccuracy.MAX
         && Math.abs(delta % Math.PI) < Math.PI - Constants.AngleInaccuracy.MAX) {
       return AnglePosition.Moving; // Wheel is still in the process of turning
@@ -123,7 +134,7 @@ public class SwerveAngle {
    * Returns the angle (in radians) that the Talon is currently reporting we are in
    * minus our offset
    */
-  private double getAngle() {
+  public double getAngle() {
     double talonRadians = (angleMotor.getPosition().getValue() * 2 * Math.PI);
     double wheelRadians = talonRadians / Constants.MotorGearRatio.ANGLE;
     return wheelRadians - zeroPositionOffset;

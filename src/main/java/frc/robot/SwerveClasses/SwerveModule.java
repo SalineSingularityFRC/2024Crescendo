@@ -1,11 +1,15 @@
 package frc.robot.SwerveClasses;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -31,10 +35,10 @@ public class SwerveModule {
    * An instance of the TalonFX class to handle the drive motor
    * An instance of the CANcoder class to handle the encoder
    */
-  private SwerveAngle angleMotor;
+  public SwerveAngle angleMotor;
   private AnalogEncoder a_encoder;
   private CANcoder c_encoder;
-  private TalonFX driveMotor;
+  public TalonFX driveMotor;
 
   private final VelocityVoltage m_voltageVelocity = new VelocityVoltage(0, 0, true, 0, 0, false, false, false);
   public MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
@@ -67,12 +71,19 @@ public class SwerveModule {
       String name) { // add a zeroPosition thing
     this.isCan = true;
     c_encoder = new CANcoder(Can_ID_encoder, canNetwork);
+
+    CANcoderConfiguration cancoderConfig = new CANcoderConfiguration();
+    cancoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+    cancoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    c_encoder.getConfigurator().apply(cancoderConfig);
+
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 30;
     current.SupplyCurrentLimitEnable = true;
     driveMotor.getConfigurator().apply(current);
     angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);
+    
     this.name = name;
     driveMotor.setInverted(isInverted);
     if (isInverted) {
@@ -113,6 +124,9 @@ public class SwerveModule {
     angleMotor.setZeroAngle(getEncoderPosition());
   }
 
+  public double getAngleClamped(){
+    return angleMotor.getAngleClamped();
+  }
   /*
    * This method is used in Swerve Odometry
    */
@@ -122,24 +136,24 @@ public class SwerveModule {
 
     double driveOutput = m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
 
-    double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
+    //double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 
-    driveMotor.set(driveOutput);
-    angleMotor.setAngle(state.angle.getRadians());
+  
+    switch(angleMotor.setAngle(state.angle.getRadians())){
+      case Positive:
+          driveMotor.set(driveOutput);
+          break;
+      case Negative:
+        driveMotor.set(-driveOutput);
+        break;
+      default:
+        break;
+    }
+    
+
   }
 
   public double getEncoderPosition() {
-    if (!isCan && a_encoder != null) {
-      double pos = (a_encoder.getAbsolutePosition() - absolutePositionEncoderOffset);
-
-      while (pos < 0) {
-        pos += 1;
-      }
-      pos *= Math.PI * 2;
-      SmartDashboard.putNumber("ABS ENCODER POS", pos);
-      // SmartDashboard.putBoolean("code triggered", true);
-      return pos;
-    }
 
     return (c_encoder.getAbsolutePosition().getValue() * 2 * Math.PI)
         - absolutePositionEncoderOffset;

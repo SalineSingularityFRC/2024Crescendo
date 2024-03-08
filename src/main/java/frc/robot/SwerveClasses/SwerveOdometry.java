@@ -31,16 +31,16 @@ public class SwerveOdometry {
     gyro = subsystem.gyro;
     vectorKinematics[FL] =
         new Translation2d(
-            Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+            Constants.Measurement.WHEEL_BASE / 2, Constants.Measurement.TRACK_WIDTH / 2);
     vectorKinematics[FR] =
         new Translation2d(
-            Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
+            Constants.Measurement.WHEEL_BASE / 2, -Constants.Measurement.TRACK_WIDTH / 2);
     vectorKinematics[BL] =
         new Translation2d(
-            -Constants.Measurement.TRACK_WIDTH, Constants.Measurement.WHEELBASE);
+            -Constants.Measurement.WHEEL_BASE / 2, Constants.Measurement.TRACK_WIDTH / 2);
     vectorKinematics[BR] =
         new Translation2d(
-            -Constants.Measurement.TRACK_WIDTH, -Constants.Measurement.WHEELBASE);
+            -Constants.Measurement.WHEEL_BASE / 2, -Constants.Measurement.TRACK_WIDTH / 2);
 
     swerveKinematics =
         new SwerveDriveKinematics(
@@ -49,7 +49,7 @@ public class SwerveOdometry {
     swerveOdometry =
         new SwerveDriveOdometry(
             swerveKinematics,
-            gyro.getRotation2d().times(1),
+            new Rotation2d(subsystem.getRobotAngle()),
             new SwerveModulePosition[] {
               new SwerveModulePosition(
                   subsystem.swerveModules[FL].getPosition(),
@@ -65,12 +65,11 @@ public class SwerveOdometry {
                   new Rotation2d(subsystem.swerveModules[BR].getEncoderPosition())),
             },
             new Pose2d(0, 0, new Rotation2d()));
-    ;
   }
 
   public void update() {
     swerveOdometry.update(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -110,7 +109,7 @@ public double getY() {
 
   public void resetPosition() {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
@@ -130,7 +129,7 @@ public double getY() {
 
     public void setPosition(Pose2d pos) {
     swerveOdometry.resetPosition(
-        gyro.getRotation2d().times(1),
+        new Rotation2d(subsystem.getRobotAngle()),
         new SwerveModulePosition[] {
           new SwerveModulePosition(
               subsystem.swerveModules[FL].getPosition(),
