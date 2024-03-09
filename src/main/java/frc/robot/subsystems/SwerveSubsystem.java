@@ -129,22 +129,15 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     Supplier<ChassisSpeeds> supplier_chasis = () -> {
   
       ChassisSpeeds temp = getChassisSpeed();
-     // temp.vyMetersPerSecond = -temp.vyMetersPerSecond;
-      //temp.omegaRadiansPerSecond = -temp.omegaRadiansPerSecond;
-      SmartDashboard.putNumber("Chassis_PathPlanner_X", temp.vxMetersPerSecond);
-      SmartDashboard.putNumber("Chassis_PathPlanner_Y", temp.vyMetersPerSecond);
-      return temp; // Maybe come back to this later
+      return temp;
     };
     Supplier<Pose2d> supplier_position = () -> {
-      SmartDashboard.putNumber("PathPlanner_Odometry_X", odometry.position().getX());
-      SmartDashboard.putNumber("PathPlanner_Odometry_Y", odometry.position().getY());
-      SmartDashboard.putNumber("PathPlanner_Odometry_Angle", odometry.position().getRotation().getRadians());
-      return odometry.position(); // Maybe come back to this later
+
+      return odometry.position();
     };
     Consumer<Pose2d> consumer_position = pose -> {
-      //System.out.println("CONSUMER");
-      SmartDashboard.putNumber("CONSUMER", 0);
-      odometry.setPosition(pose); // Maybe come back to this later
+   
+      odometry.setPosition(pose); 
     };
 
     // SwerveModuleState[] modules =
@@ -212,28 +205,12 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         swerveModules[i].coast();
       }
       return;
-    } else {
-      SmartDashboard.putNumber("FL WHEEL", swerveModules[FL].getPosition());
-      SmartDashboard.putNumber("FR WHEEL", swerveModules[FR].getPosition());
-      SmartDashboard.putNumber("BL WHEEL", swerveModules[BL].getPosition());
-      SmartDashboard.putNumber("BR WHEEL", swerveModules[BR].getPosition());
-      // this is to drive straight
-    //   if (Math.abs(swerveRequest.rotation) < 0.05) {
-    //     if (targetAngle == Double.MAX_VALUE) {
-    //       targetAngle = getRobotAngle();
-    //     } else {
-    //       double difference = getRobotAngle() - targetAngle;
-    //       swerveRequest.rotation = difference;
-    //     }
-    //   } else {
-    //     targetAngle = Double.MAX_VALUE;
-    //   }
-    }
+    } 
 
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
     if (fieldCentric) {
-      double difference = -(currentRobotAngle % (2*Math.PI));//(startingAngle - currentRobotAngle) % (2 * Math.PI);
+      double difference = -(currentRobotAngle % (2*Math.PI));
       x = -swerveRequest.movement.y * Math.sin(difference)
           + swerveRequest.movement.x * Math.cos(difference);
       y = swerveRequest.movement.y * Math.cos(difference)
@@ -245,9 +222,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
 
-     SmartDashboard.putNumber("ODOMETRY X", odometry.position().getX());
-     SmartDashboard.putNumber("ODOMETRY Y", odometry.position().getY());
-    SmartDashboard.putNumber("ODOMETRY ROtation", odometry.position().getRotation().getRadians());
   }
 
   public ChassisSpeeds getChassisSpeed() {
@@ -255,10 +229,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   public void periodic(){
-   odometry.update();
-    SmartDashboard.putNumber("Get Angle Clamped [FL]", swerveModules[FL].angleMotor.getAngleClamped());
-    SmartDashboard.putNumber("Get Encoder Position [FL]", swerveModules[FL].getEncoderPosition());
-    SmartDashboard.putNumber(("GetRobotAngle"), getRobotAngle());
+    odometry.update();
   }
 
   public void disabledPeriodic(){
@@ -269,9 +240,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
    * Odometry
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
-    // The 2nd Parameter is for MaxSpeedMetersPerSecond
-    // Initial Value was 3
-    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
     swerveModules[FL].setDesiredState(desiredStates[0]);
     swerveModules[FR].setDesiredState(desiredStates[1]);
     swerveModules[BL].setDesiredState(desiredStates[2]);
@@ -279,10 +247,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   public SwerveModuleState[] getModuleStates() {
-    // The 2nd Parameter is for MaxSpeedMetersPerSecond
-    // Initial Value was 3
-    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
-
     SwerveModuleState[] states = new SwerveModuleState[4];
     states[FL] = swerveModules[FL].getState();
     states[FR] = swerveModules[FR].getState();
@@ -293,15 +257,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
 
-  public void setModuleState(SwerveModuleState desiredStates) {
-    // The 2nd Parameter is for MaxSpeedMetersPerSecond
-    // Initial Value was 3
-    // SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 3);
-    swerveModules[FL].setDesiredState(desiredStates);
-    swerveModules[FR].setDesiredState(desiredStates);
-    swerveModules[BL].setDesiredState(desiredStates);
-    swerveModules[BR].setDesiredState(desiredStates);
-  }
 
   /*
    * This function returns the angle (in radians) of the robot based on the value
