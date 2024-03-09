@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Teleop;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -7,12 +7,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // For moving the intake back during shooting
-public class TeleIntakeShootCommand extends Command {
+public class FinalShootCommand extends Command {
     private IntakeSubsystem intakeSubsystem;
     private ShooterSubsystem shooterSubsystem;
     private double initalPosition;
 
-    public TeleIntakeShootCommand(IntakeSubsystem intake, ShooterSubsystem shooter) {
+    public FinalShootCommand(IntakeSubsystem intake, ShooterSubsystem shooter) {
         intakeSubsystem = intake;
         shooterSubsystem = shooter;
         addRequirements(intakeSubsystem, shooter);

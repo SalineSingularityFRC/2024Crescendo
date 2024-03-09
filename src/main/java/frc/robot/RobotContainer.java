@@ -3,39 +3,27 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.AmpPositionCommand;
-import frc.robot.commands.AutonHomeCommand;
-import frc.robot.commands.AutonIntakeCommand;
-import frc.robot.commands.AutonMiddlePreShooter;
-import frc.robot.commands.AutonPreShootCommand;
-import frc.robot.commands.AutonShooterCommand;
-import frc.robot.commands.AutonSidePreShooter;
-import frc.robot.commands.ClimberDownCommand;
-import frc.robot.commands.ClimberUpCommand;
-import frc.robot.commands.DriveController;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.StartIntakeCommand;
-import frc.robot.commands.StartShootCommand;
-import frc.robot.commands.TeleopPreShootCommand;
-import frc.robot.commands.TeleopShootCommand;
+
+import frc.robot.commands.Auton.Intake;
+import frc.robot.commands.Auton.PreShooter;
+import frc.robot.commands.Teleop.AmpPositionCommand;
+import frc.robot.commands.Teleop.DriveController;
+import frc.robot.commands.Teleop.ShootCommand;
+import frc.robot.commands.Auton.Shooter;
+import frc.robot.commands.Auton.Home;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -45,12 +33,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-  // private BlueCenterCommand blueCenterCommand;
-  // private RedCenterCommand redCenterCommand;
-  // private LeftSideCommand leftSideCommand;
-  // private RightSideCommand rightSideCommand;
-  // private SwerveCommand swerveCommand;
-  // protected ClawPneumatics clawPneumatics;
+
   public SwerveSubsystem drive;
   protected Pigeon2 gyro;
   protected Limelight lime;
@@ -77,14 +60,14 @@ public class RobotContainer {
 
     configureBindings();
 
-    NamedCommands.registerCommand("Shoot", new AutonShooterCommand(shooter, intake, arm));
-    NamedCommands.registerCommand("Intake", new AutonIntakeCommand(shooter, intake, arm));
+    NamedCommands.registerCommand("Shoot", new Shooter(shooter, intake, arm));
+    NamedCommands.registerCommand("Intake", new Intake(shooter, intake, arm));
     NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
-    NamedCommands.registerCommand("Home", new AutonHomeCommand(shooter, intake, arm));
+    NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
-    NamedCommands.registerCommand("MiddlePreShoot", new AutonMiddlePreShooter(shooter, intake, arm));
-    NamedCommands.registerCommand("SidePreShoot", new AutonSidePreShooter(shooter, intake, arm));
-    NamedCommands.registerCommand("Wait", new WaitCommand(3));
+    NamedCommands.registerCommand("MiddlePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTONLMIDDLESHOOT));
+    NamedCommands.registerCommand("SidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTONSIDESHOOT));
+   
   
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     
@@ -105,36 +88,31 @@ public class RobotContainer {
     this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
 
 
-    //this.pathAutonChooser.setDefaultOption("3 - METER",  new PathPlannerAuto("New Auto"));
-
     SmartDashboard.putData("Path Choices", pathChooser);
     SmartDashboard.putData("Auton Choices", pathAutonChooser);
   }
 
   private void configureBindings() {
-    intake.setDefaultCommand(intake.stopIntaking());
+    //intake.setDefaultCommand(intake.stopIntaking());
     //shooter.setDefaultCommand(shooter.stopShooting());
     //shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
     climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
     armController.x().whileTrue(intake.startIntake());
+    armController.x().onFalse(intake.stopIntaking());
+
     armController.x().onTrue(shooter.setShooterBrake());
     armController.x().onFalse(shooter.setShooterCoast());
 
-    armController.a().whileTrue(intake.reverseIntake());
-       armController.b().whileTrue(new ShootCommand(shooter, intake, arm, drive));
 
-    
     armController.y().whileTrue(arm.shootTarget());
  
     armController.rightBumper().whileTrue(arm.pickupTarget());
     armController.leftBumper().whileTrue(arm.goHome());
 
     armController.povLeft().whileTrue(arm.ampTarget());
-
-    // driveController.povUp().whileTrue(
-      // new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
+    
     armController.povUp()
       .and(arm::isNotAtTop)
       .whileTrue(arm.moveArmForward());
@@ -148,42 +126,50 @@ public class RobotContainer {
 
 
     //DRIVE CONTROLLER
-    driveController.leftBumper().whileTrue(new ClimberUpCommand(climber, arm));
-    driveController.rightBumper().whileTrue(new ClimberDownCommand(climber, arm));
+    driveController.leftBumper().whileTrue(climber.moveClimberUp());
+    driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
+    //Moving Arm Positions
     driveController.x().onTrue(arm.shootTarget());
+    driveController.a().onTrue(arm.pickupTarget());
 
-     driveController.a().onTrue(arm.pickupTarget());
+    //Reverse Intake
+    driveController.b().whileTrue(intake.reverseIntake());
+    driveController.b().onFalse(intake.stopIntaking());
+
+    //Amp Shooting
+    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand()));
+    driveController.y().onFalse(shooter.stopShooting());
+
+    //Intaking 
     driveController.a()
       .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
+    driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
     
-    driveController.b().whileTrue(intake.reverseIntake());
-    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.startShooting()));
-
-    // driveController.leftTrigger().whileTrue(intake.startIntake());
-    // driveController.leftTrigger().onTrue(arm.pickupTarget());
-
-    driveController.leftTrigger().onTrue(new TeleopPreShootCommand(shooter, intake).andThen(shooter.teleopShootCommand()));
-
-    // driveController.leftTrigger().whileTrue(shooter.teleopShootCommand());
-   driveController.leftTrigger().onFalse(shooter.stopShooting());
   
-    driveController.rightTrigger().whileTrue(new TeleopShootCommand(shooter, intake, arm));
-    
+    //Teleop PreShooter
+    driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
+    driveController.leftTrigger().onFalse(shooter.stopShooting());
+  
+
+    //Teleop Shooting 
+    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));
     driveController.rightTrigger().onFalse(shooter.stopShooting());
+
+    //Reset Gyro
     driveController.back().whileTrue(drive.resetGyroCommand());
 
+
+    driveController.povUp().whileTrue(
+      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
+ 
     driveController.start()
-      .and(arm::isNotAtTop)
-      .whileTrue(arm.moveArmForward());
+      .and(arm::isNotAtBottom)
+      .whileTrue(arm.moveArmBackwards());
 
-    // driveController.leftTrigger()
-    //   .and(arm::isNotAtBottom)
-    //   .whileTrue(arm.moveArmBackwards());
-
+    //Driving with Joysticks default command
     drive.setDefaultCommand(
         new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4));
-    //armController.y().whileTrue(lime.scoreRight(drive));
   }
 
   public Command getAutonomousCommand() {

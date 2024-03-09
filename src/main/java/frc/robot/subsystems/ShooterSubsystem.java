@@ -54,7 +54,9 @@ public class ShooterSubsystem extends SubsystemBase {
         //shooterMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
         shooterMotor1.set(speed/90.0);
     }
+    
     WaitCommand wait = new WaitCommand(0.5);
+    
     public Command teleopShootCommand(){
         return run(
             () -> {
