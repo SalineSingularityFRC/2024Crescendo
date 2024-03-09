@@ -16,7 +16,7 @@ public class ReverseIntakeCommand extends Command {
 
     public void initialize(){
         this.initalPosition = intakeSubsystem.intakeMotor.getPosition().getValue();
-        SmartDashboard.putBoolean("Reverse Intake Command", false);
+        
     }
 
     public void execute() {
@@ -25,10 +25,7 @@ public class ReverseIntakeCommand extends Command {
 
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
-        if(pos - initalPosition <= -0.2){
-            SmartDashboard.putBoolean("Reverse Intake Command", true);
-        }
+   
         return (pos - initalPosition <= -0.2);
-        //return (intakeSubsystem.getIntakeSpeed() <= -Constants.Speed.INTAKE/10);
     }
 }

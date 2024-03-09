@@ -122,14 +122,14 @@ public class ShooterSubsystem extends SubsystemBase {
 public Command autonStartUpShooter(){
     return new FunctionalCommand(
     () -> {
-        SmartDashboard.putBoolean("Auton Start UP Shooter", false);
+       
     }, 
     () -> {
         //currentSpeed = ;
         setShooterSpeed(Constants.Speed.SHOOTER);
     },
     (__unused) -> {
-        SmartDashboard.putBoolean("Auton Start UP Shooter", true);
+       
     },
     () -> {
       return getShooterSpeed() >= Constants.Speed.SHOOTER * 0.4;

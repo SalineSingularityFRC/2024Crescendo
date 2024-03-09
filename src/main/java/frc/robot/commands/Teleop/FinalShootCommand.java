@@ -20,7 +20,7 @@ public class FinalShootCommand extends Command {
 
     public void initialize(){
         this.initalPosition = intakeSubsystem.intakeMotor.getPosition().getValue();
-        SmartDashboard.putBoolean("Intake Command", false);
+       
     }
 
     public void execute() {
@@ -30,9 +30,7 @@ public class FinalShootCommand extends Command {
 
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
-        if(pos - initalPosition >= 5){
-            SmartDashboard.putBoolean("Intake Command", true);
-        }
+   
         return (pos - initalPosition >= 5);
     }
 }
