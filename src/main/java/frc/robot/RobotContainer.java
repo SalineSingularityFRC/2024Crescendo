@@ -93,7 +93,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //intake.setDefaultCommand(intake.stopIntaking());
+    intake.setDefaultCommand(intake.stopIntaking());
     //shooter.setDefaultCommand(shooter.stopShooting());
     //shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
@@ -138,7 +138,7 @@ public class RobotContainer {
     driveController.b().onFalse(intake.stopIntaking());
 
     //Amp Shooting
-    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand()));
+    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand()).alongWith(intake.startIntake()));
     driveController.y().onFalse(shooter.stopShooting());
 
     //Intaking 
@@ -160,9 +160,12 @@ public class RobotContainer {
     driveController.back().whileTrue(drive.resetGyroCommand());
 
 
-    driveController.povUp().whileTrue(
-      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 0.25));
- 
+    driveController.povUp().onTrue(
+      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 1));
+    driveController.povDown().onTrue(
+      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4)
+    );
+
     driveController.start()
       .and(arm::isNotAtBottom)
       .whileTrue(arm.moveArmBackwards());

@@ -69,7 +69,7 @@ public final class Constants {
 
   public static final class Position {
     public static final class MainArm {
-      public static final double AMP = 44.168945;
+      public static final double AMP = 49.416016;
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
       public static final double AUTONSIDESHOOT = 11.942383;
@@ -135,10 +135,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.511963) * 2 * Math.PI;
-    public static final double FR = (0.295898) * 2 * Math.PI;
-    public static final double BL = (0.240967) * 2 * Math.PI;
-    public static final double BR = (0.169189) * 2 * Math.PI;
+    public static final double FL = (0.508789) * 2 * Math.PI;
+    public static final double FR = (0.299805) * 2 * Math.PI;
+    public static final double BL = (0.300293) * 2 * Math.PI;
+    public static final double BR = (0.169678) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
