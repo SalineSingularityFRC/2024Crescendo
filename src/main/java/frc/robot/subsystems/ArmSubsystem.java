@@ -112,12 +112,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void periodic(){
-     SmartDashboard.putNumber("Arm Motor Position", armMotorPosition);
-     if (this.getCurrentCommand() != null) {
-      SmartDashboard.putString("Arm Command", this.getCurrentCommand().getName());
-     } else {
-      SmartDashboard.putString("Arm Command", "null");
-     }
+
   }
 
   public Command stopArm() {
@@ -217,7 +212,6 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public boolean isAtBottom(){
-    SmartDashboard.putBoolean("Is at bottom ", armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround);
     return armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
   }
 

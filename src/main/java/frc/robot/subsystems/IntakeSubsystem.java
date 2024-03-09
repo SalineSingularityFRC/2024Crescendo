@@ -35,8 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void setIntakeSpeed(double speed) {
-    SmartDashboard.putNumber("Intake Val", speed);
-    //intakeMotor.set(speed/90.0);
+  
     intakeMotor.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.05).withSlot(1));
   }
 

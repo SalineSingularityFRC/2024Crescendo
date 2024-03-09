@@ -12,6 +12,7 @@ public class ShootCommand extends SequentialCommandGroup {
    public ShootCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
+        shooter.setShooterCoast(),
         new StartShootCommand(shooter),
         new FinalShootCommand(intake, shooter), //Start's the Intake
         intake.stopIntaking()
