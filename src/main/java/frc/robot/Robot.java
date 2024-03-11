@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 
     //teleopDrive = new Gamepad(Constants.Gamepad.Controller.DRIVE, Constants.Gamepad.Controller.ARM);
     
-    
+
     m_robotContainer =
         new RobotContainer();
    
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
   

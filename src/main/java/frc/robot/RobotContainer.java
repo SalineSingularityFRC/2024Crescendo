@@ -5,7 +5,7 @@ package frc.robot;
 
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -78,6 +78,7 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("Red-Left", "Blue-Right");
     this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
     this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
+    this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
 
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
@@ -93,7 +94,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //intake.setDefaultCommand(intake.stopIntaking());
+    intake.setDefaultCommand(intake.stopIntaking());
     //shooter.setDefaultCommand(shooter.stopShooting());
     //shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
@@ -180,7 +181,12 @@ public class RobotContainer {
 
     // Create a path following command using AutoBuilder. This will also trigger event markers.
     return new PathPlannerAuto(this.pathAutonChooser.getSelected());
-   //return AutoBuilder.followPathWithEvents(pathChooser.getSelected());
+    
+    // PathPlannerPath path = PathPlannerPath.fromPathFile("1");
+
+    // // Create a path following command using AutoBuilder. This will also trigger event markers.
+    // return AutoBuilder.followPath(path);
+
   }
 
 

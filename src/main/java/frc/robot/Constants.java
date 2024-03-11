@@ -135,14 +135,14 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.508789) * 2 * Math.PI;
-    public static final double FR = (0.299805) * 2 * Math.PI;
-    public static final double BL = (0.300293) * 2 * Math.PI;
-    public static final double BR = (0.169678) * 2 * Math.PI;
+    public static final double FL = (0.508057) * 2 * Math.PI;
+    public static final double FR = (0.295166) * 2 * Math.PI;
+    public static final double BL = (0.268799) * 2 * Math.PI;
+    public static final double BR = (0.169189) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
-    public static final double DRIVE = 8.14;
+    public static final double DRIVE = 6.75;
     public static final double ANGLE =
         150.0/7.0;//12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
@@ -190,7 +190,7 @@ public final class Constants {
 
   public static final class PidGains {
     public static final class PathPlanner {
-      public static final PID translation = new PID(5.5, 0.055, 0.02);
+      public static final PID translation = new PID(9, 0, 0.0);
       public static final PID rotation = new PID(.4, 0, .004);
     }
     
@@ -225,7 +225,7 @@ public final class Constants {
 
     public static final class SwerveModule {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
-      public static final PID TURNING_PID_CONTROLLER = new PID(7, 0, 0.3, 0);
+      public static final PID TURNING_PID_CONTROLLER = new PID(7, 0.3, 0.3, .75);
     }
   }
 }
