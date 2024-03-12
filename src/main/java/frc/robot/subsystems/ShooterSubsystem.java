@@ -53,9 +53,10 @@ public class ShooterSubsystem extends SubsystemBase {
         slot1ConfigsShooter2.kS = motorShooter21S;
 
         CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-        current.SupplyCurrentLimit = 50;
+        current.SupplyCurrentLimit = 20;
         current.SupplyCurrentLimitEnable = true;
         shooterMotor1.getConfigurator().apply(current);
+        current.SupplyCurrentLimit = 40;
         shooterMotor2.getConfigurator().apply(current);
         
         shooterMotor1.getConfigurator().apply(slot1Configs);

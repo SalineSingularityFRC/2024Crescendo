@@ -297,6 +297,24 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       });
   }
 
+
+    public Command xMode(){
+      return runOnce(
+      () -> {
+          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+          SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+          modules[FL].angle = new Rotation2d(Math.PI / 4.0);
+          modules[FR].angle = new Rotation2d((5.0* Math.PI) / 4.0);
+          modules[BR].angle = new Rotation2d((-Math.PI) / 4.0);
+          modules[BL].angle = new Rotation2d((-5.0* Math.PI) / 4.0);
+          modules[FL].speedMetersPerSecond = 0.02;
+          modules[FR].speedMetersPerSecond = 0.02;
+          modules[BR].speedMetersPerSecond = 0.02;
+          modules[BL].speedMetersPerSecond = 0.02;
+          setModuleStates(modules);
+      });
+    }
+
     public Command stopDriving(){
       return runOnce(
       () -> {

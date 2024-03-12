@@ -154,7 +154,7 @@ public class RobotContainer {
   
 
     //Teleop Shooting 
-    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));
+    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));//.alongWith(drive.xMode()));
     driveController.rightTrigger().onFalse(shooter.stopShooting());
 
     //Reset Gyro
