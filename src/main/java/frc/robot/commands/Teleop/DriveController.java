@@ -1,6 +1,8 @@
 package frc.robot.commands.Teleop;
 
 import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -21,6 +23,9 @@ public class DriveController extends Command {
         return Math.round(number * 100.0) / 100.0;
     }
     public void execute() {
+        SmartDashboard.putNumber("Input X", fixDecimalTo2Places(-m_x.getAsDouble()));
+        SmartDashboard.putNumber("Input Y", fixDecimalTo2Places(-m_y.getAsDouble()));
+        SmartDashboard.putNumber("Input Rotation", fixDecimalTo2Places(-m_rotation.getAsDouble()));
         m_swerve.drive(new SwerveSubsystem.SwerveRequest(fixDecimalTo2Places(-m_rotation.getAsDouble() * multiplier),fixDecimalTo2Places(-m_x.getAsDouble() * multiplier),fixDecimalTo2Places(-m_y.getAsDouble()) * multiplier), true);
     }
   

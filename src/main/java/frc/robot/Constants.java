@@ -135,9 +135,9 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.508057) * 2 * Math.PI;
-    public static final double FR = (0.295166) * 2 * Math.PI;
-    public static final double BL = (0.268799) * 2 * Math.PI;
+    public static final double FL = (0.504639) * 2 * Math.PI;
+    public static final double FR = (0.302002) * 2 * Math.PI;
+    public static final double BL = (0.088623) * 2 * Math.PI;
     public static final double BR = (0.169189) * 2 * Math.PI;
   }
 
@@ -225,7 +225,7 @@ public final class Constants {
 
     public static final class SwerveModule {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
-      public static final PID TURNING_PID_CONTROLLER = new PID(7, 0.3, 0.3, .75);
+      public static final PID TURNING_PID_CONTROLLER = new PID(7, 0, 0.3, 0);
     }
   }
 }

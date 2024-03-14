@@ -79,6 +79,7 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
     this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
     this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
+    this.pathAutonChooser.addOption("Blue-Left-2-Note", "Blue-Left-1-Note");
 
     this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
     this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
@@ -147,6 +148,8 @@ public class RobotContainer {
       .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
     driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
     
+    //INVERT
+    driveController.povLeft().onTrue(drive.xMode());
   
     //Teleop PreShooter
     driveController.leftTrigger().onTrue(shooter.teleopShootCommand());

@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-  
+    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
     CommandScheduler.getInstance().run();
   }
 

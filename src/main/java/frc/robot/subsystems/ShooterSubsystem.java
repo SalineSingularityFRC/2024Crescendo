@@ -66,6 +66,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooterSpeed(double speed) {
+        SmartDashboard.putNumber("Ideal Speed", speed);
+        SmartDashboard.putNumber("Shooter 1 Speed", getShooter1Speed());
+        SmartDashboard.putNumber("Ideal Speed", getShooter2Speed());
         shooterMotor1.setControl(velocityVoltage.withVelocity(speed)
             .withFeedForward(0.05).withSlot(1));
 
@@ -128,7 +131,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public boolean shooterUpToSpeed(double multiplier) {
         return (getShooter1Speed() >= Constants.Speed.SHOOTER * multiplier) 
-            && (getShooter2Speed() >= Constants.Speed.SHOOTER * multiplier); 
+            && (getShooter2Speed() >= Constants.Speed.SHOOTER * multiplier) 
+            && Math.abs(getShooter1Speed() - getShooter2Speed()) <= 10;
     }
 
     public Command stopShooting() {
