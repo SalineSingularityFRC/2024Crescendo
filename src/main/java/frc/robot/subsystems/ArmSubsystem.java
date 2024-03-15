@@ -226,7 +226,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor1.setControl(
         positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.03 * 12).withSlot(0));
   }
-
+  
+  public double getPosition(){
+    return armMotor1.getPosition().getValueAsDouble();
+  }
+  
   public Command goHome(){
     return new FunctionalCommand(
     () -> {

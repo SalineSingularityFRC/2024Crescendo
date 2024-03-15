@@ -144,13 +144,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 });
     }
 
-    public Command startShooting() {
-        return runOnce(
-                () -> {
-                    currentSpeed = (Constants.Speed.SHOOTER);
-                });
-    }
-
+ 
 public Command autonStartUpShooter(){
     return new FunctionalCommand(
     () -> {

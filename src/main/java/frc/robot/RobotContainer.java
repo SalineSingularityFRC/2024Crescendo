@@ -50,7 +50,7 @@ public class RobotContainer {
   public RobotContainer() {
    
     arm = new ArmSubsystem();
-   // lime = new Limelight();
+    lime = new Limelight();
     drive = new SwerveSubsystem();
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
@@ -125,7 +125,7 @@ public class RobotContainer {
 
     armController.back().onTrue(drive.rotate90());
 
-
+    armController.povRight().whileTrue(lime.limelightScore(arm, shooter));
 
     //DRIVE CONTROLLER
     driveController.leftBumper().whileTrue(climber.moveClimberUp());
