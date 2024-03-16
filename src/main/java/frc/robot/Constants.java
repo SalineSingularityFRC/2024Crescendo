@@ -69,11 +69,15 @@ public final class Constants {
 
   public static final class Position {
     public static final class MainArm {
+      public static final class AUTON {
+        public static final double CLOSE = 10;
+        public static final double SIDE = 11.942383; //Get Rid of
+        public static final double MIDDLESIDE = 20;
+      }
+
       public static final double AMP = 49.416016;
       public static final double SHOOTING = 8.5;
       public static final double PICKUP = 0;
-      public static final double AUTONSIDESHOOT = 11.942383;
-      public static final double AUTONLMIDDLESHOOT = 10;
       public static final double CLIMBER = 0;
     }
     

@@ -267,7 +267,9 @@ public class Limelight extends SubsystemBase{
       //6ft-6inch -> 1.9812 Meters
       //targetPoseZ returns distance away from april tag
       if(targetPoseZ == 0) return false;
-
+      //Robot Length from Limelight to the shooter on the ground
+      //Ours is measured at 1.9431
+      targetPoseZ += 0;
       double theta = Math.atan2(1.9812, targetPoseZ);
       double armPos = a.getPosition() * 2 * Math.PI;
       //something to tune our shooting

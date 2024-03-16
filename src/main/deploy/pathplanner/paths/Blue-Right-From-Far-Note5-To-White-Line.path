@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.25,
-        "y": 4.4
+        "x": 8.13,
+        "y": 0.78
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1648248648609973,
-        "y": 3.98203506562684
+        "x": 8.180000000000001,
+        "y": 0.78
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Far Note5"
     },
     {
       "anchor": {
-        "x": 2.6249994647282993,
-        "y": 4.101006107957202
+        "x": 1.9066343840619484,
+        "y": 4.0985175521129396
       },
       "prevControl": {
-        "x": 2.7249994647282993,
-        "y": 4.101006107957202
+        "x": 0.9066343840619484,
+        "y": 4.0985175521129396
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,21 +32,21 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.7,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 1.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": true
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue-Right",
   "previewStartingState": {
-    "rotation": -55.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

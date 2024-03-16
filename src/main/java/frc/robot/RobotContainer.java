@@ -65,9 +65,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
     NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
-    NamedCommands.registerCommand("MiddlePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTONLMIDDLESHOOT));
-    NamedCommands.registerCommand("SidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTONSIDESHOOT));
-   
+    NamedCommands.registerCommand("ClosePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.CLOSE));
+    NamedCommands.registerCommand("SidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.SIDE));
+    NamedCommands.registerCommand("MiddleSidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.MIDDLESIDE));
   
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     

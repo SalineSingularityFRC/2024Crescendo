@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5,
-      "y": 3.9
+      "x": 0.84,
+      "y": 6.6
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -16,9 +16,9 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "wait",
                 "data": {
-                  "pathName": "Blue-Right-Inital"
+                  "waitTime": 1.5
                 }
               },
               {
@@ -33,7 +33,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Home"
+            "name": "ClosePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
@@ -43,45 +49,50 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "SidePreShoot"
+                  "name": "Intake"
                 }
               },
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "StopDriving"
+                  "pathName": "Blue-Left-Inital"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Blue-Left-Angle-Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MiddleSidePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
           "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "StopDriving"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Right-Second"
+                  "pathName": "Blue-Left-To-Far-Note1"
                 }
               },
               {
@@ -100,22 +111,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Blue-Right-Final"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "SidePreShoot"
-                }
-              }
-            ]
+            "pathName": "Blue-Left-From-Far-Note1-To-Middle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MiddleSidePreShoot"
           }
         },
         {
