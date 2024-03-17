@@ -12,83 +12,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Home"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SpeakerSidePreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BlueLeft-From-Speaker-To-CloseNote1"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopIntake"
+            "pathName": "BlueLeft-From-Speaker-To-CloseNote1"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "BlueLeft-From-CloseNote1-To-WhiteLine"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDriving"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WhiteLineSidePreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         }
       ]
