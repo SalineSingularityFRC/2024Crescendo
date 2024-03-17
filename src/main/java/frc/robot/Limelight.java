@@ -79,7 +79,7 @@ public class Limelight extends SubsystemBase{
     targetPoseZ = targetspace.getDoubleArray(new double [6])[2]; // pointing out of the april tag
     targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
-    limeLatency = botpose.getDoubleArray(new double[6])[6];
+    //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
     PID drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
