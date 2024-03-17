@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.2,
-        "y": 7.45
+        "x": 0.0,
+        "y": 0.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.299999999999999,
-        "y": 7.45
+        "x": 0.05,
+        "y": 0.0
       },
       "isLocked": false,
-      "linkedName": "Far Note1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.84,
-        "y": 7.00011877397313
+        "x": 0.0,
+        "y": 0.0
       },
       "prevControl": {
-        "x": 2.7400517818172427,
-        "y": 6.996901060174181
+        "x": -0.05,
+        "y": 0.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Middle"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": 0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 37.0,
+    "rotation": 90.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue-Left",
+  "folder": "Test Paths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

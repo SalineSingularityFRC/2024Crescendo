@@ -12,9 +12,16 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "1 Meter"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "1 Meter - 90 Degree Spin"
+                }
+              }
+            ]
           }
         }
       ]

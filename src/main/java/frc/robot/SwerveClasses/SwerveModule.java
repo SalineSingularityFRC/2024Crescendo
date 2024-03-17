@@ -104,7 +104,8 @@ public class SwerveModule {
   }
 
   public void coast() {
-    driveMotor.set(0); // this is for when the joystick is not being moved at all
+    //driveMotor.set(0); // this is for when the joystick is not being moved at all
+    driveMotor.stopMotor();
   }
 
   /*

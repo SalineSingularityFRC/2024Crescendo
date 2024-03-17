@@ -132,7 +132,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       return temp;
     };
     Supplier<Pose2d> supplier_position = () -> {
-
+      SmartDashboard.putNumber("Rotation", odometry.getRotation());
       return odometry.position();
     };
     Consumer<Pose2d> consumer_position = pose -> {
@@ -195,10 +195,14 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at
     // neutral position
-      if (Math.abs(swerveRequest.movement.x) < 0.05
-        && Math.abs(swerveRequest.movement.y) < 0.05
+      SmartDashboard.putNumber("Swerve X: ", swerveRequest.movement.x);
+      SmartDashboard.putNumber("Swerve Y: ", swerveRequest.movement.y);
+      SmartDashboard.putNumber("Swerve R: ", swerveRequest.rotation);
+      if (Math.abs(swerveRequest.movement.x) < 0.07
+        && Math.abs(swerveRequest.movement.y) < 0.07
         && Math.abs(swerveRequest.rotation) < 0.05) {         
-
+      
+      
       targetAngle = Double.MAX_VALUE;
 
       for (int i = 0; i < swerveModules.length; i++) {

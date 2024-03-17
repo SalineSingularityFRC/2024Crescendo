@@ -3,56 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.84,
-        "y": 7.00011877397313
+        "x": 1.9066343840619484,
+        "y": 4.0985175521129396
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.6477410241699655,
-        "y": 7.084147600467181
+        "x": 1.956542808893508,
+        "y": 4.095492799092845
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "White Line Right"
     },
     {
       "anchor": {
-        "x": 7.0,
-        "y": 7.4391844317203555
+        "x": 1.3,
+        "y": 4.0985175521129396
       },
       "prevControl": {
-        "x": 5.997785637007838,
-        "y": 7.4391844317203555
+        "x": 1.24,
+        "y": 4.0985175521129396
       },
       "nextControl": {
-        "x": 7.9810032021887904,
-        "y": 7.4391844317203555
+        "x": 1.35,
+        "y": 4.0985175521129396
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.13,
-        "y": 7.43359505992548
+        "x": 2.25,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 7.130000000000001,
-        "y": 7.43359505992548
+        "x": 1.6586453940142873,
+        "y": 4.099021278991409
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Far Note1"
+      "linkedName": "Close Note3"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 0.4,
-      "rotationDegrees": 45.0,
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
@@ -70,9 +65,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue-Left",
+  "folder": "Blue-Right",
   "previewStartingState": {
-    "rotation": 45.0,
+    "rotation": -53.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

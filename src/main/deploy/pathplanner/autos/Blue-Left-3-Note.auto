@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.84,
-      "y": 6.6
+      "x": 0.69,
+      "y": 6.7
     },
     "rotation": 60.0
   },
@@ -18,7 +18,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.5
+                  "waitTime": 3.0
                 }
               },
               {
@@ -43,7 +43,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -70,13 +70,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue-Left-Angle-Shoot"
+            "pathName": "Blue-Left-From-Close-Note1-To-White-Line"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "MiddleSidePreShoot"
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WhiteLineRightPreShoot"
           }
         },
         {
@@ -86,13 +92,13 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Left-To-Far-Note1"
+                  "pathName": "Blue-Left-From-White-Line-To-Far-Note1"
                 }
               },
               {
@@ -114,6 +120,12 @@
           "type": "path",
           "data": {
             "pathName": "Blue-Left-From-Far-Note1-To-Middle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
           }
         },
         {

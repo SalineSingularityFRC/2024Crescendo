@@ -70,9 +70,10 @@ public final class Constants {
   public static final class Position {
     public static final class MainArm {
       public static final class AUTON {
-        public static final double CLOSE = 10;
-        public static final double SIDE = 11.942383; //Get Rid of
-        public static final double MIDDLESIDE = 20;
+        public static final double CLOSE = 10; // Touching the Speaker
+        public static final double SIDE = 11.942383; // Not actually used in current autons
+        public static final double MIDDLESIDE = 18; // Shooting at the Close Note1 or Close Note3
+        public static final double WHITELINERIGHT = 15.5; // Shooting at the right line
       }
 
       public static final double AMP = 49.416016;
@@ -139,10 +140,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.504639) * 2 * Math.PI;
+    public static final double FL = (0.510986) * 2 * Math.PI;
     public static final double FR = (0.302002) * 2 * Math.PI;
-    public static final double BL = (0.088623) * 2 * Math.PI;
-    public static final double BR = (0.169189) * 2 * Math.PI;
+    public static final double BL = (0.025879) * 2 * Math.PI;
+    public static final double BR = (0.173096) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -150,6 +151,7 @@ public final class Constants {
     public static final double ANGLE =
         150.0/7.0;//12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
+    public static final double ARM = 45.0;
     public static final int SMALL = 7;
   }
 
@@ -171,7 +173,7 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR =
         1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
+    public static final double SHOOTER = 105; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
     public static final double CLIMBER = 70;
@@ -195,7 +197,7 @@ public final class Constants {
   public static final class PidGains {
     public static final class PathPlanner {
       public static final PID translation = new PID(9, 0, 0.0);
-      public static final PID rotation = new PID(.4, 0, .004);
+      public static final PID rotation = new PID(1.5, 0.0, .004);
     }
     
     public static final class Limelight {

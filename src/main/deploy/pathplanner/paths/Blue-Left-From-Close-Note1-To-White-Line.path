@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.84,
-        "y": 7.0
+        "x": 1.91,
+        "y": 6.9
       },
       "prevControl": {
-        "x": 2.7399999999999998,
-        "y": 7.0
+        "x": 1.8099999999999998,
+        "y": 6.9
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "White Line Left"
     }
   ],
   "rotationTargets": [],
@@ -34,12 +34,12 @@
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularVelocity": 300.0,
+    "maxAngularAcceleration": 500.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 45.0,
+    "rotation": 37.0,
     "rotateFast": false
   },
   "reversed": false,
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

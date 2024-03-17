@@ -228,7 +228,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
   
   public double getPosition(){
-    return armMotor1.getPosition().getValueAsDouble();
+    return (armMotor1.getPosition().getValue() * 2 * Math.PI) / Constants.MotorGearRatio.ARM;
   }
   
   public Command goHome(){

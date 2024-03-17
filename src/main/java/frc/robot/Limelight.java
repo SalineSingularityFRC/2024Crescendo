@@ -271,7 +271,7 @@ public class Limelight extends SubsystemBase{
       //Ours is measured at 1.9431
       targetPoseZ += 0;
       double theta = Math.atan2(1.9812, targetPoseZ);
-      double armPos = a.getPosition() * 2 * Math.PI;
+      double armPos = a.getPosition();
       //something to tune our shooting
       double modifier = 0;
       return (armPos + modifier) >= theta;

@@ -68,6 +68,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ClosePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.CLOSE));
     NamedCommands.registerCommand("SidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.SIDE));
     NamedCommands.registerCommand("MiddleSidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.MIDDLESIDE));
+    NamedCommands.registerCommand("WhiteLineRightPreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.WHITELINERIGHT));
   
     this.pathChooser = new SendableChooser<PathPlannerPath>();
     
@@ -79,15 +80,16 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
     this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
     this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
-    this.pathAutonChooser.addOption("Blue-Left-2-Note", "Blue-Left-1-Note");
+    this.pathAutonChooser.addOption("Blue-Left-2-Note", "Blue-Left-2-Note");
+    this.pathAutonChooser.addOption("Blue-Left-3-Note", "Blue-Left-3-Note");
 
-    this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
-    this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
-    this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
-    this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
-    this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
-    this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
-    this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
+    // this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter"));
+    // this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
+    // this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
+    // this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
+    // this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
+    // this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
+    // this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
 
 
     SmartDashboard.putData("Path Choices", pathChooser);
