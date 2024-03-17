@@ -3,13 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
-
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,7 +31,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-
   public SwerveSubsystem drive;
   protected Pigeon2 gyro;
   protected Limelight lime;
@@ -46,9 +43,8 @@ public class RobotContainer {
   private SendableChooser<PathPlannerPath> pathChooser;
   private SendableChooser<String> pathAutonChooser;
 
-
   public RobotContainer() {
-   
+
     arm = new ArmSubsystem();
     lime = new Limelight();
     drive = new SwerveSubsystem();
@@ -65,13 +61,20 @@ public class RobotContainer {
     NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
     NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
-    NamedCommands.registerCommand("ClosePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.CLOSE));
-    NamedCommands.registerCommand("SidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.SIDE));
-    NamedCommands.registerCommand("MiddleSidePreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.MIDDLESIDE));
-    NamedCommands.registerCommand("WhiteLineRightPreShoot", new PreShooter(shooter, intake, arm, Constants.Position.MainArm.AUTON.WHITELINERIGHT));
-  
+
+    NamedCommands.registerCommand("SpeakerSidePreShoot",
+        new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.Speaker.SIDE));
+    NamedCommands.registerCommand("SpeakerMiddlePreShoot",
+        new PreShooter(shooter, intake, arm, Constants.Position.MainArm.SHOOTING));
+    NamedCommands.registerCommand("CloseNoteSidePreShoot",
+        new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.CloseNote.SIDE));
+    NamedCommands.registerCommand("WhiteLineSidePreShoot",
+        new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.WhiteLine.SIDE));
+    NamedCommands.registerCommand("WhiteLineMiddlePreShoot",
+        new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.WhiteLine.MIDDLE));
+
     this.pathChooser = new SendableChooser<PathPlannerPath>();
-    
+
     this.pathAutonChooser = new SendableChooser<String>();
     this.pathAutonChooser.setDefaultOption("Blue-Left", "Blue-Left");
     this.pathAutonChooser.addOption("Blue-Middle", "Blue-Middle");
@@ -83,14 +86,20 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("Blue-Left-2-Note", "Blue-Left-2-Note");
     this.pathAutonChooser.addOption("Blue-Left-3-Note", "Blue-Left-3-Note");
 
-    // this.pathChooser.setDefaultOption("1 Meter Without Spin", PathPlannerPath.fromPathFile("1 Meter"));
-    // this.pathChooser.addOption("1 Meter Without Spin Y", PathPlannerPath.fromPathFile("1 Meter Without Spin"));
-    // this.pathChooser.addOption("3 Meter Without Spin", PathPlannerPath.fromPathFile("3 Meter Without Spin"));
-    // this.pathChooser.addOption("1 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
-    // this.pathChooser.addOption("3 Meter - 90 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
-    // this.pathChooser.addOption("1 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
-    // this.pathChooser.addOption("3 Meter - 180 Degree Spin", PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
-
+    // this.pathChooser.setDefaultOption("1 Meter Without Spin",
+    // PathPlannerPath.fromPathFile("1 Meter"));
+    // this.pathChooser.addOption("1 Meter Without Spin Y",
+    // PathPlannerPath.fromPathFile("1 Meter Without Spin"));
+    // this.pathChooser.addOption("3 Meter Without Spin",
+    // PathPlannerPath.fromPathFile("3 Meter Without Spin"));
+    // this.pathChooser.addOption("1 Meter - 90 Degree Spin",
+    // PathPlannerPath.fromPathFile("1 Meter - 90 Degree Spin"));
+    // this.pathChooser.addOption("3 Meter - 90 Degree Spin",
+    // PathPlannerPath.fromPathFile("3 Meter - 90 Degree Spin"));
+    // this.pathChooser.addOption("1 Meter - 180 Degree Spin",
+    // PathPlannerPath.fromPathFile("1 Meter - 180 Degree Spin"));
+    // this.pathChooser.addOption("3 Meter - 180 Degree Spin",
+    // PathPlannerPath.fromPathFile("3 Meter - 180 Degree Spin"));
 
     SmartDashboard.putData("Path Choices", pathChooser);
     SmartDashboard.putData("Auton Choices", pathAutonChooser);
@@ -98,8 +107,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     intake.setDefaultCommand(intake.stopIntaking());
-    //shooter.setDefaultCommand(shooter.stopShooting());
-    //shooter.setDefaultCommand();
+    // shooter.setDefaultCommand(shooter.stopShooting());
+    // shooter.setDefaultCommand();
     arm.setDefaultCommand(arm.maintainArm());
     climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
@@ -109,90 +118,91 @@ public class RobotContainer {
     armController.x().onTrue(shooter.setShooterBrake());
     armController.x().onFalse(shooter.setShooterCoast());
 
-
     armController.y().whileTrue(arm.shootTarget());
- 
+
     armController.rightBumper().whileTrue(arm.pickupTarget());
     armController.leftBumper().whileTrue(arm.goHome());
 
     armController.povLeft().whileTrue(arm.ampTarget());
-    
+
     armController.povUp()
-      .and(arm::isNotAtTop)
-      .whileTrue(arm.moveArmForward());
+        .and(arm::isNotAtTop)
+        .whileTrue(arm.moveArmForward());
 
     armController.povDown()
-      .and(arm::isNotAtBottom)
-      .whileTrue(arm.moveArmBackwards());
+        .and(arm::isNotAtBottom)
+        .whileTrue(arm.moveArmBackwards());
 
     armController.back().onTrue(drive.rotate90());
 
     armController.povRight().whileTrue(lime.limelightScore(arm, shooter));
 
-    //DRIVE CONTROLLER
+    // DRIVE CONTROLLER
     driveController.leftBumper().whileTrue(climber.moveClimberUp());
     driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
-    //Moving Arm Positions
+    // Moving Arm Positions
     driveController.x().onTrue(arm.shootTarget());
     driveController.a().onTrue(arm.pickupTarget());
 
-    //Reverse Intake
+    // Reverse Intake
     driveController.b().whileTrue(intake.reverseIntake());
     driveController.b().onFalse(intake.stopIntaking());
 
-    //Amp Shooting
-    driveController.y().whileTrue(new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand()).alongWith(intake.startIntake()));
+    // Amp Shooting
+    driveController.y().whileTrue(
+        new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand()).alongWith(intake.startIntake()));
     driveController.y().onFalse(shooter.stopShooting());
 
-    //Intaking 
+    // Intaking
     driveController.a()
-      .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
+        .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
     driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
-    
-    //INVERT
+
+    // INVERT
     driveController.povLeft().onTrue(drive.xMode());
-  
-    //Teleop PreShooter
+
+    // Teleop PreShooter
     driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
     driveController.leftTrigger().onFalse(shooter.stopShooting());
-  
 
-    //Teleop Shooting 
-    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));//.alongWith(drive.xMode()));
+    // Teleop Shooting
+    driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));// .alongWith(drive.xMode()));
     driveController.rightTrigger().onFalse(shooter.stopShooting());
 
-    //Reset Gyro
+    // Reset Gyro
     driveController.back().whileTrue(drive.resetGyroCommand());
 
-
     driveController.povUp().onTrue(
-      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 1));
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX,
+            1));
     driveController.povDown().onTrue(
-      new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4)
-    );
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX,
+            4));
 
     driveController.start()
-      .and(arm::isNotAtBottom)
-      .whileTrue(arm.moveArmBackwards());
+        .and(arm::isNotAtBottom)
+        .whileTrue(arm.moveArmBackwards());
 
-    //Driving with Joysticks default command
+    // Driving with Joysticks default command
     drive.setDefaultCommand(
-        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX, 4));
+        new DriveController(drive, driveController::getRightX, driveController::getLeftY, driveController::getLeftX,
+            4));
   }
 
   public Command getAutonomousCommand() {
     // Load the path you want to follow using its name in the GUI
 
-    // Create a path following command using AutoBuilder. This will also trigger event markers.
+    // Create a path following command using AutoBuilder. This will also trigger
+    // event markers.
     return new PathPlannerAuto(this.pathAutonChooser.getSelected());
-    
+
     // PathPlannerPath path = PathPlannerPath.fromPathFile("1");
 
-    // // Create a path following command using AutoBuilder. This will also trigger event markers.
+    // // Create a path following command using AutoBuilder. This will also trigger
+    // event markers.
     // return AutoBuilder.followPath(path);
 
   }
-
 
 }

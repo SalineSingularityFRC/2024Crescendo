@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.78,
-      "y": 4.44
+      "x": 0.69,
+      "y": 6.7
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.5
+                  "waitTime": 2.5
                 }
               },
               {
@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ClosePreShoot"
+            "name": "SpeakerSidePreShoot"
           }
         },
         {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Right-Inital"
+                  "pathName": "BlueLeft-From-Speaker-To-CloseNote1"
                 }
               }
             ]
@@ -70,13 +70,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue-Right-From-Far-Note5-To-White-Line"
+            "pathName": "BlueLeft-From-CloseNote1-To-WhiteLine"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WhiteLineRightPreShoot"
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WhiteLineSidePreShoot"
           }
         },
         {
@@ -90,15 +96,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Intake"
+                  "pathName": "BlueLeft-From-WhiteLine-To-FarNote1"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Blue-Right-From-White-Line-To-Close-Note3"
+                  "name": "Intake"
                 }
               }
             ]
@@ -113,13 +119,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue-Right-Close-Note3-To-White-Line"
+            "pathName": "BlueLeft-From-FarNote1-To-CloseNote1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WhiteLineRightPreShoot"
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CloseNoteSidePreShoot"
           }
         },
         {

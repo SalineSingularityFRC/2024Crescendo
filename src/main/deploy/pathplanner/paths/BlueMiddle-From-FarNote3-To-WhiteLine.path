@@ -3,32 +3,54 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2992745772536796,
-        "y": 5.55
+        "x": 8.2,
+        "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.299274577253682,
-        "y": 5.55
+        "x": 7.40438248370538,
+        "y": 4.193622770614123
+      },
+      "isLocked": false,
+      "linkedName": "Far Note3"
+    },
+    {
+      "anchor": {
+        "x": 4.8202588583478265,
+        "y": 4.515030998102366
+      },
+      "prevControl": {
+        "x": 5.530812757851323,
+        "y": 3.811388222327347
+      },
+      "nextControl": {
+        "x": 4.10970495884433,
+        "y": 5.218673773877387
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0,
+        "x": 2.7,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.7,
+        "x": 3.3000000000000003,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Close Note2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -20.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -43,7 +65,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue-Center",
+  "folder": "Blue-Middle",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

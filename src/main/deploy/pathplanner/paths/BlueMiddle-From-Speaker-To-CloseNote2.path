@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
+        "x": 1.2992745772536796,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9,
+        "x": 2.299274577253682,
         "y": 5.55
       },
       "isLocked": false,
@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.3,
+        "x": 2.7,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.3,
+        "x": 2.4000000000000004,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Close Note2"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue-Center",
+  "folder": "Blue-Middle",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

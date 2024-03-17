@@ -18,7 +18,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 2.5
                 }
               },
               {
@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ClosePreShoot"
+            "name": "SpeakerSidePreShoot"
           }
         },
         {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Blue-Left-Inital"
+                  "pathName": "BlueLeft-From-Speaker-To-CloseNote1"
                 }
               }
             ]
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue-Left-From-Close-Note1-To-White-Line"
+            "pathName": "BlueLeft-From-CloseNote1-To-WhiteLine"
           }
         },
         {
@@ -82,56 +82,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WhiteLineRightPreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Blue-Left-From-White-Line-To-Far-Note1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Blue-Left-From-Far-Note1-To-Middle"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDriving"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MiddleSidePreShoot"
+            "name": "WhiteLineSidePreShoot"
           }
         },
         {

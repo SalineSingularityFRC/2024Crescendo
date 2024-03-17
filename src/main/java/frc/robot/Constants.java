@@ -13,6 +13,7 @@ public final class Constants {
       }
     }
   }
+
   public static final class CanId {
 
     public static final class CanCoder {
@@ -48,7 +49,7 @@ public final class Constants {
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
         public static final int INTAKE = 5;
-        public static final int CLIMBER = 20; 
+        public static final int CLIMBER = 20;
       }
     }
 
@@ -69,11 +70,19 @@ public final class Constants {
 
   public static final class Position {
     public static final class MainArm {
-      public static final class AUTON {
-        public static final double CLOSE = 10; // Touching the Speaker
-        public static final double SIDE = 11.942383; // Not actually used in current autons
-        public static final double MIDDLESIDE = 18; // Shooting at the Close Note1 or Close Note3
-        public static final double WHITELINERIGHT = 15.5; // Shooting at the right line
+      public static final class Auton {
+        public static final class Speaker {
+          public static final double SIDE = 10; // Touching the right or left side of the Speaker
+        }
+
+        public static final class CloseNote {
+          public static final double SIDE = 18; // Close Note1 or Close Note3
+        }
+
+        public static final class WhiteLine {
+          public static final double SIDE = 15.5; // Not clearly tuned
+          public static final double MIDDLE = 13; // Not clearly tuned
+        }
       }
 
       public static final double AMP = 49.416016;
@@ -81,7 +90,7 @@ public final class Constants {
       public static final double PICKUP = 0;
       public static final double CLIMBER = 0;
     }
-    
+
     public static final class Climber { // PLACEHOLDERS
       public static final double UP = 1;
       public static final double DOWN = 0;
@@ -148,8 +157,8 @@ public final class Constants {
 
   public static final class MotorGearRatio {
     public static final double DRIVE = 6.75;
-    public static final double ANGLE =
-        150.0/7.0;//12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
+    public static final double ANGLE = 150.0 / 7.0;// 12.8; //
+                                                   // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
     public static final double ARM = 45.0;
     public static final int SMALL = 7;
@@ -165,14 +174,13 @@ public final class Constants {
     // In meters
     public static final double TRACK_WIDTH = 18.75 * 0.0254; // Inches to meters
     public static final double WHEEL_BASE = 22.75 * 0.0254; // Inches to meters
-    public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
+    public static final double WHEELRADIUS = 2.003 * 0.0254; // 2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
     public static final double WHEELRADIUSFACTOR = 1.155;
   }
 
   public static final class Speed {
-    public static final double ROBOT_SPEED_DIVISOR =
-        1; // what the max speed should be divided by, 1 is max power
+    public static final double ROBOT_SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
     public static final double SHOOTER = 105; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
@@ -199,7 +207,7 @@ public final class Constants {
       public static final PID translation = new PID(9, 0, 0.0);
       public static final PID rotation = new PID(1.5, 0.0, .004);
     }
-    
+
     public static final class Limelight {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
       public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
@@ -226,7 +234,7 @@ public final class Constants {
     }
 
     public static final class TurnAngle {
-      public static final double[] TURN_ANGLE = {Math.PI / 6, 0, 0};
+      public static final double[] TURN_ANGLE = { Math.PI / 6, 0, 0 };
     }
 
     public static final class SwerveModule {
