@@ -80,8 +80,8 @@ public final class Constants {
         }
 
         public static final class WhiteLine {
-          public static final double SIDE = 15.5; // Not clearly tuned
-          public static final double MIDDLE = 13; // Not clearly tuned
+          public static final double SIDE = 17; // Not clearly tuned
+          public static final double MIDDLE = 14; // Not clearly tuned
         }
       }
 
@@ -149,9 +149,9 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.510986) * 2 * Math.PI;
-    public static final double FR = (0.302002) * 2 * Math.PI;
-    public static final double BL = (0.025879) * 2 * Math.PI;
+    public static final double FL = (0.510010) * 2 * Math.PI;
+    public static final double FR = (0.297119) * 2 * Math.PI;
+    public static final double BL = (0.935059) * 2 * Math.PI;
     public static final double BR = (0.173096) * 2 * Math.PI;
   }
 
@@ -181,10 +181,11 @@ public final class Constants {
 
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 105; // speed of the arms when adjusting manually in rotations per second
+    public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double CLIMBER = 70;
+    public static final double HOME = 40; // rotations per second
+    public static final double CLIMBER = 140;
   }
 
   public static final class Distance {

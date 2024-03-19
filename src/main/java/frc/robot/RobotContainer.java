@@ -72,6 +72,7 @@ public class RobotContainer {
         new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.WhiteLine.SIDE));
     NamedCommands.registerCommand("WhiteLineMiddlePreShoot",
         new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.WhiteLine.MIDDLE));
+        
 
     this.pathChooser = new SendableChooser<PathPlannerPath>();
 
@@ -83,8 +84,9 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
     this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
     this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
-    this.pathAutonChooser.addOption("Blue-Left-2-Note", "Blue-Left-2-Note");
-    this.pathAutonChooser.addOption("Blue-Left-3-Note", "Blue-Left-3-Note");
+    this.pathAutonChooser.addOption("BlueLeft-2-Note", "BlueLeft-2-Note");
+    this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
+    this.pathAutonChooser.addOption("BlueMiddle-4-Note", "BlueMiddle-4-Note");
 
     // this.pathChooser.setDefaultOption("1 Meter Without Spin",
     // PathPlannerPath.fromPathFile("1 Meter"));

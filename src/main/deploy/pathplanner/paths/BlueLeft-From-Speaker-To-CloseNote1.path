@@ -8,24 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1922441146694212,
-        "y": 6.983814750910423
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.8289463362068725,
-        "y": 7.0
-      },
-      "prevControl": {
-        "x": 1.3160312136213064,
-        "y": 7.0192793810669
-      },
-      "nextControl": {
-        "x": 2.3418614587924385,
-        "y": 6.9807206189331
+        "x": 1.2465356701150765,
+        "y": 6.850589747523867
       },
       "isLocked": false,
       "linkedName": null
@@ -46,16 +30,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.95,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 8.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [
     {
       "name": "Fast",
-      "minWaypointRelativePos": 0.1,
-      "maxWaypointRelativePos": 1.7,
+      "minWaypointRelativePos": 0.05,
+      "maxWaypointRelativePos": 0.85,
       "constraints": {
         "maxVelocity": 4.2,
         "maxAcceleration": 3.0,
@@ -67,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.05,
+      "waypointRelativePos": 0.25,
       "command": {
         "type": "sequential",
         "data": {
@@ -84,7 +68,7 @@
     },
     {
       "name": "Stop Intake",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -93,48 +77,6 @@
               "type": "named",
               "data": {
                 "name": "StopIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Home and Shoot",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "parallel",
-              "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "Home"
-                    }
-                  },
-                  {
-                    "type": "wait",
-                    "data": {
-                      "waitTime": 2.5
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "SpeakerSidePreShoot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Shoot"
               }
             }
           ]
@@ -150,7 +92,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 8.0,
     "rotateFast": false
   },
   "reversed": false,

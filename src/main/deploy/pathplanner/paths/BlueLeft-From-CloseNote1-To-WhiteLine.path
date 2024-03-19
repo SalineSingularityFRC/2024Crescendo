@@ -42,37 +42,7 @@
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "Stop Driving and Shoot",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "StopDriving"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "WhiteLineSidePreShoot"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "Shoot"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.5,
@@ -81,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 37.0,
+    "rotation": 32.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Blue-Left",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 8.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

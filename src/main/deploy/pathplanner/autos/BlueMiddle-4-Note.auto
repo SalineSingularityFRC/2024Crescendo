@@ -43,28 +43,9 @@
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BlueMiddle-From-Speaker-To-CloseNote2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopIntake"
+            "pathName": "BlueMiddle-From-Speaker-To-CloseNote2"
           }
         },
         {
@@ -94,18 +75,54 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Blue-Middle-Close-Left"
+            "pathName": "Blue-Middle-From-WhiteLineMiddle-To-WhiteLineMiddle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WhiteLineMiddlePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": " Blue-Middle-Close-Right"
+            "pathName": " Blue-Middle-From-WhiteLineMiddle-To-WhiteLineRight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WhiteLineSidePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue Middle",
   "choreoAuto": false
 }

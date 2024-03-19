@@ -26,6 +26,6 @@ public class ReverseIntakeCommand extends Command {
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
    
-        return (pos - initalPosition <= -0.1);
+        return (pos - initalPosition <= -0.15);
     }
 }

@@ -8,7 +8,11 @@
     "Blue-Right",
     "Test Paths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Blue Left",
+    "Blue Middle",
+    "Blue Right"
+  ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
