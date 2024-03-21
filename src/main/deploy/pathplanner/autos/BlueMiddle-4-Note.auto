@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 1.5
                 }
               }
             ]
@@ -99,7 +99,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": " Blue-Middle-From-WhiteLineMiddle-To-WhiteLineRight"
+            "pathName": "New Blue-Middle-From-WhiteLineMiddle-To-WhiteLineRight"
           }
         },
         {

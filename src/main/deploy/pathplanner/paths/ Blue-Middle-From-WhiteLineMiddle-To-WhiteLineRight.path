@@ -17,31 +17,31 @@
     {
       "anchor": {
         "x": 1.9066343840619484,
-        "y": 4.0985175521129396
+        "y": 4.05
       },
       "prevControl": {
         "x": 1.87998075075651,
-        "y": 4.140821025157351
+        "y": 4.092303473044411
       },
       "nextControl": {
-        "x": 1.9332880173673868,
-        "y": 4.056214079068528
+        "x": 1.9332880173673865,
+        "y": 4.007696526955589
       },
       "isLocked": false,
       "linkedName": "White Line Right"
     },
     {
       "anchor": {
-        "x": 2.2,
-        "y": 4.1
+        "x": 2.39,
+        "y": 4.05
       },
       "prevControl": {
-        "x": 2.1,
-        "y": 4.1
+        "x": 2.3400000000000003,
+        "y": 4.05
       },
       "nextControl": {
-        "x": 2.3000000000000003,
-        "y": 4.1
+        "x": 2.5900000000000003,
+        "y": 4.05
       },
       "isLocked": false,
       "linkedName": null
@@ -49,11 +49,11 @@
     {
       "anchor": {
         "x": 1.9066343840619484,
-        "y": 4.0985175521129396
+        "y": 4.05
       },
       "prevControl": {
         "x": 1.8514584694106384,
-        "y": 4.0985175521129396
+        "y": 4.05
       },
       "nextControl": null,
       "isLocked": false,
@@ -71,7 +71,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.5499999999999999,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -88,7 +88,7 @@
     },
     {
       "name": "Stop Intake",
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 3.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -105,15 +105,15 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.4,
+    "maxAcceleration": 2.9,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAngularAcceleration": 500.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": -32.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Blue-Middle",
@@ -121,5 +121,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
