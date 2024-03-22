@@ -80,7 +80,7 @@ public final class Constants {
         }
 
         public static final class WhiteLine {
-          public static final double SIDE = 17; // Not clearly tuned
+          public static final double SIDE = 16; // Not clearly tuned
           public static final double MIDDLE = 14; // Not clearly tuned
         }
       }
@@ -149,10 +149,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.506592) * 2 * Math.PI;
-    public static final double FR = (0.302246) * 2 * Math.PI;
-    public static final double BL = (	0.600830) * 2 * Math.PI;
-    public static final double BR = (0.170166) * 2 * Math.PI;
+    public static final double FL = (0.504639) * 2 * Math.PI;
+    public static final double FR = (0.297119) * 2 * Math.PI;
+    public static final double BL = (0.602051) * 2 * Math.PI;
+    public static final double BR = (0.169189) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -184,7 +184,7 @@ public final class Constants {
     public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double HOME = 60; // rotations per second
+    public static final double HOME = 65; // rotations per second
     public static final double CLIMBER = 140;
   }
 

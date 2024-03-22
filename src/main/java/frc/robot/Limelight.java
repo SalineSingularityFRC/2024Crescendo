@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -28,7 +30,7 @@ public class Limelight extends SubsystemBase{
 
   public NetworkTableEntry botpose, targetspace;
   public double poseX, poseY, poseYaw;
-  public double targetPoseX, targetPoseZ, targetPoseYaw;
+  public double targetPoseX, targetPoseZ, targetPoseYaw, targetPoseY;
   public double tid;
 
   public double limeLatency;
@@ -74,8 +76,9 @@ public class Limelight extends SubsystemBase{
     poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
-    targetspace = table.getEntry("botpose_targetspace");
+    targetspace = table.getEntry("targetpose_cameraspace");
     targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
+    targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
     targetPoseZ = targetspace.getDoubleArray(new double [6])[2]; // pointing out of the april tag
     targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
@@ -226,6 +229,13 @@ public class Limelight extends SubsystemBase{
       turnRobot(d);
     });
   }
+  public Pose2d getPosition() {
+      Pose2d robotpos = new Pose2d(targetPoseZ, -targetPoseX, new Rotation2d(-Math.atan2(targetPoseX, targetPoseZ)));
+      
+
+      return null;
+  }
+
 
   public Command turnRobot(SwerveSubsystem d){
     return new FunctionalCommand(

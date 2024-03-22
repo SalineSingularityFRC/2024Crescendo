@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.84,
-        "y": 7.00011877397313
+        "x": 3.018346409363626,
+        "y": 7.036539787365289
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.94,
-        "y": 7.00011877397313
+        "x": 3.118346409363626,
+        "y": 7.036539787365289
       },
       "isLocked": false,
       "linkedName": "Close Note1"
@@ -42,7 +42,25 @@
       }
     }
   ],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pre Shoot",
+      "waypointRelativePos": 0.7,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.5,

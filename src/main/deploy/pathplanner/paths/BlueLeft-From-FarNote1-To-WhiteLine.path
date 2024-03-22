@@ -3,60 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.69,
-        "y": 6.701466464157418
+        "x": 8.496066823544473,
+        "y": 7.459023542714345
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2465356701150765,
-        "y": 6.850589747523867
+        "x": 8.596066823544472,
+        "y": 7.459023542714345
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Far Note1"
     },
     {
       "anchor": {
-        "x": 3.018346409363626,
-        "y": 7.036539787365289
+        "x": 1.91,
+        "y": 6.9
       },
       "prevControl": {
-        "x": 3.0256306120420575,
-        "y": 7.0438239900437205
+        "x": 1.8100517818172428,
+        "y": 6.896782286201051
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Close Note1"
+      "linkedName": "White Line Left"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.1,
-      "rotationDegrees": 40.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 0.35,
-      "rotationDegrees": 8.0,
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": 6.0,
       "rotateFast": true
     }
   ],
   "constraintZones": [
     {
       "name": "Fast",
-      "minWaypointRelativePos": 0.05,
-      "maxWaypointRelativePos": 0.85,
+      "minWaypointRelativePos": 0.1,
+      "maxWaypointRelativePos": 0.8,
       "constraints": {
-        "maxVelocity": 4.3,
-        "maxAcceleration": 3.5,
+        "maxVelocity": 4.4,
+        "maxAcceleration": 4.2,
         "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 800.0
+        "maxAngularAcceleration": 720.0
       }
     }
   ],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.1,
+      "name": "Pre Shoot",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "sequential",
         "data": {
@@ -64,7 +59,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Intake"
+                "name": "WhiteLineSidePreShoot"
               }
             }
           ]
@@ -73,7 +68,7 @@
     },
     {
       "name": "Stop Intake",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "sequential",
         "data": {
@@ -90,21 +85,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.5,
-    "maxAcceleration": 1.5,
+    "maxVelocity": 4.4,
+    "maxAcceleration": 3.2,
     "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 800.0
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 8.0,
-    "rotateFast": false
+    "rotation": 32.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Blue-Left",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": 6.0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
