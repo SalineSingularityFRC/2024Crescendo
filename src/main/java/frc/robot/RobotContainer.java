@@ -21,6 +21,7 @@ import frc.robot.commands.Teleop.AmpPositionCommand;
 import frc.robot.commands.Teleop.DriveController;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
+import frc.robot.commands.Auton.StopIntake;
 import frc.robot.commands.Auton.Home;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -58,7 +59,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Shoot", new Shooter(shooter, intake, arm));
     NamedCommands.registerCommand("Intake", new Intake(shooter, intake, arm));
-    NamedCommands.registerCommand("StopIntake", intake.stopIntaking());
+    NamedCommands.registerCommand("StopIntake", new StopIntake(shooter, intake));
     NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
     NamedCommands.registerCommand("StopDriving", drive.stopDriving());
 

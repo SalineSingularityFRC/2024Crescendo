@@ -206,7 +206,7 @@ public final class Constants {
   public static final class PidGains {
     public static final class PathPlanner {
       public static final PID translation = new PID(9, 0, 0.0);
-      public static final PID rotation = new PID(1.5, 0.0, .004);
+      public static final PID rotation = new PID(2, 0.0, .004);
     }
 
     public static final class Limelight {

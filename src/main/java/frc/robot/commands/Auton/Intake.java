@@ -9,10 +9,11 @@ public class Intake extends SequentialCommandGroup {
    public Intake(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm) {
 
     addCommands(
+        intake.setCoast(),
+        shooter.stopShooting(),
         shooter.setShooterBrake(),
         arm.pickupTarget(),
-        intake.startIntake(),
-        shooter.setShooterCoast()
+        intake.startIntake()
     );
    }
 }

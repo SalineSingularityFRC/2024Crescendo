@@ -24,7 +24,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.5
+                  "waitTime": 1.0
                 }
               }
             ]
@@ -49,6 +49,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "BlueLeft-From-CloseNote1-To-WhiteLine"
@@ -58,12 +64,6 @@
           "type": "named",
           "data": {
             "name": "StopDriving"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WhiteLineSidePreShoot"
           }
         },
         {

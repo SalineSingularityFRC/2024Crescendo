@@ -8,6 +8,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,7 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
     slot1ConfigsSmall.kS = manualSmallS;
     intakeMotor.getConfigurator().apply(slot1ConfigsSmall);
 
-    setBrakeMode();
+    setCoastMode();
   }
 
   public void setIntakeSpeed(double speed) {
@@ -50,6 +51,26 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.getConfigurator().apply(motorOutputConfigs);
   }
 
+
+  public void setCoastMode() {
+    motorOutputConfigs.NeutralMode = NeutralModeValue.Coast;
+    intakeMotor.getConfigurator().apply(motorOutputConfigs);
+  }
+
+  public Command setBrake() {
+    return runOnce(
+        () -> {
+          setBrakeMode();
+          
+        });
+  }
+  public Command setCoast() {
+    return runOnce(
+        () -> {
+          setCoastMode();
+          
+        });
+  }
   public Command stopIntaking() {
     return runOnce(
         () -> {
@@ -57,6 +78,28 @@ public class IntakeSubsystem extends SubsystemBase {
           
         });
   }
+
+
+
+  public Command autonStopIntaking(ShooterSubsystem shooter){
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
+    () -> {
+      intakeMotor.stopMotor();
+    },
+    (_unused) -> {
+      
+    },
+    () -> {
+      return getIntakeSpeed() <= 5;
+    },
+    this
+    );
+  }
+  
+
   public Command reverseIntake() {
     return run(
         () -> {
