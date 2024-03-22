@@ -76,7 +76,7 @@ public final class Constants {
         }
 
         public static final class CloseNote {
-          public static final double SIDE = 18; // Close Note1 or Close Note3
+          public static final double SIDE = 16; // Close Note1 or Close Note3
         }
 
         public static final class WhiteLine {
@@ -157,7 +157,7 @@ public final class Constants {
 
   public static final class MotorGearRatio {
     public static final double DRIVE = 6.75;
-    public static final double ANGLE = 150.0 / 7.0;// 12.8; //
+    public static final double ANGLE = 150.0 / 7.0;// 12.8; 
                                                    // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
     public static final double ARM = 45.0;
@@ -176,16 +176,15 @@ public final class Constants {
     public static final double WHEEL_BASE = 22.75 * 0.0254; // Inches to meters
     public static final double WHEELRADIUS = 2.003 * 0.0254; // 2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
-    public static final double WHEELRADIUSFACTOR = 1.155;
   }
 
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
+    public static final double SHOOTER = 75; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
     public static final double HOME = 65; // rotations per second
-    public static final double CLIMBER = 140;
+    public static final double CLIMBER = 280;
   }
 
   public static final class Distance {
@@ -205,33 +204,14 @@ public final class Constants {
 
   public static final class PidGains {
     public static final class PathPlanner {
-      public static final PID translation = new PID(9, 0, 0.0);
-      public static final PID rotation = new PID(2, 0.0, .004);
+      public static final PID translation = new PID(5, 5, 0.0);
+      public static final PID rotation = new PID(5, 1.5, 0);
     }
 
     public static final class Limelight {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
       public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
       public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
-    }
-
-    public static final class SwerveCommand {
-      public static final PID X_CONTROLLER = new PID(0.0001, 0, 0);
-      public static final PID Y_CONTROLLER = new PID(0.0001, 0, 0);
-    }
-
-    public static final class DriveDistance {
-      public static final PID DRIVE_DISTANCE = new PID(0.1, 0, 0);
-    }
-
-    public static final class GetOnChargeStation {
-      public static final PID GET_ON_CHARGE_STATION = new PID(0.1, 0, 0);
-    }
-
-    public static final class SwerveDistance {
-      public static final PID SWERVE_DISTANCE = new PID(0.1, 0, 0);
-      public static final PID SWERVE_COMMAND_XCONTROLLER = new PID(1, 0, 0);
-      public static final PID SWERVE_COMMAND_YCONTROLLER = new PID(1, 0, 0);
     }
 
     public static final class TurnAngle {

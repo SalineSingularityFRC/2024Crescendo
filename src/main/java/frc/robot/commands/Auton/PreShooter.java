@@ -11,8 +11,9 @@ public class PreShooter extends SequentialCommandGroup{
     public PreShooter(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm, double position) {
 
     addCommands(
-        new ReverseIntakeCommand(intake),
+        intake.stopIntaking(),
         arm.autonShootTarget(position),
+        new ReverseIntakeCommand(intake),
         intake.stopIntaking(),
         shooter.setShooterCoast(),
         shooter.autonStartUpShooter()

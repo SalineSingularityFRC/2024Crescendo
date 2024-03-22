@@ -78,16 +78,19 @@ public class RobotContainer {
     this.pathChooser = new SendableChooser<PathPlannerPath>();
 
     this.pathAutonChooser = new SendableChooser<String>();
-    this.pathAutonChooser.setDefaultOption("Blue-Left", "Blue-Left");
-    this.pathAutonChooser.addOption("Blue-Middle", "Blue-Middle");
-    this.pathAutonChooser.addOption("Blue-Right", "Blue-Right");
-    this.pathAutonChooser.addOption("Red-Left", "Blue-Right");
-    this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
-    this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
-    this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
+    // this.pathAutonChooser.setDefaultOption("Blue-Left", "Blue-Left");
+    // this.pathAutonChooser.addOption("Blue-Middle", "Blue-Middle");
+    // this.pathAutonChooser.addOption("Blue-Right", "Blue-Right");
+    // this.pathAutonChooser.addOption("Red-Left", "Blue-Right");
+    // this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
+    // this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
+    // this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
     this.pathAutonChooser.addOption("BlueLeft-2-Note", "BlueLeft-2-Note");
     this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
+
+    this.pathAutonChooser.addOption("RedRight-3-Note", "BlueLeft-3-Note");
     this.pathAutonChooser.addOption("BlueMiddle-4-Note", "BlueMiddle-4-Note");
+    this.pathAutonChooser.addOption("RedMiddle-4-Note", "BlueMiddle-4-Note");
 
     // this.pathChooser.setDefaultOption("1 Meter Without Spin",
     // PathPlannerPath.fromPathFile("1 Meter"));

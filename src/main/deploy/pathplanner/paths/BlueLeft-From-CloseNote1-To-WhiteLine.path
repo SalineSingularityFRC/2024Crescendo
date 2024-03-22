@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9382201799008745,
+        "x": 2.6905572888341873,
         "y": 6.978266165937833
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0382201799008746,
+        "x": 2.7905572888341874,
         "y": 6.978266165937833
       },
       "isLocked": false,
@@ -42,25 +42,7 @@
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "Pre Shoot",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "WhiteLineSidePreShoot"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.5,
     "maxAcceleration": 1.5,
