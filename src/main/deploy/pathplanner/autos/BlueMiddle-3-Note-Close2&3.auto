@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.69,
-      "y": 4.39
+      "x": 1.35,
+      "y": 5.55
     },
-    "rotation": -60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SpeakerSidePreShoot"
+            "name": "SpeakerMiddlePreShoot"
           }
         },
         {
@@ -45,7 +45,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueRight-From-Speaker-To-CloseNote3"
+            "pathName": "BlueMiddle-From-Speaker-To-CloseNote2"
           }
         },
         {
@@ -57,7 +57,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueRight-CloseNote3-To-WhiteLine"
+            "pathName": "BlueMiddle-From-CloseNote2-To-WhiteLine"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Blue-Middle-From-WhiteLineMiddle-To-WhiteLineRight"
           }
         },
         {
@@ -75,6 +93,6 @@
       ]
     }
   },
-  "folder": "Blue Right",
+  "folder": "Blue Middle",
   "choreoAuto": false
 }

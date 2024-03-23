@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 1.9066343840619484,
-        "y": 4.05
+        "y": 4.2
       },
       "prevControl": {
         "x": 1.8514584694106384,
-        "y": 4.05
+        "y": 4.2
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,13 +51,25 @@
       "rotateFast": true
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Fast",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 2.0,
+      "constraints": {
+        "maxVelocity": 4.4,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 500.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Intake",
       "waypointRelativePos": 0.05,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -72,15 +84,32 @@
     },
     {
       "name": "Stop Intake",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 1.1,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
                 "name": "StopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pre Shooter",
+      "waypointRelativePos": 1.65,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
               }
             }
           ]
