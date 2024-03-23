@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 1.9066343840619484,
-        "y": 4.05
+        "y": 4.2
       },
       "prevControl": {
         "x": 1.8566343840619484,
-        "y": 4.05
+        "y": 4.2
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pre Shooter",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.4,
     "maxAcceleration": 3.2,
@@ -39,7 +57,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -53.0,
+    "rotation": -32.0,
     "rotateFast": false
   },
   "reversed": false,

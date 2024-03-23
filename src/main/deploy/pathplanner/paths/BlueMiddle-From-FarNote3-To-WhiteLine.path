@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.2,
+        "x": 8.05,
         "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.40438248370538,
-        "y": 4.193622770614123
+        "x": 7.428257286062045,
+        "y": 4.064585094565043
       },
       "isLocked": false,
       "linkedName": "Far Note3"
@@ -20,28 +20,28 @@
         "y": 4.515030998102366
       },
       "prevControl": {
-        "x": 5.530812757851323,
-        "y": 3.811388222327347
+        "x": 5.698932995026593,
+        "y": 4.159279729384658
       },
       "nextControl": {
-        "x": 4.10970495884433,
-        "y": 5.218673773877387
+        "x": 3.8933478019610295,
+        "y": 4.890312084153756
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7,
+        "x": 1.91,
         "y": 5.55
       },
       "prevControl": {
-        "x": 3.3000000000000003,
+        "x": 2.7315321377769757,
         "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Close Note2"
+      "linkedName": "White Line Middle"
     }
   ],
   "rotationTargets": [
@@ -49,10 +49,33 @@
       "waypointRelativePos": 1.0,
       "rotationDegrees": -20.0,
       "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.35,
+      "rotationDegrees": -25.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.5,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineMiddlePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.4,
     "maxAcceleration": 3.2,
@@ -62,7 +85,7 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Blue-Middle",

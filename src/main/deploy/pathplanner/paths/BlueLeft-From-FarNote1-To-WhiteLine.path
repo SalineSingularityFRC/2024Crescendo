@@ -20,8 +20,8 @@
         "y": 6.9
       },
       "prevControl": {
-        "x": 1.8100517818172428,
-        "y": 6.896782286201051
+        "x": 2.009984769515639,
+        "y": 6.898254759356272
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,10 +39,10 @@
     {
       "name": "Fast",
       "minWaypointRelativePos": 0.1,
-      "maxWaypointRelativePos": 0.8,
+      "maxWaypointRelativePos": 0.65,
       "constraints": {
         "maxVelocity": 4.4,
-        "maxAcceleration": 4.2,
+        "maxAcceleration": 4.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -51,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Pre Shoot",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "sequential",
         "data": {

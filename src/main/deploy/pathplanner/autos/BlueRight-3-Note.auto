@@ -43,28 +43,15 @@
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BlueRight-From-Speaker-To-FarNote5"
-                }
-              }
-            ]
+            "pathName": "BlueRight-From-Speaker-To-FarNote5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "StopIntake"
+            "name": "StopDriving"
           }
         },
         {
@@ -82,38 +69,19 @@
         {
           "type": "named",
           "data": {
-            "name": "WhiteLineSidePreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Shoot"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BlueRight-From-WhiteLine-To-CloseNote3"
-                }
-              }
-            ]
+            "pathName": "BlueRight-From-WhiteLine-To-CloseNote3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "StopIntake"
+            "name": "StopDriving"
           }
         },
         {
@@ -126,12 +94,6 @@
           "type": "named",
           "data": {
             "name": "StopDriving"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WhiteLineSidePreShoot"
           }
         },
         {
