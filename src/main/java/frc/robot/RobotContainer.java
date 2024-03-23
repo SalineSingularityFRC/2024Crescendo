@@ -101,10 +101,10 @@ public class RobotContainer {
 
         this.pathAutonChooser.addOption("Middle-2-Note", "BlueMiddle-2-Note");
 
-        this.pathAutonChooser.addOption("BlueMiddle-3-Note-Close1&2", "BlueMiddle-3-Note-Close1&2");
+        this.pathAutonChooser.addOption("BlueMiddle-3-Note-Close2&1", "BlueMiddle-3-Note-Close2&1");
         this.pathAutonChooser.addOption("BlueMiddle-3-Note-Close2&3", "BlueMiddle-3-Note-Close2&3");
 
-        this.pathAutonChooser.addOption("RedMiddle-3-Note-Close3&2", "BlueMiddle-3-Note-Close1&2");
+        this.pathAutonChooser.addOption("RedMiddle-3-Note-Close2&3", "BlueMiddle-3-Note-Close2&1");
         this.pathAutonChooser.addOption("RedMiddle-3-Note-Close2&1", "BlueMiddle-3-Note-Close2&3");
 
         this.pathAutonChooser.addOption("Middle-3-Note-FarNote3", "BlueMiddle-3-Note-FarNote3");
