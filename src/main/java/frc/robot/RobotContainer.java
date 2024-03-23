@@ -23,6 +23,7 @@ import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Auton.StopIntake;
 import frc.robot.commands.Auton.Home;
+import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -64,9 +65,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopDriving", drive.stopDriving());
 
         NamedCommands.registerCommand("SpeakerSidePreShoot",
-                new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.Speaker.SIDE));
+                new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Speaker.SIDE));
         NamedCommands.registerCommand("SpeakerMiddlePreShoot",
-                new PreShooter(shooter, intake, arm, Constants.Position.MainArm.SHOOTING));
+                new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Speaker.MIDDLE));
         NamedCommands.registerCommand("CloseNoteSidePreShoot",
                 new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Auton.CloseNote.SIDE));
         NamedCommands.registerCommand("WhiteLineSidePreShoot",
@@ -90,12 +91,11 @@ public class RobotContainer {
         this.pathAutonChooser.setDefaultOption("BlueLeft-2-Note", "BlueLeft-2-Note");
         this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
 
-        this.pathAutonChooser.addOption("BlueRight-2-Note", "BlueRight-2-Note");
-        this.pathAutonChooser.addOption("BlueRight-3-Note", "BlueRight-3-Note");
+        this.pathAutonChooser.addOption("BlueRight-2-Note-CloseNote", "BlueRight-2-Note-CloseNote");
+        this.pathAutonChooser.addOption("BlueRight-3-Note-FarNote-Then-Close", "BlueRight-3-Note-FarNote-Then-Close");
 
-        this.pathAutonChooser.addOption("RedLeft-2-Note", "BlueRight-2-Note");
-        this.pathAutonChooser.addOption("RedLeft-3-Note", "BlueRight-3-Note");
-
+        this.pathAutonChooser.addOption("RedLeft-2-Note-CloseNote", "BlueRight-2-Note-CloseNote");
+        this.pathAutonChooser.addOption("RedLeft-3-Note-FarNote-Then-Close", "BlueRight-3-Note-FarNote-Then-Close");
         this.pathAutonChooser.addOption("RedRight-2-Note", "BlueLeft-2-Note");
         this.pathAutonChooser.addOption("RedRight-3-Note", "BlueLeft-3-Note");
 
@@ -103,7 +103,6 @@ public class RobotContainer {
 
         this.pathAutonChooser.addOption("BlueMiddle-3-Note-Close2&1", "BlueMiddle-3-Note-Close2&1");
         this.pathAutonChooser.addOption("BlueMiddle-3-Note-Close2&3", "BlueMiddle-3-Note-Close2&3");
-
         this.pathAutonChooser.addOption("RedMiddle-3-Note-Close2&3", "BlueMiddle-3-Note-Close2&1");
         this.pathAutonChooser.addOption("RedMiddle-3-Note-Close2&1", "BlueMiddle-3-Note-Close2&3");
 
@@ -171,8 +170,8 @@ public class RobotContainer {
         driveController.a().onTrue(arm.pickupTarget());
 
         // Reverse Intake
-        driveController.b().whileTrue(intake.reverseIntake());
-        driveController.b().onFalse(intake.stopIntaking());
+        driveController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
+        driveController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
 
         // Amp Shooting
         driveController.y().whileTrue(
@@ -182,8 +181,10 @@ public class RobotContainer {
 
         // Intaking
         driveController.a()
-                .whileTrue(intake.startIntake().alongWith(shooter.setShooterBrake()));
+                .whileTrue(new IntakeParallelCommand(shooter, intake));
+        
         driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
+        driveController.a().onFalse(shooter.stopShooting());
 
         // INVERT
         driveController.povLeft().onTrue(drive.xMode());

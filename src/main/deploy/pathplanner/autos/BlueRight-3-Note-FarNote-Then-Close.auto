@@ -1,0 +1,110 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.69,
+      "y": 4.39
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Home"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpeakerSidePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-From-Speaker-To-FarNote5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-From-FarNote5-To-WhiteLine"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-From-WhiteLine-To-CloseNote3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-CloseNote3-To-WhiteLine"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Blue Right",
+  "choreoAuto": false
+}

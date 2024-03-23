@@ -71,10 +71,6 @@ public final class Constants {
   public static final class Position {
     public static final class MainArm {
       public static final class Auton {
-        public static final class Speaker {
-          public static final double SIDE = 10; // Touching the right or left side of the Speaker
-        }
-
         public static final class CloseNote {
           public static final double SIDE = 16; // Close Note1 or Close Note3
         }
@@ -85,8 +81,13 @@ public final class Constants {
         }
       }
 
+      public static final class Speaker {
+          public static final double SIDE = 8.5; // Touching the right or left side of the Speaker
+          public static final double MIDDLE = 8.5; // Middle of speaker
+      }
+
       public static final double AMP = 49.416016;
-      public static final double SHOOTING = 8.5;
+      
       public static final double PICKUP = 0;
       public static final double CLIMBER = 0;
     }
@@ -149,10 +150,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.507080) * 2 * Math.PI;
-    public static final double FR = (0.302734) * 2 * Math.PI;
-    public static final double BL = (0.600342) * 2 * Math.PI;
-    public static final double BR = (0.173096) * 2 * Math.PI;
+    public static final double FL = (0.502197) * 2 * Math.PI;
+    public static final double FR = (0.300781) * 2 * Math.PI;
+    public static final double BL = (0.603760) * 2 * Math.PI;
+    public static final double BR = (0.169434) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -180,7 +181,7 @@ public final class Constants {
 
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR = 1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 75; // speed of the shooter in rotations per second
+    public static final double SHOOTER = 65; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
     public static final double HOME = 65; // rotations per second
@@ -205,7 +206,7 @@ public final class Constants {
   public static final class PidGains {
     public static final class PathPlanner {
       public static final PID translation = new PID(5, 5, 0.0);
-      public static final PID rotation = new PID(3.5, 1, 0);
+      public static final PID rotation = new PID(2.5, 1, 0.2);
     }
 
     public static final class Limelight {

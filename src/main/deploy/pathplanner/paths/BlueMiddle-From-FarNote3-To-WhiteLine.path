@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.05,
+        "x": 8.1,
         "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.428257286062045,
+        "x": 7.4782572860620435,
         "y": 4.064585094565043
       },
       "isLocked": false,
@@ -59,7 +59,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Pre Shoot",
       "waypointRelativePos": 1.5,
       "command": {
         "type": "sequential",

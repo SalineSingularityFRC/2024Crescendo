@@ -150,13 +150,13 @@ public class ArmSubsystem extends SubsystemBase {
 
     }, 
     () -> {
-      setPosition(Constants.Position.MainArm.SHOOTING);
+      setPosition(Constants.Position.MainArm.Speaker.MIDDLE);
     },
     (_unused) -> {
 
     },
     ()->{
-      return Math.abs(Constants.Position.MainArm.SHOOTING - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+      return Math.abs(Constants.Position.MainArm.Speaker.MIDDLE - armMotor1.getPosition().getValueAsDouble()) < 0.5;
     },
     this
     );

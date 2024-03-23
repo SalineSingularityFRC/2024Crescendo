@@ -25,12 +25,12 @@ public class ShooterSubsystem extends SubsystemBase {
     private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
     private final double manualSmallP = 1.3;
-    private final double manualSmallI = 0;
+    private final double manualSmallI = 0.013;
     private final double manualSmallD = 0;
     private final double manualSmallS = 0.9; // counters static friction
 
     private final double motorShooter21P = 1.2;
-    private final double motorShooter21I = 0;
+    private final double motorShooter21I = 0.012;
     private final double motorShooter21D = 0;
     private final double motorShooter21S = 0.9; // counters static friction
 
@@ -75,6 +75,13 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotor2.setControl(velocityVoltage.withVelocity(speed)
             .withFeedForward(0.05).withSlot(1));
         //shooterMotor1.set(speed/90.0);
+    }
+    public Command reverseShooter(double speed){
+        return run(
+            () -> {
+                setShooterSpeed(-speed);
+            }
+        );
     }
     
 
