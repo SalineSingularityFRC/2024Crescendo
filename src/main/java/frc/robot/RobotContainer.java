@@ -87,7 +87,7 @@ public class RobotContainer {
         // this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
         // this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
 
-        this.pathAutonChooser.addOption("BlueLeft-2-Note", "BlueLeft-2-Note");
+        this.pathAutonChooser.setDefaultOption("BlueLeft-2-Note", "BlueLeft-2-Note");
         this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
 
         this.pathAutonChooser.addOption("BlueRight-2-Note", "BlueRight-2-Note");
