@@ -88,9 +88,20 @@ public class RobotContainer {
     this.pathAutonChooser.addOption("BlueLeft-2-Note", "BlueLeft-2-Note");
     this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
 
+    this.pathAutonChooser.addOption("BlueRight-2-Note", "BlueRight-2-Note");
+    this.pathAutonChooser.addOption("BlueRight-3-Note", "BlueRight-3-Note");
+    
+    this.pathAutonChooser.addOption("RedLeft-2-Note", "BlueRight-2-Note");
+    this.pathAutonChooser.addOption("RedLeft-3-Note", "BlueRight-3-Note");
+
+    this.pathAutonChooser.addOption("RedRight-2-Note", "BlueLeft-2-Note");
     this.pathAutonChooser.addOption("RedRight-3-Note", "BlueLeft-3-Note");
-    this.pathAutonChooser.addOption("BlueMiddle-4-Note", "BlueMiddle-4-Note");
-    this.pathAutonChooser.addOption("RedMiddle-4-Note", "BlueMiddle-4-Note");
+
+    this.pathAutonChooser.addOption("Middle-2-Note", "BlueMiddle-2-Note");
+
+    this.pathAutonChooser.addOption("Middle-3-Note-FarNote3", "BlueMiddle-3-Note-FarNote3");
+    
+    this.pathAutonChooser.addOption("Middle-4-Note", "BlueMiddle-4-Note");
 
     // this.pathChooser.setDefaultOption("1 Meter Without Spin",
     // PathPlannerPath.fromPathFile("1 Meter"));
