@@ -77,12 +77,11 @@ public class ShooterSubsystem extends SubsystemBase {
         //shooterMotor1.set(speed/90.0);
     }
     
-    WaitCommand wait = new WaitCommand(0.5);
+
     
     public Command teleopShootCommand(){
         return run(
             () -> {
-                wait.initialize();
                 setShooterSpeed(Constants.Speed.SHOOTER);
             }
         );
