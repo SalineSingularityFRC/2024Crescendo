@@ -93,6 +93,7 @@ public class RobotContainer {
 
         this.pathAutonChooser.addOption("BlueRight-2-Note-CloseNote", "BlueRight-2-Note-CloseNote");
         this.pathAutonChooser.addOption("BlueRight-3-Note-FarNote-Then-Close", "BlueRight-3-Note-FarNote-Then-Close");
+        this.pathAutonChooser.addOption("BlueRight-3-Note-Close-Then-FarNote", "BlueRight-3-Note-Close-Then-FarNote");
 
         this.pathAutonChooser.addOption("RedLeft-2-Note-CloseNote", "BlueRight-2-Note-CloseNote");
         this.pathAutonChooser.addOption("RedLeft-3-Note-FarNote-Then-Close", "BlueRight-3-Note-FarNote-Then-Close");
@@ -181,7 +182,7 @@ public class RobotContainer {
 
         // Intaking
         driveController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake));
+                .whileTrue(new IntakeParallelCommand(shooter, intake, 0));
         
         driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
         driveController.a().onFalse(shooter.stopShooting());

@@ -8,11 +8,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class IntakeParallelCommand extends ParallelCommandGroup {
-   public IntakeParallelCommand(ShooterSubsystem shooter, IntakeSubsystem intake) {
+   public IntakeParallelCommand(ShooterSubsystem shooter, IntakeSubsystem intake, double speed) {
 
     addCommands(
         intake.startIntake(),
-        shooter.reverseShooter(5)
+        shooter.reverseShooter(speed)
     );
    }
 }

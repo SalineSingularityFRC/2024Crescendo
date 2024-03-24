@@ -71,6 +71,36 @@
           "data": {
             "name": "Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-From-WhiteLine-To-FarNote5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueRight-From-FarNote5-To-WhiteLine"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
         }
       ]
     }

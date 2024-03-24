@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.3,
+        "x": 2.4,
         "y": 4.1
       },
       "prevControl": {
-        "x": 2.25,
+        "x": 2.35,
         "y": 4.1
       },
       "nextControl": null,
@@ -39,7 +39,7 @@
     {
       "name": "Fast",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.7,
+      "maxWaypointRelativePos": 0.6,
       "constraints": {
         "maxVelocity": 4.4,
         "maxAcceleration": 3.3,
