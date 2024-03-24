@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.Auton.Intake;
+import frc.robot.commands.Auton.IntakeBarf;
 import frc.robot.commands.Auton.PreShooter;
 import frc.robot.commands.Teleop.AmpPositionCommand;
 import frc.robot.commands.Teleop.DriveController;
@@ -63,6 +64,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopIntake", new StopIntake(shooter, intake));
         NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
         NamedCommands.registerCommand("StopDriving", drive.stopDriving());
+        NamedCommands.registerCommand("IntakeBarf", new IntakeBarf(intake, shooter));
+        NamedCommands.registerCommand("StopShooting", shooter.stopShooting());
 
         NamedCommands.registerCommand("SpeakerSidePreShoot",
                 new PreShooter(shooter, intake, arm, Constants.Position.MainArm.Speaker.SIDE));

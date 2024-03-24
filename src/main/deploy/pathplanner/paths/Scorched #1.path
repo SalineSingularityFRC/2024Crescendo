@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.5211058605957094,
+        "y": 2.0140941097301015
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.42196043104145503,
+        "y": 2.0271395609872402
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.916084182057171,
+        "y": 0.9350984454378091
+      },
+      "prevControl": {
+        "x": 5.916084182057171,
+        "y": 0.8346884616227779
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Scorched #2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.4,
+    "maxAcceleration": 3.2,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Scorched Earth",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

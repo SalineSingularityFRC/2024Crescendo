@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.916084182057171,
+        "y": 0.9350984454378091
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.143414044829268,
+        "y": 0.8277209960384225
+      },
+      "isLocked": false,
+      "linkedName": "Scorched #2"
+    },
+    {
+      "anchor": {
+        "x": 7.884025137952225,
+        "y": 0.7205254440166703
+      },
+      "prevControl": {
+        "x": 7.11389613962466,
+        "y": 0.7879030008229075
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Scorched_#1"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeBarf"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.5,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Scorched Earth",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

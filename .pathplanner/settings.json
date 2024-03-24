@@ -3,9 +3,10 @@
   "robotLength": 0.89,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue-Middle",
     "Blue-Left",
+    "Blue-Middle",
     "Blue-Right",
+    "Scorched Earth",
     "Test Paths"
   ],
   "autoFolders": [
