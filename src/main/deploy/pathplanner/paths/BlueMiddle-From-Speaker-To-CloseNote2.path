@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 2.7,
+        "x": 2.9,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.6500000000000004,
+        "x": 2.85,
         "y": 5.55
       },
       "nextControl": null,
@@ -29,7 +29,19 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Slow",
+      "minWaypointRelativePos": 0.25,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.5,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Intake",

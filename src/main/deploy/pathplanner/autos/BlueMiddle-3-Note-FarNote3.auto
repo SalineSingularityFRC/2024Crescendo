@@ -69,6 +69,12 @@
         {
           "type": "named",
           "data": {
+            "name": "WhiteLineMiddlePreShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
           }
         },
@@ -94,6 +100,12 @@
           "type": "named",
           "data": {
             "name": "StopDriving"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WhiteLineMiddlePreShoot"
           }
         },
         {

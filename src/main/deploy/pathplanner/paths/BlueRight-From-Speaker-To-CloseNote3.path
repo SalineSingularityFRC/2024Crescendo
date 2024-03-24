@@ -51,7 +51,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "sequential",
         "data": {

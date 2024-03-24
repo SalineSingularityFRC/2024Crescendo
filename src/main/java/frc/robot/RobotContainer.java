@@ -211,7 +211,7 @@ public class RobotContainer {
         driveController.povDown().onTrue(
                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
                         driveController::getLeftX,
-                        4));
+                        4.3));
 
         driveController.start()
                 .and(arm::isNotAtBottom)

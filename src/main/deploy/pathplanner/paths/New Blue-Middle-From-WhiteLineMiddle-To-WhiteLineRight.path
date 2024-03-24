@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.4216095874741788,
-        "y": 4.331482525085139
+        "x": 2.675988883477323,
+        "y": 4.2
       },
       "prevControl": {
-        "x": 2.378308317284957,
-        "y": 4.356482525085139
+        "x": 2.6326876132881014,
+        "y": 4.225
       },
       "nextControl": {
-        "x": 2.464910857663401,
-        "y": 4.306482525085139
+        "x": 2.7192901536665453,
+        "y": 4.175
       },
       "isLocked": false,
       "linkedName": null
@@ -53,8 +53,19 @@
   ],
   "constraintZones": [
     {
-      "name": "Fast",
+      "name": "Slow Turn",
       "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.6,
+      "constraints": {
+        "maxVelocity": 4.4,
+        "maxAcceleration": 2.9,
+        "maxAngularVelocity": 50.0,
+        "maxAngularAcceleration": 300.0
+      }
+    },
+    {
+      "name": "Fast",
+      "minWaypointRelativePos": 0.6,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 4.4,

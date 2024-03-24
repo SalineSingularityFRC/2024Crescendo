@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.1,
+        "x": 8.25,
         "y": 4.11
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.4782572860620435,
-        "y": 4.064585094565043
+        "x": 2.75,
+        "y": 4.11
       },
       "isLocked": false,
       "linkedName": "Far Note3"
-    },
-    {
-      "anchor": {
-        "x": 4.8202588583478265,
-        "y": 4.515030998102366
-      },
-      "prevControl": {
-        "x": 5.698932995026593,
-        "y": 4.159279729384658
-      },
-      "nextControl": {
-        "x": 3.8933478019610295,
-        "y": 4.890312084153756
-      },
-      "isLocked": false,
-      "linkedName": null
     },
     {
       "anchor": {
@@ -36,7 +20,7 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.7315321377769757,
+        "x": 5.41,
         "y": 5.55
       },
       "nextControl": null,
@@ -44,38 +28,9 @@
       "linkedName": "White Line Middle"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": -20.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.35,
-      "rotationDegrees": -25.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Pre Shoot",
-      "waypointRelativePos": 1.5,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "WhiteLineMiddlePreShoot"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.4,
     "maxAcceleration": 3.2,

@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5211058605957094,
-        "y": 2.0140941097301015
+        "x": 0.69,
+        "y": 4.39
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.42196043104145503,
-        "y": 2.0271395609872402
+        "x": 0.5908545704457455,
+        "y": 4.403045451257139
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Speaker Right"
     },
     {
       "anchor": {
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Scorched Earth",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
