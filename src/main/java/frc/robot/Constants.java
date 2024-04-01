@@ -150,10 +150,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.503174) * 2 * Math.PI;
-    public static final double FR = (0.293701) * 2 * Math.PI;
-    public static final double BL = (0.601807) * 2 * Math.PI;
-    public static final double BR = (0.174316) * 2 * Math.PI;
+    public static final double FL = (0.503906) * 2 * Math.PI;
+    public static final double FR = (0.298096) * 2 * Math.PI;
+    public static final double BL = (0.602539) * 2 * Math.PI;
+    public static final double BR = (0.173828) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
