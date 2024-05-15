@@ -6,15 +6,16 @@
     "Blue-Left",
     "Blue-Middle",
     "Blue-Right",
-    "Scorched Earth",
+    "Open House",
     "Test Paths"
   ],
   "autoFolders": [
     "Blue Left",
     "Blue Middle",
-    "Blue Right"
+    "Blue Right",
+    "Open House Auton"
   ],
-  "defaultMaxVel": 4.4,
+  "defaultMaxVel": 0.5,
   "defaultMaxAccel": 3.2,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

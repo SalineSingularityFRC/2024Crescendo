@@ -36,13 +36,13 @@ public class ArmSubsystem extends SubsystemBase {
   private MotionMagicConfigs motionMagicConfigsPresets;
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
 
-  private final double manualBigP = .3;
+  private final double manualBigP = 1;
   private final double manualBigI = 0;
   private final double manualBigD = 0;
   private final double manualBigS = 0.03;
 
   //OLD PID CONSTANTS
-  private final double slot0P = 1.5;
+  private final double slot0P = 0.5;
   private final double slot0I = 0;
   private final double slot0D = 0.2;
   private final double slot0S = 0.0;
@@ -175,7 +175,7 @@ public class ArmSubsystem extends SubsystemBase {
     },
     ()->{
      
-      return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+      return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 1;
     },
     this
     );

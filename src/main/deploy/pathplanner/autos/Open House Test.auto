@@ -24,10 +24,41 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.2
+                  "waitTime": 1.5
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDriving"
           }
         },
         {
@@ -41,53 +72,10 @@
           "data": {
             "name": "Shoot"
           }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BlueMiddle-From-Speaker-To-CloseNote2"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BlueMiddle-From-CloseNote2-To-WhiteLine"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDriving"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WhiteLineMiddlePreShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
         }
       ]
     }
   },
-  "folder": "Blue Middle",
+  "folder": "Open House Auton",
   "choreoAuto": false
 }

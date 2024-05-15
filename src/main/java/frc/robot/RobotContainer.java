@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.Auton.Intake;
-import frc.robot.commands.Auton.IntakeBarf;
 import frc.robot.commands.Auton.PreShooter;
 import frc.robot.commands.Teleop.AmpPositionCommand;
 import frc.robot.commands.Teleop.DriveController;
@@ -64,7 +63,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("StopIntake", new StopIntake(shooter, intake));
         NamedCommands.registerCommand("Home", new Home(shooter, intake, arm));
         NamedCommands.registerCommand("StopDriving", drive.stopDriving());
-        NamedCommands.registerCommand("IntakeBarf", new IntakeBarf(intake, shooter));
+        //NamedCommands.registerCommand("IntakeBarf", new IntakeBarf(intake, shooter));
         NamedCommands.registerCommand("StopShooting", shooter.stopShooting());
 
         NamedCommands.registerCommand("SpeakerSidePreShoot",
@@ -113,6 +112,10 @@ public class RobotContainer {
         this.pathAutonChooser.addOption("Middle-3-Note-FarNote3", "BlueMiddle-3-Note-FarNote3");
 
         this.pathAutonChooser.addOption("Middle-4-Note", "BlueMiddle-4-Note");
+
+        //For the open house
+        this.pathAutonChooser.addOption("Open House Test", "Open House Test");
+
 
         // this.pathChooser.setDefaultOption("1 Meter Without Spin",
         // PathPlannerPath.fromPathFile("1 Meter"));
@@ -211,7 +214,7 @@ public class RobotContainer {
         driveController.povDown().onTrue(
                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
                         driveController::getLeftX,
-                        4.3));
+                        0.5));
 
         driveController.start()
                 .and(arm::isNotAtBottom)
@@ -221,7 +224,7 @@ public class RobotContainer {
         drive.setDefaultCommand(
                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
                         driveController::getLeftX,
-                        4));
+                        0.5));
     }
 
     public Command getAutonomousCommand() {
