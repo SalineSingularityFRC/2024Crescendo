@@ -76,6 +76,8 @@ public class SwerveAngle {
 
   // takes in an angle in and turns the wheel to that angle in the fastest way possible
   public AnglePosition setAngle(double targetAngle) {
+    SmartDashboard.putNumber("Target Angle", targetAngle);
+    SmartDashboard.putNumber("Angle Clamped", getAngleClamped());
     double wheelPosition =
         getAngleClamped(); // the angle to set the wheel to minus the leftover full rotations
     double remainderRotations =

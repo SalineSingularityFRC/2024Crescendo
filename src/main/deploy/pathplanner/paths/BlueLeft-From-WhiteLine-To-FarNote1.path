@@ -1,0 +1,88 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.91,
+        "y": 6.9
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.7177410241699658,
+        "y": 6.984028826494051
+      },
+      "isLocked": false,
+      "linkedName": "White Line Left"
+    },
+    {
+      "anchor": {
+        "x": 8.251864568962644,
+        "y": 7.427464402742001
+      },
+      "prevControl": {
+        "x": 8.201864568962643,
+        "y": 7.427464402742001
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Far Note1"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": 5.0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Fast",
+      "minWaypointRelativePos": 0.1,
+      "maxWaypointRelativePos": 0.9,
+      "constraints": {
+        "maxVelocity": 4.4,
+        "maxAcceleration": 3.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.2,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 6.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue-Left",
+  "previewStartingState": {
+    "rotation": 32.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

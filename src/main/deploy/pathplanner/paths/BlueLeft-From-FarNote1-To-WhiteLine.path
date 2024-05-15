@@ -1,0 +1,105 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.251864568962644,
+        "y": 7.427464402742001
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.351864568962643,
+        "y": 7.427464402742001
+      },
+      "isLocked": false,
+      "linkedName": "Far Note1"
+    },
+    {
+      "anchor": {
+        "x": 1.91,
+        "y": 6.9
+      },
+      "prevControl": {
+        "x": 2.009984769515639,
+        "y": 6.898254759356272
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "White Line Left"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": 6.0,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Fast",
+      "minWaypointRelativePos": 0.1,
+      "maxWaypointRelativePos": 0.65,
+      "constraints": {
+        "maxVelocity": 4.4,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Pre Shoot",
+      "waypointRelativePos": 0.45,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.2,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 32.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Blue-Left",
+  "previewStartingState": {
+    "rotation": 6.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

@@ -3,37 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
+        "x": 1.35,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 5.55
+        "x": 1.7570718048021823,
+        "y": 6.393992580377094
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0,
+        "x": 2.6098525830269654,
+        "y": 7.0636258089125175
+      },
+      "prevControl": {
+        "x": 2.221781567312356,
+        "y": 7.077242335779258
+      },
+      "nextControl": {
+        "x": 6.524631457568548,
+        "y": 6.92626514665233
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.35,
         "y": 5.55
       },
       "prevControl": {
-        "x": 2.0,
-        "y": 5.55
+        "x": 1.3843401655661443,
+        "y": 6.302418805534042
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Path 1 End"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -43,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Blue-Center",
+  "folder": "Open House",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

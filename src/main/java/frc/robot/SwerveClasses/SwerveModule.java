@@ -100,11 +100,12 @@ public class SwerveModule {
   public SwerveModuleState getState(){
 
     return new SwerveModuleState(driveMotor.getVelocity().getValue() * 2 * Math.PI * Constants.Measurement.WHEELRADIUS
-        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.WHEELRADIUSFACTOR, new Rotation2d(getEncoderPosition()));
+        / Constants.MotorGearRatio.DRIVE, new Rotation2d(getEncoderPosition()));
   }
 
   public void coast() {
-    driveMotor.set(0); // this is for when the joystick is not being moved at all
+    //driveMotor.set(0); // this is for when the joystick is not being moved at all
+    driveMotor.stopMotor();
   }
 
   /*
@@ -135,7 +136,7 @@ public class SwerveModule {
     SwerveModuleState state = SwerveModuleState.optimize(desiredState, new Rotation2d(getEncoderPosition()));
 
     double driveOutput = m_drivePIDController.calculate(driveMotor.get(), state.speedMetersPerSecond);
-
+    
     //double turnOutput = m_turningPIDController.calculate(getEncoderPosition(), state.angle.getRadians());
 
   
@@ -181,6 +182,6 @@ public class SwerveModule {
   // the gear
   public double getPosition() {
     return driveMotor.getPosition().getValue() * 2 * Math.PI * Constants.Measurement.WHEELRADIUS
-        / Constants.MotorGearRatio.DRIVE * Constants.Measurement.WHEELRADIUSFACTOR;
+        / Constants.MotorGearRatio.DRIVE;
   }
 }

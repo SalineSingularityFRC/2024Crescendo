@@ -20,12 +20,12 @@ public class ReverseIntakeCommand extends Command {
     }
 
     public void execute() {
-        intakeSubsystem.setIntakeSpeed(-Constants.Speed.INTAKE/10);
+        intakeSubsystem.setIntakeSpeed(-Constants.Speed.INTAKE/10.0);
     }
 
     public boolean isFinished() {
         double pos = intakeSubsystem.intakeMotor.getPosition().getValue();
    
-        return (pos - initalPosition <= -0.2);
+        return (pos - initalPosition <= -0.15);
     }
 }

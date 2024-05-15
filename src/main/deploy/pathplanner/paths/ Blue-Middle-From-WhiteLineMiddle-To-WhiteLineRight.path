@@ -1,0 +1,125 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.91,
+        "y": 5.55
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.91,
+        "y": 5.05
+      },
+      "isLocked": false,
+      "linkedName": "White Line Middle"
+    },
+    {
+      "anchor": {
+        "x": 1.9066343840619484,
+        "y": 4.2
+      },
+      "prevControl": {
+        "x": 1.87998075075651,
+        "y": 4.242303473044411
+      },
+      "nextControl": {
+        "x": 1.9332880173673865,
+        "y": 4.157696526955589
+      },
+      "isLocked": false,
+      "linkedName": "White Line Right"
+    },
+    {
+      "anchor": {
+        "x": 2.39,
+        "y": 4.05
+      },
+      "prevControl": {
+        "x": 2.3400000000000003,
+        "y": 4.05
+      },
+      "nextControl": {
+        "x": 2.5900000000000003,
+        "y": 4.05
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.9066343840619484,
+        "y": 4.2
+      },
+      "prevControl": {
+        "x": 1.8514584694106384,
+        "y": 4.2
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "White Line Right"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2.1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.4,
+    "maxAcceleration": 2.9,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 500.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -32.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Blue-Middle",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}
