@@ -1,0 +1,121 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.211982919085626,
+        "y": 0.7794096865922215
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.261982919085627,
+        "y": 0.7794096865922215
+      },
+      "isLocked": false,
+      "linkedName": "Far Note5"
+    },
+    {
+      "anchor": {
+        "x": 3.7274395675551917,
+        "y": 2.412586826656232
+      },
+      "prevControl": {
+        "x": 5.129873364272107,
+        "y": 1.4748168395310062
+      },
+      "nextControl": {
+        "x": 2.480520128560807,
+        "y": 3.246368520301475
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.9066343840619484,
+        "y": 4.2
+      },
+      "prevControl": {
+        "x": 2.085968466524333,
+        "y": 3.8460590142120834
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "White Line Right"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": -25.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Fast",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.75,
+      "constraints": {
+        "maxVelocity": 4.4,
+        "maxAcceleration": 3.3,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Stop Intake",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "StopIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pre Shooter",
+      "waypointRelativePos": 0.75,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.2,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -32.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Blue-Right",
+  "previewStartingState": {
+    "rotation": -15.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

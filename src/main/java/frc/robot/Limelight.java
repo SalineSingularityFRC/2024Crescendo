@@ -1,7 +1,12 @@
 package frc.robot;
 
+import java.util.function.Consumer;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -11,7 +16,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId.Swerve;
+import frc.robot.commands.Auton.Shooter;
+import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
@@ -21,7 +30,7 @@ public class Limelight extends SubsystemBase{
 
   public NetworkTableEntry botpose, targetspace;
   public double poseX, poseY, poseYaw;
-  public double targetPoseX, targetPoseZ, targetPoseYaw;
+  public double targetPoseX, targetPoseZ, targetPoseYaw, targetPoseY;
   public double tid;
 
   public double limeLatency;
@@ -67,12 +76,13 @@ public class Limelight extends SubsystemBase{
     poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
-    targetspace = table.getEntry("botpose_targetspace");
+    targetspace = table.getEntry("targetpose_cameraspace");
     targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
+    targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
     targetPoseZ = targetspace.getDoubleArray(new double [6])[2]; // pointing out of the april tag
     targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
-    limeLatency = botpose.getDoubleArray(new double[6])[6];
+    //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
     PID drive_gains = Constants.PidGains.Limelight.DRIVE_CONTROLLER;
     driveController =
@@ -110,14 +120,14 @@ public class Limelight extends SubsystemBase{
     camMode.setNumber(mode);
   }
 
-  // method to change between pipeLines, takes an int and a LimeLight object
+  // method to change between pipeLines, takes an int and o LimeLight object
   public void setpipeline(int pipe) {
     pipeLine.setNumber(pipe);
   }
 
   public boolean getIsTargetFound() {
-    double a = ta;
-    if (a <= 0.05) {
+    double o = ta;
+    if (o <= 0.05) {
       return false;
     } else {
       return true;
@@ -219,6 +229,15 @@ public class Limelight extends SubsystemBase{
       turnRobot(d);
     });
   }
+  public Pose2d getPosition() {
+      Pose2d T_robot_to_tag = new Pose2d(targetPoseZ, -targetPoseX, new Rotation2d(-Math.atan2(targetPoseX, targetPoseZ)));
+      Pose2d T_field_to_tag = new Pose2d(-.04, 5.56, new Rotation2d(0));
+
+      //Pose2d T_field_to_robot = T_field_to_tag.transformBy(T_robot_to_tag);
+
+      return null;
+  }
+
 
   public Command turnRobot(SwerveSubsystem d){
     return new FunctionalCommand(
@@ -241,6 +260,42 @@ public class Limelight extends SubsystemBase{
     );
   }
 
+  public Command limelightScore(ArmSubsystem a, ShooterSubsystem s){
+    return new FunctionalCommand(
+    () -> {
+      a.goHome();
+      
+      setpipeline(0);
+    }, 
+    () -> {
+      SmartDashboard.putNumber("POS Z", targetPoseZ);
+   
+      a.moveArmForward();
+    },
+    (__unused) -> {
+     
+    },
+    () -> {
+      //6ft-6inch -> 1.9812 Meters
+      //targetPoseZ returns distance away from april tag
+      if(targetPoseZ == 0) return false;
+      //Robot Length from Limelight to the shooter on the ground
+      //Ours is measured at 1.9431
+      targetPoseZ += 0;
+      double theta = Math.atan2(1.9812, targetPoseZ);
+      double armPos = a.getPosition();
+      //something to tune our shooting
+      double modifier = 0;
+      return (armPos + modifier) >= theta;
+    },
+    this, a
+    );
+  }
+
+   
+ 
+
+  
   public boolean tagAlign() {
     if(Math.abs(targetPoseX) <= 0.075) {
       return true;

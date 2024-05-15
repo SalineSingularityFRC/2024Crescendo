@@ -3,43 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.62,
+        "x": 2.4,
         "y": 4.1
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.72,
+        "x": 2.4499999999999997,
         "y": 4.1
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Close Note3"
     },
     {
       "anchor": {
-        "x": 1.25,
-        "y": 4.4
+        "x": 1.9066343840619484,
+        "y": 4.2
       },
       "prevControl": {
-        "x": 1.15,
-        "y": 4.4
+        "x": 1.8566343840619484,
+        "y": 4.2
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "White Line Right"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pre Shooter",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "WhiteLineSidePreShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 0.5,
+    "maxAcceleration": 3.2,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.5,
+    "rotation": -32.0,
     "rotateFast": false
   },
   "reversed": false,

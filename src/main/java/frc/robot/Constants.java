@@ -13,6 +13,7 @@ public final class Constants {
       }
     }
   }
+
   public static final class CanId {
 
     public static final class CanCoder {
@@ -48,7 +49,7 @@ public final class Constants {
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
         public static final int INTAKE = 5;
-        public static final int CLIMBER = 20; 
+        public static final int CLIMBER = 20;
       }
     }
 
@@ -69,14 +70,28 @@ public final class Constants {
 
   public static final class Position {
     public static final class MainArm {
+      public static final class Auton {
+        public static final class CloseNote {
+          public static final double SIDE = 16; // Close Note1 or Close Note3
+        }
+
+        public static final class WhiteLine {
+          public static final double SIDE = 16; // Not clearly tuned
+          public static final double MIDDLE = 15; // Not clearly tuned
+        }
+      }
+
+      public static final class Speaker {
+          public static final double SIDE = 8.5; // Touching the right or left side of the Speaker
+          public static final double MIDDLE = 12; // Middle of speaker
+      }
+
       public static final double AMP = 49.416016;
-      public static final double SHOOTING = 8.5;
-      public static final double PICKUP = 0;
-      public static final double AUTONSIDESHOOT = 11.942383;
-      public static final double AUTONLMIDDLESHOOT = 10;
+      
+      public static final double PICKUP = 2;
       public static final double CLIMBER = 0;
     }
-    
+
     public static final class Climber { // PLACEHOLDERS
       public static final double UP = 1;
       public static final double DOWN = 0;
@@ -135,17 +150,18 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.508789) * 2 * Math.PI;
-    public static final double FR = (0.299805) * 2 * Math.PI;
-    public static final double BL = (0.300293) * 2 * Math.PI;
-    public static final double BR = (0.169678) * 2 * Math.PI;
+    public static final double FL = (0.507812) * 2 * Math.PI;
+    public static final double FR = (0.296387) * 2 * Math.PI;
+    public static final double BL = (0.601074) * 2 * Math.PI;
+    public static final double BR = (0.175781) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
-    public static final double DRIVE = 8.14;
-    public static final double ANGLE =
-        150.0/7.0;//12.8; // https://www.swervedrivespecialties.com/products/mk4-swerve-module
+    public static final double DRIVE = 6.75;
+    public static final double ANGLE = 150.0 / 7.0;// 12.8; 
+                                                   // https://www.swervedrivespecialties.com/products/mk4-swerve-module
     public static final int BIG = 10;
+    public static final double ARM = 45.0;
     public static final int SMALL = 7;
   }
 
@@ -159,18 +175,17 @@ public final class Constants {
     // In meters
     public static final double TRACK_WIDTH = 18.75 * 0.0254; // Inches to meters
     public static final double WHEEL_BASE = 22.75 * 0.0254; // Inches to meters
-    public static final double WHEELRADIUS = 2.003 * 0.0254; //2024 robot radius from inches to meters
+    public static final double WHEELRADIUS = 2.003 * 0.0254; // 2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
-    public static final double WHEELRADIUSFACTOR = 1.155;
   }
 
   public static final class Speed {
-    public static final double ROBOT_SPEED_DIVISOR =
-        1; // what the max speed should be divided by, 1 is max power
-    public static final double SHOOTER = 65; // speed of the arms when adjusting manually in rotations per second
+    public static final double ROBOT_SPEED_DIVISOR = 2.5; // what the max speed should be divided by, 1 is max power
+    public static final double SHOOTER = 65; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double CLIMBER = 70;
+    public static final double HOME = 65; // rotations per second
+    public static final double CLIMBER = 280;
   }
 
   public static final class Distance {
@@ -190,37 +205,18 @@ public final class Constants {
 
   public static final class PidGains {
     public static final class PathPlanner {
-      public static final PID translation = new PID(5.5, 0.055, 0.02);
-      public static final PID rotation = new PID(.4, 0, .004);
+      public static final PID translation = new PID(5, 5, 0.0);
+      public static final PID rotation = new PID(1, 1, 0.3);
     }
-    
+
     public static final class Limelight {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
       public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
       public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
     }
 
-    public static final class SwerveCommand {
-      public static final PID X_CONTROLLER = new PID(0.0001, 0, 0);
-      public static final PID Y_CONTROLLER = new PID(0.0001, 0, 0);
-    }
-
-    public static final class DriveDistance {
-      public static final PID DRIVE_DISTANCE = new PID(0.1, 0, 0);
-    }
-
-    public static final class GetOnChargeStation {
-      public static final PID GET_ON_CHARGE_STATION = new PID(0.1, 0, 0);
-    }
-
-    public static final class SwerveDistance {
-      public static final PID SWERVE_DISTANCE = new PID(0.1, 0, 0);
-      public static final PID SWERVE_COMMAND_XCONTROLLER = new PID(1, 0, 0);
-      public static final PID SWERVE_COMMAND_YCONTROLLER = new PID(1, 0, 0);
-    }
-
     public static final class TurnAngle {
-      public static final double[] TURN_ANGLE = {Math.PI / 6, 0, 0};
+      public static final double[] TURN_ANGLE = { Math.PI / 6, 0, 0 };
     }
 
     public static final class SwerveModule {
