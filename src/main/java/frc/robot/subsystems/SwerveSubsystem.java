@@ -282,8 +282,17 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       });
   }
 
-    public Command rotate90(){
-      return runOnce(
+  public Command visionUpdateCommand(){
+    return run(
+        () -> {
+            odometry.visionUpdate();
+          
+        }
+    );
+  }
+
+  public Command rotate90(){
+    return runOnce(
       () -> {
         
           ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);

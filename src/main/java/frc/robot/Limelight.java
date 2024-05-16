@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId.Swerve;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -42,23 +44,28 @@ public class Limelight extends SubsystemBase{
   public PIDController turnController;
   PIDController scoreDriveController;
 
+
+  public PoseEstimate limelightPosEstimate;
+    
+   
   public Timer scoringTimer = new Timer();
   public Timer pickupTimer = new Timer();
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
+    limelightPosEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
-    TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
-    TA = table.getEntry("ta"); // target area (0-100%)
-    TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
-    TID = table.getEntry("tid"); // id of the primary in view April tag
+    // TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
+    // TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
+    // TA = table.getEntry("ta"); // target area (0-100%)
+    // TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
+    // TID = table.getEntry("tid"); // id of the primary in view April tag
 
-    ta = TX.getDouble(0.0);
-    ty = TY.getDouble(0.0);
-    ta = TA.getDouble(0.0);
-    tv = TV.getDouble(0.0);
-    tid = TID.getDouble(0);
+    // ta = TX.getDouble(0.0);
+    // ty = TY.getDouble(0.0);
+    // ta = TA.getDouble(0.0);
+    // tv = TV.getDouble(0.0);
+    // tid = TID.getDouble(0);
 
     // swap the limelight between vision processing (0) and drive camera (1)
     camMode = table.getEntry("camMode");
@@ -71,16 +78,17 @@ public class Limelight extends SubsystemBase{
     // Location of the robot on the field with the orgin at the blue driver station
     botpose = table.getEntry("botpose_wpiblue");
     // xyz are in meters
-    poseX = botpose.getDoubleArray(new double[6])[0]; // Points up the long side of the field
-    poseY = botpose.getDoubleArray(new double[6])[1]; // Points toward short side of the field
-    poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+    // poseX = botpose.getDoubleArray(new double[6])[0]; // Points up the long side of the field
+    // poseY = botpose.getDoubleArray(new double[6])[1]; // Points toward short side of the field
+    // poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
-    targetspace = table.getEntry("targetpose_cameraspace");
-    targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
-    targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
-    targetPoseZ = targetspace.getDoubleArray(new double [6])[2]; // pointing out of the april tag
-    targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+    // targetspace = table.getEntry("targetpose_cameraspace");
+    // targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
+    // targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
+    // targetPoseZ = limelightHelper.getPosEstim // pointing out of the april tag
+    // targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
@@ -190,6 +198,7 @@ public class Limelight extends SubsystemBase{
     () -> {
       //6ft-6inch -> 1.9812 Meters
       //targetPoseZ returns distance away from april tag
+      targetPoseZ = limelightPosEstimate.pose.getX();
       if(targetPoseZ == 0) return false;
       //Robot Length from Limelight to the shooter on the ground
       //Ours is measured at 1.9431

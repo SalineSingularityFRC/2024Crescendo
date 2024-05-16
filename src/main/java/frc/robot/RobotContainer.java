@@ -194,7 +194,7 @@ public class RobotContainer {
         driveController.a().onFalse(shooter.stopShooting());
 
         // INVERT
-        driveController.povLeft().onTrue(drive.xMode());
+        //driveController.povLeft().onTrue(drive.xMode());
 
         // Teleop PreShooter
         driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
@@ -215,6 +215,10 @@ public class RobotContainer {
                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
                         driveController::getLeftX,
                         0.5));
+
+        driveController.povLeft().whileTrue(
+                drive.visionUpdateCommand()
+        );
 
         driveController.start()
                 .and(arm::isNotAtBottom)
