@@ -36,7 +36,7 @@ public class Limelight extends SubsystemBase{
   public double tid;
 
   public double limeLatency;
-  public double tx, ty, ta, tv;
+  public double x, y, a, v;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -55,13 +55,12 @@ public class Limelight extends SubsystemBase{
     table = NetworkTableInstance.getDefault().getTable("limelight");
     limelightPosEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    // TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
-    // TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
+    TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
+    TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
     // TA = table.getEntry("ta"); // target area (0-100%)
     // TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
     // TID = table.getEntry("tid"); // id of the primary in view April tag
 
-    // ta = TX.getDouble(0.0);
     // ty = TY.getDouble(0.0);
     // ta = TA.getDouble(0.0);
     // tv = TV.getDouble(0.0);
@@ -113,6 +112,29 @@ public class Limelight extends SubsystemBase{
     setpipeline(0);
   }
 
+  public void update() {
+    x = TX.getDouble(0.0);
+    y = TY.getDouble(0.0);
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 0; 
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 34; 
+
+    // distance from the target to the floor
+    double goalHeightInches = 43; 
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + y;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    SmartDashboard.putNumber("distance", distanceFromLimelightToGoalInches);
+    SmartDashboard.putNumber("ty", y);
+    SmartDashboard.putNumber("tx", x);
+  }
+
   // turns on the LEDs
   public void ledOn() {
     ledMode.setNumber(3);
@@ -134,7 +156,7 @@ public class Limelight extends SubsystemBase{
   }
 
   public boolean getIsTargetFound() {
-    double o = ta;
+    double o = a;
     if (o <= 0.05) {
       return false;
     } else {
