@@ -36,7 +36,6 @@ public class Limelight extends SubsystemBase{
   public double tid;
 
   public double limeLatency;
-  public double x, y, a, v;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -57,7 +56,7 @@ public class Limelight extends SubsystemBase{
 
     TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
     TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
-    // TA = table.getEntry("ta"); // target area (0-100%)
+    TA = table.getEntry("ta"); // target area (0-100%)
     // TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
     // TID = table.getEntry("tid"); // id of the primary in view April tag
 
@@ -87,7 +86,7 @@ public class Limelight extends SubsystemBase{
     // targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
     // targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
     // targetPoseZ = limelightHelper.getPosEstim // pointing out of the april tag
-    // targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+     targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
@@ -112,25 +111,31 @@ public class Limelight extends SubsystemBase{
     setpipeline(0);
   }
 
-  public void update() {
-    x = TX.getDouble(0.0);
-    y = TY.getDouble(0.0);
+  public double getDistanceToTagInInches() {
+    double y = TY.getDouble(0.0);
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 0; 
+    double limelightMountAngleDegrees = 0;
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 34; 
+    double limelightLensHeightInches = 5.4; 
 
     // distance from the target to the floor
-    double goalHeightInches = 43; 
+    double goalHeightInches = 57.5; 
 
     double angleToGoalDegrees = limelightMountAngleDegrees + y;
-    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+    double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
 
     //calculate distance
     double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
     SmartDashboard.putNumber("distance", distanceFromLimelightToGoalInches);
+
+    return distanceFromLimelightToGoalInches;
+  }
+
+  public void update() {
+    double x = TX.getDouble(0.0);
+    double y = TY.getDouble(0.0);
     SmartDashboard.putNumber("ty", y);
     SmartDashboard.putNumber("tx", x);
   }
@@ -155,9 +160,17 @@ public class Limelight extends SubsystemBase{
     pipeLine.setNumber(pipe);
   }
 
-  public boolean getIsTargetFound() {
-    double o = a;
-    if (o <= 0.05) {
+  public double getTX() {
+    return TX.getDouble(0.0);
+  }
+
+  public double getTY() {
+    return TY.getDouble(0.0);
+  }
+
+  public boolean isTagFound() {
+    double a = TA.getDouble(0.0);
+    if (a <= 0.05) {
       return false;
     } else {
       return true;
@@ -235,12 +248,17 @@ public class Limelight extends SubsystemBase{
     );
   }
 
-   
- 
+  //Takes in a target distance from tag in feet
+  public boolean isTargetFeetAwayFromTag(double targetDistance) {
+    if(getDistanceToTagInInches()/12 - targetDistance > 0.5) {
+      return false;
+    }
+    return true;
+  }
 
   
-  public boolean tagAlign() {
-    if(Math.abs(targetPoseX) <= 0.075) {
+  public boolean istagAligned() {
+    if(Math.abs(TX.getDouble(0.0)) <= 0.075) {
       return true;
     }
     return false;

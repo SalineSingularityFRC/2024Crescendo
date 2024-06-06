@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Limelight;
 import frc.robot.Robot;
 import frc.robot.SwerveClasses.SwerveModule;
 import frc.robot.SwerveClasses.SwerveOdometry;
@@ -225,7 +227,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
     SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     setModuleStates(modules);
-
   }
 
   public ChassisSpeeds getChassisSpeed() {
@@ -308,6 +309,56 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
           modules[BL].speedMetersPerSecond = 0.02;
           setModuleStates(modules);
       });
+  }
+
+  public Command alignToTagCommand(){
+
+    Limelight lime = Robot.getLimelight();
+
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
+    () -> {
+      if(lime.isTagFound()) {
+        double tx = lime.getTX();
+        if(tx > 0) {
+          drive(new SwerveRequest(0.1, 0, 0), true);
+        }
+
+        else {
+          drive(new SwerveRequest(-0.1, 0, 0), true);
+        }
+      }
+    },
+    (_unused) -> {
+
+    },
+    lime::istagAligned,
+    this
+    );
+  }
+
+  //Takes in a target distance to drive to away from the tag
+  public Command driveToTagCommand(double targetDistance){
+
+    Limelight lime = Robot.getLimelight();
+
+    return new FunctionalCommand(
+    () -> {
+
+    }, 
+    () -> {
+      drive(new SwerveRequest(0, 0.1, 0), false);
+    },
+    (_unused) -> {
+
+    },
+    () -> {
+      return lime.isTargetFeetAwayFromTag(targetDistance);
+    },
+    this
+    );
   }
 
 

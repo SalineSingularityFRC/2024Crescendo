@@ -15,7 +15,7 @@ import frc.robot.SwerveClasses.SwerveOdometry;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private Limelight lime;
+  private static Limelight lime;
   
 
 
@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
      //m_robotContainer.drive.odometry.position();
 
      lime.update();
-     SwerveOdometry.visionUpdate();
+      SwerveOdometry.visionUpdate();
      
   }
 
@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
+    //SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
    
     //CommandScheduler.getInstance().run();
   }
@@ -107,4 +107,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  public static Limelight getLimelight() {
+    return lime;
+  }
 }

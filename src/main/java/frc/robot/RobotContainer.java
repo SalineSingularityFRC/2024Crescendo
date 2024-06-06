@@ -25,6 +25,7 @@ import frc.robot.commands.Auton.StopIntake;
 import frc.robot.commands.Auton.Home;
 import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.Teleop.getToTag;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -215,14 +216,18 @@ public class RobotContainer {
 //         // Reset Gyro
 //         driveController.back().whileTrue(drive.resetGyroCommand());
 
-//         driveController.povUp().onTrue(
+//         //driveController.povUp().onTrue(
 //                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
 //                         driveController::getLeftX,
 //                         1));
-//         driveController.povDown().onTrue(
+//         //driveController.povDown().onTrue(
 //                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
 //                         driveController::getLeftX,
 //                         0.5));
+
+            driveController.povUp().onTrue(
+                new getToTag(drive)
+            );
 
 //         driveController.start()
 //                 .and(arm::isNotAtBottom)
