@@ -86,7 +86,7 @@ public class Limelight extends SubsystemBase{
     // targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
     // targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
     // targetPoseZ = limelightHelper.getPosEstim // pointing out of the april tag
-     targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+     //targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
@@ -111,26 +111,26 @@ public class Limelight extends SubsystemBase{
     setpipeline(0);
   }
 
-  public double getDistanceToTagInInches() {
+  public double getDistanceToTagInFeet() {
     double y = TY.getDouble(0.0);
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 0;
+    double limelightMountAngleDegrees = 30;
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 5.4; 
+    double limelightLensHeightInches = 13.5; 
 
     // distance from the target to the floor
     double goalHeightInches = 57.5; 
 
-    double angleToGoalDegrees = limelightMountAngleDegrees + y;
+    double angleToGoalDegrees = limelightMountAngleDegrees - y;
     double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
 
     //calculate distance
     double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-    SmartDashboard.putNumber("distance", distanceFromLimelightToGoalInches);
+    SmartDashboard.putNumber("distance in feet", distanceFromLimelightToGoalInches/12);
 
-    return distanceFromLimelightToGoalInches;
+    return distanceFromLimelightToGoalInches/12;
   }
 
   public void update() {
@@ -246,22 +246,6 @@ public class Limelight extends SubsystemBase{
     },
     this, a
     );
-  }
-
-  //Takes in a target distance from tag in feet
-  public boolean isTargetFeetAwayFromTag(double targetDistance) {
-    if(getDistanceToTagInInches()/12 - targetDistance > 0.5) {
-      return false;
-    }
-    return true;
-  }
-
-  
-  public boolean istagAligned() {
-    if(Math.abs(TX.getDouble(0.0)) <= 0.075) {
-      return true;
-    }
-    return false;
   }
 
 }

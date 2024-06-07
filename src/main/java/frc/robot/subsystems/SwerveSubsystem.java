@@ -9,6 +9,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -70,7 +72,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public SwerveSubsystem() {
     // gyro = new NavX(Port.kMXP);
     gyro = new Pigeon2(Constants.CanId.CanCoder.GYRO, Constants.Canbus.DRIVE_TRAIN);
-   
 
     vectorKinematics[FL] = new Vector(Constants.Measurement.WHEEL_BASE / 2, Constants.Measurement.TRACK_WIDTH / 2);
     vectorKinematics[FR] = new Vector(Constants.Measurement.WHEEL_BASE / 2, -Constants.Measurement.TRACK_WIDTH / 2);
@@ -121,15 +122,15 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     odometry = new SwerveOdometry(this);
     odometry.resetPosition();
     Consumer<ChassisSpeeds> consumer_chasis = ch_speed -> {
-    //  double ySpeed = ch_speed.vyMetersPerSecond;
-      //ch_speed.vyMetersPerSecond = -ch_speed.vxMetersPerSecond;
-      //ch_speed.vxMetersPerSecond = ySpeed;
-      //ch_speed.omegaRadiansPerSecond = -ch_speed.omegaRadiansPerSecond;
+      // double ySpeed = ch_speed.vyMetersPerSecond;
+      // ch_speed.vyMetersPerSecond = -ch_speed.vxMetersPerSecond;
+      // ch_speed.vxMetersPerSecond = ySpeed;
+      // ch_speed.omegaRadiansPerSecond = -ch_speed.omegaRadiansPerSecond;
       SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(ch_speed);
       setModuleStates(modules);
     };
     Supplier<ChassisSpeeds> supplier_chasis = () -> {
-  
+
       ChassisSpeeds temp = getChassisSpeed();
       return temp;
     };
@@ -138,13 +139,12 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
       return odometry.position();
     };
     Consumer<Pose2d> consumer_position = pose -> {
-   
-      odometry.setPosition(pose); 
+
+      odometry.setPosition(pose);
     };
 
-    // SwerveModuleState[] modules =
-    // swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
-    // setModuleStates(modules);
+    SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(getChassisSpeed());
+    setModuleStates(modules);
 
     AutoBuilder.configureHolonomic(
         supplier_position, // Robot pose supplier
@@ -155,21 +155,22 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
             new PIDConstants(Constants.PidGains.PathPlanner.translation.P, Constants.PidGains.PathPlanner.translation.I,
                 Constants.PidGains.PathPlanner.translation.D), // Translation PID constants
             new PIDConstants(Constants.PidGains.PathPlanner.rotation.P, Constants.PidGains.PathPlanner.rotation.I,
-            Constants.PidGains.PathPlanner.rotation.D), // Rotation PID constants
+                Constants.PidGains.PathPlanner.rotation.D), // Rotation PID constants
             4.5, // Max module speed, in m/s
-            Constants.Measurement.DRIVEBASERADIUS, // Drive base radius in meters. Distance from robot center to furthest module.
+            Constants.Measurement.DRIVEBASERADIUS, // Drive base radius in meters. Distance from robot center to
+                                                   // furthest module.
             new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
-          //Enum alliance = Alliance.Blue;
+          // Enum alliance = Alliance.Blue;
           // Boolean supplier that controls when the path will be mirrored for the red
-          //alliance
+          // alliance
           // This will flip the path being followed to the red side of the field.
           // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
           var alliance = DriverStation.getAlliance();
           if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
+            return alliance.get() == DriverStation.Alliance.Red;
           }
           return false;
         },
@@ -197,26 +198,25 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     // don't move or turn at all
     // 0.05 value can be increased if the joystick is increasingly inaccurate at
     // neutral position
-      SmartDashboard.putNumber("Swerve X: ", swerveRequest.movement.x);
-      SmartDashboard.putNumber("Swerve Y: ", swerveRequest.movement.y);
-      SmartDashboard.putNumber("Swerve R: ", swerveRequest.rotation);
-      if (Math.abs(swerveRequest.movement.x) < 0.07
+    SmartDashboard.putNumber("Swerve X: ", swerveRequest.movement.x);
+    SmartDashboard.putNumber("Swerve Y: ", swerveRequest.movement.y);
+    SmartDashboard.putNumber("Swerve R: ", swerveRequest.rotation);
+    if (Math.abs(swerveRequest.movement.x) < 0.07
         && Math.abs(swerveRequest.movement.y) < 0.07
-        && Math.abs(swerveRequest.rotation) < 0.05) {         
-      
-      
+        && Math.abs(swerveRequest.rotation) < 0.05) {
+
       targetAngle = Double.MAX_VALUE;
 
       for (int i = 0; i < swerveModules.length; i++) {
         swerveModules[i].coast();
       }
       return;
-    } 
+    }
 
     double x = swerveRequest.movement.x;
     double y = swerveRequest.movement.y;
     if (fieldCentric) {
-      double difference = -(currentRobotAngle % (2*Math.PI));
+      double difference = -(currentRobotAngle % (2 * Math.PI));
       x = -swerveRequest.movement.y * Math.sin(difference)
           + swerveRequest.movement.x * Math.cos(difference);
       y = swerveRequest.movement.y * Math.cos(difference)
@@ -233,14 +233,14 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return swerveDriveKinematics.toChassisSpeeds(getModuleStates());
   }
 
-  public void periodic(){
+  public void periodic() {
     odometry.update();
   }
 
-  public void disabledPeriodic(){
- 
+  public void disabledPeriodic() {
+
   }
-  
+
   /*
    * Odometry
    */
@@ -261,8 +261,6 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return states;
   }
 
-
-
   /*
    * This function returns the angle (in radians) of the robot based on the value
    * from the pidgeon 2.0
@@ -270,7 +268,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   public double getRobotAngle() {
     // return ((360 - gyro.getAngle().toDegrees()) * Math.PI) / 180; // for NavX
     return -(((gyro.getAngle() - gyroZero)) * Math.PI)
-       / 180; // returns in counterclockwise hence why 360 minus
+        / 180; // returns in counterclockwise hence why 360 minus
 
     // it is gyro.getAngle() - 180 because the pigeon for this robot is facing
     // backwards
@@ -278,119 +276,166 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
   public Command resetGyroCommand() {
     return runOnce(
-      () -> {
+        () -> {
           resetGyro();
-      });
+        });
   }
 
-  public Command visionUpdateCommand(){
+  public Command visionUpdateCommand() {
     return run(
         () -> {
-            odometry.visionUpdate();
-          
-        }
-    );
+          odometry.visionUpdate();
+
+        });
   }
 
-  public Command rotate90(){
+  public Command rotate90() {
     return runOnce(
-      () -> {
-        
-          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
-        
+        () -> {
+
+          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
+
           SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
           modules[FL].angle = new Rotation2d(swerveModules[FL].getAngleClamped() + Math.PI / 8);
-          modules[FR].angle = new Rotation2d(swerveModules[FR].getAngleClamped()+ Math.PI / 8);
-          modules[BR].angle = new Rotation2d(swerveModules[BR].getAngleClamped()+ Math.PI / 8);
-          modules[BL].angle = new Rotation2d(swerveModules[BL].getAngleClamped()+ Math.PI / 8);
+          modules[FR].angle = new Rotation2d(swerveModules[FR].getAngleClamped() + Math.PI / 8);
+          modules[BR].angle = new Rotation2d(swerveModules[BR].getAngleClamped() + Math.PI / 8);
+          modules[BL].angle = new Rotation2d(swerveModules[BL].getAngleClamped() + Math.PI / 8);
           modules[FL].speedMetersPerSecond = 0.02;
           modules[FR].speedMetersPerSecond = 0.02;
           modules[BR].speedMetersPerSecond = 0.02;
           modules[BL].speedMetersPerSecond = 0.02;
           setModuleStates(modules);
-      });
+        });
   }
 
-  public Command alignToTagCommand(){
+  public Command alignToTagCommand(Limelight lime) {
 
-    Limelight lime = Robot.getLimelight();
+    PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
+    rotationController.setSetpoint(0);
+    rotationController.setTolerance(1);
+
+    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.1, 0);
 
     return new FunctionalCommand(
-    () -> {
+        () -> {
 
-    }, 
-    () -> {
-      if(lime.isTagFound()) {
-        double tx = lime.getTX();
-        if(tx > 0) {
-          drive(new SwerveRequest(0.1, 0, 0), true);
-        }
+        },
+        () -> {
+          if (lime.isTagFound()) {
+            double tx = lime.getTX();
 
-        else {
-          drive(new SwerveRequest(-0.1, 0, 0), true);
-        }
-      }
-    },
-    (_unused) -> {
+            drive(new SwerveRequest(feedforward.calculate(tx) - rotationController.calculate(tx), 0, 0), true);
+          }
+        },
+        (_unused) -> {
 
-    },
-    lime::istagAligned,
-    this
-    );
+        },
+        rotationController::atSetpoint,
+        this);
   }
 
-  //Takes in a target distance to drive to away from the tag
-  public Command driveToTagCommand(double targetDistance){
+  // Takes in a target distance to drive to away from the tag
+  public Command driveToTagCommand(double targetDistance, Limelight lime) {
 
-    Limelight lime = Robot.getLimelight();
+    PIDController driveController = new PIDController(0.395, 0, 0);
+    driveController.setSetpoint(targetDistance);
+    driveController.setTolerance(0.1);
+
+    SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.05, 0);
 
     return new FunctionalCommand(
-    () -> {
+        () -> {
 
-    }, 
-    () -> {
-      drive(new SwerveRequest(0, 0.1, 0), false);
-    },
-    (_unused) -> {
+        },
+        () -> {
+          double distance = lime.getDistanceToTagInFeet();
 
-    },
-    () -> {
-      return lime.isTargetFeetAwayFromTag(targetDistance);
-    },
-    this
-    );
+          drive(new SwerveRequest(0, -feedforward.calculate(distance) + driveController.calculate(distance), 0), false);
+        },
+        (_unused) -> {
+
+        },
+        driveController::atSetpoint,
+        this);
   }
 
+  public Command alignAndDriveToTagCommand(double targetDistance, Limelight lime) {
 
-    public Command xMode(){
-      return runOnce(
-      () -> {
-          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+    PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
+    rotationController.setSetpoint(0);
+    rotationController.setTolerance(1);
+
+    SimpleMotorFeedforward rotationFeedForward = new SimpleMotorFeedforward(0, 0);
+
+    PIDController driveController = new PIDController(0.395, 0, 0);
+    driveController.setSetpoint(targetDistance);
+    driveController.setTolerance(0.1);
+
+    SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(0.01, 0);
+
+    return new FunctionalCommand(
+        () -> {
+
+        },
+        () -> {
+          double distance = lime.getDistanceToTagInFeet();
+          double tx = lime.getTX();
+
+          double driveSpeed = driveController.calculate(distance);
+
+          if(driveSpeed >= 3.5) {
+            driveSpeed = 3.5;
+          }
+          else if (driveSpeed <= -3.5) {
+            driveSpeed = -3.5;
+          }
+
+          if (lime.isTagFound()) {
+            drive(
+                new SwerveRequest(rotationFeedForward.calculate(tx) - rotationController.calculate(tx),
+                    -driveFeedForward.calculate(distance) + driveSpeed, 0),
+                false);
+          }
+        },
+        (_unused) -> {
+
+        },
+        () -> {
+          return driveController.atSetpoint() && rotationController.atSetpoint();
+        },
+        this);
+  }
+
+  public Command xMode() {
+    return runOnce(
+        () -> {
+          ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
           SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
           modules[FL].angle = new Rotation2d(Math.PI / 4.0);
-          modules[FR].angle = new Rotation2d((-5.0* Math.PI) / 4.0);
+          modules[FR].angle = new Rotation2d((-5.0 * Math.PI) / 4.0);
           modules[BR].angle = new Rotation2d((Math.PI) / 4.0);
-          modules[BL].angle = new Rotation2d((-5.0* Math.PI) / 4.0);
+          modules[BL].angle = new Rotation2d((-5.0 * Math.PI) / 4.0);
           modules[FL].speedMetersPerSecond = 0.02;
           modules[FR].speedMetersPerSecond = 0.02;
           modules[BR].speedMetersPerSecond = 0.02;
           modules[BL].speedMetersPerSecond = 0.02;
           setModuleStates(modules);
-      });
-    }
+        });
+  }
 
-    public Command stopDriving(){
-      return runOnce(
-      () -> {
-        
+  public Command stopDriving() {
+    return runOnce(
+        () -> {
+
           // ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
-          // SwerveModuleState[] modules = swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+          // SwerveModuleState[] modules =
+          // swerveDriveKinematics.toSwerveModuleStates(chassisSpeeds);
           // setModuleStates(modules);
           swerveModules[FR].driveMotor.stopMotor();
           swerveModules[FL].driveMotor.stopMotor();
           swerveModules[BR].driveMotor.stopMotor();
           swerveModules[BL].driveMotor.stopMotor();
-      });
+        });
   }
 
   public void resetGyro() {
@@ -404,19 +449,20 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return swerveModules[module];
   }
 
-  public Command setBrakeModeCommand(){
+  public Command setBrakeModeCommand() {
     return runOnce(
-    () -> {
-      setBrakeMode();
-    });
+        () -> {
+          setBrakeMode();
+        });
   }
 
-  public Command setCoastModeCommand(){
+  public Command setCoastModeCommand() {
     return runOnce(
-    () -> {
-      setCoastMode();
-    });
+        () -> {
+          setCoastMode();
+        });
   }
+
   public void setBrakeMode() {
     for (int i = 0; i < 4; i++) {
       swerveModules[i].setBrakeMode();

@@ -150,10 +150,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.507812) * 2 * Math.PI;
-    public static final double FR = (0.296387) * 2 * Math.PI;
-    public static final double BL = (0.601074) * 2 * Math.PI;
-    public static final double BR = (0.175781) * 2 * Math.PI;
+    public static final double FL = (0.508545) * 2 * Math.PI;
+    public static final double FR = (0.094238) * 2 * Math.PI;
+    public static final double BL = (0.610840) * 2 * Math.PI;
+    public static final double BR = (0.166504) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -211,7 +211,7 @@ public final class Constants {
 
     public static final class Limelight {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
-      public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
+      public static final PID TURN_CONTROLLER = new PID(0.01,0,0);
       public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
     }
 

@@ -15,9 +15,8 @@ import frc.robot.SwerveClasses.SwerveOdometry;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private static Limelight lime;
-  
-
+    
+  private Limelight lime;
 
   @Override
   public void robotInit() {
@@ -31,18 +30,17 @@ public class Robot extends TimedRobot {
 
     m_robotContainer =
         new RobotContainer();
-    lime = new Limelight();
+    lime = m_robotContainer.lime;
    
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-     //m_robotContainer.drive.odometry.position();
+     m_robotContainer.drive.odometry.position();
 
      lime.update();
-      SwerveOdometry.visionUpdate();
-     
+     lime.getDistanceToTagInFeet();
   }
 
   @Override
@@ -59,19 +57,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
   
 
-    // if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) {
 
-    //   m_autonomousCommand.schedule();
-    // }
+      m_autonomousCommand.schedule();
+    }
   }
 
   @Override
   public void autonomousPeriodic() {
-    //CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -80,18 +78,18 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.cancel();
-    // }
-    // m_robotContainer.shooter.stopShooting();
-    // //robotSubsystem.setCoastMode();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+    m_robotContainer.shooter.stopShooting();
+    //robotSubsystem.setCoastMode();
   }
 
   @Override
   public void teleopPeriodic() {
     //SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
    
-    //CommandScheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -107,8 +105,4 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
-
-  public static Limelight getLimelight() {
-    return lime;
-  }
 }

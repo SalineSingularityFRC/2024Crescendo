@@ -98,7 +98,7 @@ public class SwerveOdometry {
      
   }
 
-  public static void visionUpdate(){
+  public void visionUpdate(){
        // Compute the robot's field-relative position exclusively from vision measurements.
         PoseEstimate limelightPosEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed("limelight");
        
@@ -106,7 +106,7 @@ public class SwerveOdometry {
         Pose2d visionMeasurement2d = limelightPosEstimate.pose;
         SmartDashboard.putNumber("LimeLight Estimate X", visionMeasurement2d.getX());
         SmartDashboard.putNumber("LimeLight Estimate Y", visionMeasurement2d.getY());
-        //swerveOdometry.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp() - (limelightPosEstimate.latency/1000.0));
+        swerveOdometry.addVisionMeasurement(visionMeasurement2d, Timer.getFPGATimestamp() - (limelightPosEstimate.latency/1000.0));
   }
 
    
