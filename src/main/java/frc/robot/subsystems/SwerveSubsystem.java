@@ -308,6 +308,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         });
   }
 
+  //Aligns the limelight to have near 0 degrees horizontal offset (around 0 tx)
   public Command alignToTagCommand(Limelight lime) {
 
     PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
@@ -335,6 +336,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   // Takes in a target distance to drive to away from the tag
+  //Not using this individually, using this in alignAndDriveToTagCommand()
   public Command driveToTagCommand(double targetDistance, Limelight lime) {
 
     PIDController driveController = new PIDController(0.395, 0, 0);

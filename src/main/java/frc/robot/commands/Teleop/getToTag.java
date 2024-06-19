@@ -9,7 +9,8 @@ public class getToTag extends SequentialCommandGroup{
 
     addCommands(
         drive.alignAndDriveToTagCommand(6, lime),
-        drive.alignToTagCommand(lime)
+        drive.alignToTagCommand(lime),
+        drive.xMode()
     );
    }
 }
