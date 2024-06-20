@@ -361,6 +361,33 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         this);
   }
 
+  //Finds the Closest Distances That We have Calibrated Shooting From
+  public double findClosestDistance(double currentDistance){
+    double[] knownDistances = { 2, 4, 6, 10};
+
+    //Final Distance from Known Distances
+    double closestDistance = 0.0;
+    
+    /*
+     * Needs to be Maxiximum Value possible as it 
+     * gets compared to smaller numbers in the code
+     * below.
+     */
+    double closestDistanceFromKnownPoint = Double.MAX_VALUE;
+
+    for(int i = 0; i < knownDistances.length; i++){
+
+        double distanceFromKnownPoint = Math.abs(currentDistance - knownDistances[i]);
+        if(distanceFromKnownPoint < closestDistanceFromKnownPoint) {
+            closestDistanceFromKnownPoint = distanceFromKnownPoint;
+            closestDistance = knownDistances[i];
+        }
+    }
+
+    return closestDistance;
+  }
+
+
   public Command alignAndDriveToTagCommand(double targetDistance, Limelight lime) {
 
     PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
