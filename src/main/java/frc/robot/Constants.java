@@ -48,7 +48,7 @@ public final class Constants {
         public static final int ARM_2 = 2;
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
-        public static final int INTAKE = 5;
+        public static final int INTAKE = 2;
         public static final int CLIMBER = 20;
       }
     }

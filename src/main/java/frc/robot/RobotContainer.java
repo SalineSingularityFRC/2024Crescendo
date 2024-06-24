@@ -137,65 +137,47 @@ public class RobotContainer {
         arm.setDefaultCommand(arm.maintainArm());
         climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
-        armController.x().whileTrue(intake.startIntake());
-        armController.x().onFalse(intake.stopIntaking());
+        //Arm Controller
+        //Intake for arm controller
+        armController.a().onTrue(arm.pickupTarget());
+        armController.a()
+                .whileTrue(new IntakeParallelCommand(shooter, intake, 0));
+        armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
+        armController.a().onFalse(shooter.stopShooting());
 
-        armController.x().onTrue(shooter.setShooterBrake());
-        armController.x().onFalse(shooter.setShooterCoast());
-
-        armController.y().whileTrue(arm.shootTarget());
-
-        armController.rightBumper().whileTrue(arm.pickupTarget());
+        // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
+        
+        // Amp Shooting
+        armController.y().whileTrue(
+                new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand())
+                        .alongWith(intake.startIntake()));
+        armController.y().onFalse(shooter.stopShooting());
 
-        armController.povLeft().whileTrue(arm.ampTarget());
-
+        // Manual arm movement
         armController.povUp()
                 .and(arm::isNotAtTop)
                 .whileTrue(arm.moveArmForward());
-
         armController.povDown()
                 .and(arm::isNotAtBottom)
                 .whileTrue(arm.moveArmBackwards());
 
-        armController.back().onTrue(drive.rotate90());
+        // Moving Arm Positions
+        armController.povUp().onTrue(arm.shootTarget());
+        armController.povDown().onTrue(arm.pickupTarget());
 
-
-        //armController.povRight().whileTrue(lime.limelightScore(arm, shooter));
-        armController.povRight().whileTrue(lime.scoreRight(drive));
-
-        driveController.povLeft().whileTrue(
-                drive.visionUpdateCommand()
-        );
+        // Reverse Intake
+        armController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
+        armController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
 
 
         // DRIVE CONTROLLER
+        // Climber Controller
         driveController.leftBumper().whileTrue(climber.moveClimberUp());
         driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
-        // Moving Arm Positions
-        driveController.x().onTrue(arm.shootTarget());
-        driveController.a().onTrue(arm.pickupTarget());
-
-        // Reverse Intake
-        driveController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
-        driveController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
-
-        // Amp Shooting
-        driveController.y().whileTrue(
-                new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand())
-                        .alongWith(intake.startIntake()));
-        driveController.y().onFalse(shooter.stopShooting());
-
-        // Intaking
-        driveController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake, 0));
-        
-        driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
-        driveController.a().onFalse(shooter.stopShooting());
-
-        // INVERT
-        //driveController.povLeft().onTrue(drive.xMode());
+        // (Should be automatic)
+        driveController.povRight().onTrue(drive.xMode());
 
         // Teleop PreShooter
         driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
@@ -217,20 +199,22 @@ public class RobotContainer {
         //                 driveController::getLeftX,
         //                 0.5));
 
-            driveController.povUp().whileTrue(
+        // Limelight get to tag
+        driveController.povUp().whileTrue(
                 new getToTag(drive, lime)
-            );
+        );    
 
-        driveController.start()
-                .and(arm::isNotAtBottom)
-                .whileTrue(arm.moveArmBackwards());
+        // Should be automatic
+        driveController.povLeft().whileTrue(
+                drive.visionUpdateCommand()
+        );
 
-        // Driving with Joysticks default command
+        // Driving with Joysticks default command (don't change)
         drive.setDefaultCommand(
                 new DriveController(drive, driveController::getRightX, driveController::getLeftY,
                         driveController::getLeftX,
                         4.5));
-    }
+        }
 
     public Command getAutonomousCommand() {
         // Load the path you want to follow using its name in the GUI
