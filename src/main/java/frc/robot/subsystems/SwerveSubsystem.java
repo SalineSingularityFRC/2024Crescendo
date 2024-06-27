@@ -336,7 +336,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   // Takes in a target distance to drive to away from the tag
-  //Not using this right now, using this in alignAndDriveToTagCommand()
+  //Not using this in RobotContainer.java, using this in alignAndDriveToTagCommand()
   public Command driveToTagCommand(double targetDistance, Limelight lime) {
 
     PIDController driveController = new PIDController(0.395, 0, 0);
@@ -362,6 +362,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   //Finds the Closest Distances That We have Calibrated Shooting From
+  // Not using this in RobotContainer.java, using this in alignAndDriveToTagCommand
   public double[] findClosestDistance(double currentDistance){
     double[] knownDistances = Constants.Limelight.knownDriveDistances;
 
@@ -389,7 +390,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     return returnValues;
   }
 
-
+  // For Speaker with various distances to shoot
   public Command alignAndDriveToTagCommand(Limelight lime) {
 
     PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
@@ -443,6 +444,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         this);
   }
 
+  //Getting to the amp diagonally
   public Command alignAndGetPerpendicularToTagCommand(Limelight lime) {
 
     PIDController rotationController = new PIDController(0.0315, 0, 0.000033);

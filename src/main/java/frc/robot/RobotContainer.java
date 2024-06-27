@@ -52,14 +52,14 @@ public class RobotContainer {
     public RobotContainer() {
 
         arm = new ArmSubsystem();
-         lime = new Limelight();
-       drive = new SwerveSubsystem();
+        lime = new Limelight();
+        drive = new SwerveSubsystem();
         intake = new IntakeSubsystem();
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
 
-         armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
-         driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
+        armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
+        driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
 
         configureBindings();
 
@@ -151,13 +151,14 @@ public class RobotContainer {
         // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
         
-        // Amp Shooting
+        // Amp Position
         armController.y().whileTrue(
                 new AmpPositionCommand(shooter, arm));
 
+        // Amp Shooting
         armController.rightBumper().whileTrue(shooter.ampShootCommand()
                         .alongWith(intake.startIntake()));
-        armController.y().onFalse(shooter.stopShooting());
+        armController.rightBumper().onFalse(shooter.stopShooting());
 
         // Manual arm movement
         armController.povUp()
@@ -176,13 +177,11 @@ public class RobotContainer {
 
 
         // DRIVE CONTROLLER
+
         // Climber Controller
         // Not used in the most recent comp
         // driveController.leftBumper().whileTrue(climber.moveClimberUp());
         // driveController.rightBumper().whileTrue(climber.moveClimberDown());
-
-        // (Should be automatic)
-        driveController.povRight().onTrue(drive.xMode());
 
         // Teleop PreShooter
         driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
@@ -193,24 +192,17 @@ public class RobotContainer {
         driveController.rightTrigger().onFalse(shooter.stopShooting());
 
         // Reset Gyro
-        driveController.back().whileTrue(drive.resetGyroCommand());
-
-        // driveController.povUp().onTrue(
-        //         new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-        //                 driveController::getLeftX,
-        //                 1));
-        // driveController.povDown().onTrue(
-        //         new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-        //                 driveController::getLeftX,
-        //                 0.5));
+        driveController.x().whileTrue(drive.resetGyroCommand());
 
         // Limelight drive to x distance to speaker
-        driveController.povUp().whileTrue(
+        driveController.b().whileTrue(
                 new toSpeaker(drive, lime)
         );
 
-        //EXPERIMENTAL
-        driveController.povLeft().whileTrue(
+        // Needs to be tested
+        // Will first start up pre shooter and then go to the nearest distance 
+        // we can shoot from. Right after, it will shoot from that position.
+        driveController.y().whileTrue(
                 (new LimelightPreShoot(shooter, drive, arm, lime, intake))
                 .andThen(new ShootCommand(shooter, intake, arm))
         );
@@ -219,14 +211,35 @@ public class RobotContainer {
                 shooter.stopShooting()
         );
         // Limelight drive to amp
+        // Not tested
         driveController.povDown().whileTrue(
                 new toAmp(drive, lime)
         );
 
-        // Driving with Joysticks default command (don't change)
+        // (Should be automatic)
+        driveController.povRight().onTrue(drive.xMode());
+
+        // Driving with Joysticks default command scaled to x^2
         drive.setDefaultCommand(
-                new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-                        driveController::getLeftX,
+                new DriveController(drive, () -> {
+                        if (driveController.getRightX() < 0) {
+                            return -1.0 * driveController.getRightX() * driveController.getRightX();
+                        }
+
+                        return driveController.getRightX() * driveController.getRightX();
+                }, () -> {
+                        if (driveController.getLeftY() < 0) {
+                            return -1.0 * driveController.getLeftY() * driveController.getLeftY();
+                        }
+
+                        return driveController.getLeftY() * driveController.getLeftY();
+                }, () -> {
+                        if (driveController.getLeftX() < 0) {
+                                return -1.0 * driveController.getLeftX() * driveController.getLeftX();
+                        }
+
+                        return driveController.getLeftX() * driveController.getLeftX();
+                },
                         4.5));
         }
 
