@@ -22,6 +22,7 @@ import frc.robot.commands.Teleop.DriveController;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Auton.StopIntake;
+import frc.robot.commands.Limelight.LimelightPreShoot;
 import frc.robot.commands.Auton.Home;
 import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.commands.ReverseIntakeCommand;
@@ -198,6 +199,11 @@ public class RobotContainer {
                 new toSpeaker(drive, lime)
         );
 
+        //EXPERIMENTAL
+        driveController.povLeft().whileTrue(
+                (new LimelightPreShoot(shooter, drive, arm, lime, intake))
+                .andThen(new ShootCommand(shooter, intake, arm))
+        );
         // Limelight drive to amp
         driveController.povDown().whileTrue(
                 new toAmp(drive, lime)

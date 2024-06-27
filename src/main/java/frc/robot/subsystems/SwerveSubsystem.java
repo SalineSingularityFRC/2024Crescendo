@@ -362,8 +362,8 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   //Finds the Closest Distances That We have Calibrated Shooting From
-  public double findClosestDistance(double currentDistance){
-    double[] knownDistances = {3, 6, 8};
+  public double[] findClosestDistance(double currentDistance){
+    double[] knownDistances = Constants.Limelight.knownDriveDistances;
 
     //Final Distance from Known Distances
     double closestDistance = 0.0;
@@ -374,6 +374,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
      * below.
      */
     double closestDistanceFromKnownPoint = Double.MAX_VALUE;
+    int index = Integer.MAX_VALUE;
 
     for(int i = 0; i < knownDistances.length; i++){
 
@@ -381,10 +382,11 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         if(distanceFromKnownPoint < closestDistanceFromKnownPoint) {
             closestDistanceFromKnownPoint = distanceFromKnownPoint;
             closestDistance = knownDistances[i];
+            index = i;
         }
     }
-
-    return closestDistance;
+    double returnValues[] = {closestDistance, index};
+    return returnValues;
   }
 
 
@@ -404,11 +406,11 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
     return new FunctionalCommand(
         () -> {
-
+          
         },
         () -> {
           double distance = lime.getDistanceToTagInFeet();
-          double closestDistance = findClosestDistance(distance);
+          double closestDistance = findClosestDistance(distance)[0];
           driveController.setSetpoint(closestDistance);
 
           SmartDashboard.putNumber("finding closest distance", closestDistance);

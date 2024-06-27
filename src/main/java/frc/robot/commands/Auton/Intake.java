@@ -12,7 +12,7 @@ public class Intake extends SequentialCommandGroup {
     addCommands(
         intake.setCoast(),
         arm.pickupTarget(),
-        new IntakeParallelCommand(shooter, intake, 3)
+        new IntakeParallelCommand(shooter, intake, 2)
     );
    }
 }
