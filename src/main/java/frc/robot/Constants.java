@@ -188,7 +188,7 @@ public final class Constants {
     public static final double AMPSHOOTER = 15; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double HOME = 0.2; // rotations per second
+    public static final double HOME = 0.2; // proportional
     public static final double CLIMBER = 280;
     public static final double ARMDUTYCYCLEUP = 0.4; // between -1 and 1
     public static final double ARMDUTYCYCLEDOWN = 0.2; // between -1 and 1

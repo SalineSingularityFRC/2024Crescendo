@@ -150,13 +150,14 @@ public class RobotContainer {
         // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
         
-        // Amp Shooting
+        // Amp Position
         armController.y().whileTrue(
                 new AmpPositionCommand(shooter, arm));
 
+        // Amp Shooting
         armController.rightBumper().whileTrue(shooter.ampShootCommand()
                         .alongWith(intake.startIntake()));
-        armController.y().onFalse(shooter.stopShooting());
+        armController.rightBumper().onFalse(shooter.stopShooting());
 
         // Manual arm movement
         armController.povUp()
@@ -175,13 +176,11 @@ public class RobotContainer {
 
 
         // DRIVE CONTROLLER
+
         // Climber Controller
         // Not used in the most recent comp
         // driveController.leftBumper().whileTrue(climber.moveClimberUp());
         // driveController.rightBumper().whileTrue(climber.moveClimberDown());
-
-        // (Should be automatic)
-        driveController.povRight().onTrue(drive.xMode());
 
         // Teleop PreShooter
         driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
@@ -192,16 +191,7 @@ public class RobotContainer {
         driveController.rightTrigger().onFalse(shooter.stopShooting());
 
         // Reset Gyro
-        driveController.back().whileTrue(drive.resetGyroCommand());
-
-        // driveController.povUp().onTrue(
-        //         new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-        //                 driveController::getLeftX,
-        //                 1));
-        // driveController.povDown().onTrue(
-        //         new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-        //                 driveController::getLeftX,
-        //                 0.5));
+        driveController.x().whileTrue(drive.resetGyroCommand());
 
         // Limelight drive to x distance to speaker
         driveController.povUp().whileTrue(
@@ -212,6 +202,9 @@ public class RobotContainer {
         driveController.povDown().whileTrue(
                 new toAmp(drive, lime)
         );
+
+        // (Should be automatic)
+        driveController.povRight().onTrue(drive.xMode());
 
         // Driving with Joysticks default command (don't change)
         drive.setDefaultCommand(
