@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -176,6 +178,26 @@ public class ArmSubsystem extends SubsystemBase {
         () -> {
 
           return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 1;
+        },
+        this);
+  }
+
+  public Command limelightShootTarget(final Supplier<Double> pos) {
+    return new FunctionalCommand(
+        () -> {
+
+        },
+        () -> {
+          armMotor1.setControl(
+            positionTargetPreset.withPosition(pos.get()).withFeedForward(0.1).withSlot(0));
+          armMotorPosition = pos.get();
+        },
+        (_unused) -> {
+
+        },
+        () -> {
+
+          return Math.abs(pos.get() - armMotor1.getPosition().getValueAsDouble()) < 1;
         },
         this);
   }

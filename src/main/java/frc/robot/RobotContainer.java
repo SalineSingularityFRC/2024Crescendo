@@ -214,6 +214,10 @@ public class RobotContainer {
                 (new LimelightPreShoot(shooter, drive, arm, lime, intake))
                 .andThen(new ShootCommand(shooter, intake, arm))
         );
+        
+        driveController.povLeft().onFalse(
+                shooter.stopShooting()
+        );
         // Limelight drive to amp
         driveController.povDown().whileTrue(
                 new toAmp(drive, lime)
