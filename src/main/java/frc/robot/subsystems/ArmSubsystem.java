@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
@@ -27,11 +28,14 @@ public class ArmSubsystem extends SubsystemBase {
   public TalonFX armMotor1;
   private TalonFX armMotor2;
 
- // private MotionMagicVoltage positionTargetPreset = new MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
+  // private MotionMagicVoltage positionTargetPreset = new
+  // MotionMagicVoltage(0).withSlot(1).withEnableFOC(true);
 
   private PositionVoltage positionTargetPreset = new PositionVoltage(0).withSlot(0).withEnableFOC(true);
-  //private PositionTorqueCurrentFOC positionTargetPreset = new PositionTorqueCurrentFOC(0).withSlot(0);
+  // private PositionTorqueCurrentFOC positionTargetPreset = new
+  // PositionTorqueCurrentFOC(0).withSlot(0);
   private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
+  private DutyCycleOut dutyCycleOut = new DutyCycleOut(0.2);
   private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
   private MotionMagicConfigs motionMagicConfigsPresets;
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
@@ -41,13 +45,11 @@ public class ArmSubsystem extends SubsystemBase {
   private final double manualBigD = 0;
   private final double manualBigS = 0.03;
 
-  //OLD PID CONSTANTS
-  private final double slot0P = 0.5;
+  // OLD PID CONSTANTS
+  private final double slot0P = 0.4;
   private final double slot0I = 0;
-  private final double slot0D = 0.2;
+  private final double slot0D = 0.1;
   private final double slot0S = 0.0;
-
-
 
   public double armMotorPosition;
 
@@ -75,7 +77,6 @@ public class ArmSubsystem extends SubsystemBase {
     slot1ConfigsBig.kD = manualBigD;
     slot1ConfigsBig.kS = manualBigS;
 
-    
     armMotor1.getConfigurator().apply(slot0ConfigsBig);
     armMotor1.getConfigurator().apply(slot1ConfigsBig);
     armMotor1.getConfigurator().apply(limitSwitchConfigs);
@@ -92,17 +93,18 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setArmSpeed(double speed) {
-    //System.out.println("ARM SPEED");
-    armMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.1).withSlot(1));
+    armMotor1.setControl(dutyCycleOut.withOutput(speed).withEnableFOC(true));
+
+    // armMotor1.setControl(velocityVoltage.withVelocity(speed).withFeedForward(0.1).withSlot(1));
     armMotorPosition = armMotor1.getPosition().getValue();
   }
 
   public void setPosition(double bigArmAngle) {
     armMotor1.setControl(
         positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.1).withSlot(0));
-
     armMotorPosition = bigArmAngle;
-   
+
+    SmartDashboard.putNumber("arm pos", armMotorPosition);
   }
 
   public void setBrakeMode() {
@@ -111,7 +113,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotor2.getConfigurator().apply(motorOutputConfigs);
   }
 
-  public void periodic(){
+  public void periodic() {
 
   }
 
@@ -125,74 +127,72 @@ public class ArmSubsystem extends SubsystemBase {
   public Command moveArmForward() {
     return run(
         () -> {
-          setArmSpeed(Constants.Speed.ARM);
+          setArmSpeed(Constants.Speed.ARMDUTYCYCLEUP);
         });
   }
 
   public Command moveArmBackwards() {
     return run(
         () -> {
-          setArmSpeed(-Constants.Speed.ARM);
+          setArmSpeed(-Constants.Speed.ARMDUTYCYCLEDOWN);
         });
   }
 
-  //RunOne or Run
+  // RunOne or Run
   public Command ampTarget() {
     return runOnce(() -> {
       setPosition(Constants.Position.MainArm.AMP);
     });
   }
 
-
-  public Command shootTarget(){
+  public Command shootTarget() {
     return new FunctionalCommand(
-    () -> {
+        () -> {
 
-    }, 
-    () -> {
-      setPosition(Constants.Position.MainArm.Speaker.MIDDLE);
-    },
-    (_unused) -> {
+        },
+        () -> {
+          setPosition(Constants.Position.MainArm.Speaker.FEET3);
+        },
+        (_unused) -> {
 
-    },
-    ()->{
-      return Math.abs(Constants.Position.MainArm.Speaker.MIDDLE - armMotor1.getPosition().getValueAsDouble()) < 0.5;
-    },
-    this
-    );
+        },
+        () -> {
+          return Math.abs(Constants.Position.MainArm.Speaker.FEET3 - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+        },
+        this);
   }
 
-  public Command autonShootTarget(double pos){
+  public Command autonShootTarget(double pos) {
     return new FunctionalCommand(
-    () -> {
-      
-    }, 
-    () -> {
-      setPosition(pos);
-    },
-    (_unused) -> {
+        () -> {
 
-    },
-    ()->{
-     
-      return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 1;
-    },
-    this
-    );
+        },
+        () -> {
+          setPosition(pos);
+        },
+        (_unused) -> {
+
+        },
+        () -> {
+
+          return Math.abs(pos - armMotor1.getPosition().getValueAsDouble()) < 1;
+        },
+        this);
   }
 
- public Command climberTarget(){
+  public Command climberTarget() {
     return new FunctionalCommand(
-    () -> {}, 
-    () -> {
-      setPosition(Constants.Position.MainArm.CLIMBER);
-    },
-    (_unused) -> {},
-    () -> {
-      return Math.abs(Constants.Position.MainArm.CLIMBER - armMotor1.getPosition().getValueAsDouble()) < 0.5;
-    },
-    this
-    );
+        () -> {
+        },
+        () -> {
+          setPosition(Constants.Position.MainArm.CLIMBER);
+        },
+        (_unused) -> {
+        },
+        () -> {
+          return Math.abs(Constants.Position.MainArm.CLIMBER - armMotor1.getPosition().getValueAsDouble()) < 0.5;
+        },
+        this);
   }
 
   public Command pickupTarget() {
@@ -207,43 +207,41 @@ public class ArmSubsystem extends SubsystemBase {
     });
   }
 
-  public boolean isNotAtBottom(){
+  public boolean isNotAtBottom() {
     return armMotor1.getReverseLimit().getValue() != ReverseLimitValue.ClosedToGround;
   }
 
-  public boolean isAtBottom(){
+  public boolean isAtBottom() {
     return armMotor1.getReverseLimit().getValue() == ReverseLimitValue.ClosedToGround;
   }
 
-
-   public boolean isNotAtTop(){
+  public boolean isNotAtTop() {
     return armMotor1.getForwardLimit().getValue() != ForwardLimitValue.ClosedToGround;
   }
 
   public void maintainArmPosition() {
-    //System.out.println("MAINTAIN");
-   // armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
+    // System.out.println("MAINTAIN");
+    // armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
     armMotor1.setControl(
         positionTargetPreset.withPosition(armMotorPosition).withFeedForward(0.03 * 12).withSlot(0));
   }
-  
-  public double getPosition(){
+
+  public double getPosition() {
     return (armMotor1.getPosition().getValue() * 2 * Math.PI) / Constants.MotorGearRatio.ARM;
   }
-  
-  public Command goHome(){
+
+  public Command goHome() {
     return new FunctionalCommand(
-    () -> {
+        () -> {
 
-    }, 
-    () -> {
-      setArmSpeed(-Constants.Speed.HOME);
-    },
-    (_unused) -> {
+        },
+        () -> {
+          setArmSpeed(-Constants.Speed.HOME);
+        },
+        (_unused) -> {
 
-    },
-    this::isAtBottom,
-    this
-    );
+        },
+        this::isAtBottom,
+        this);
   }
 }

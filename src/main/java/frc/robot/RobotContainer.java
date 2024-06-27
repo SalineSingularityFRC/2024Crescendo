@@ -25,7 +25,8 @@ import frc.robot.commands.Auton.StopIntake;
 import frc.robot.commands.Auton.Home;
 import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.commands.ReverseIntakeCommand;
-import frc.robot.commands.Teleop.getToTag;
+import frc.robot.commands.Teleop.toSpeaker;
+import frc.robot.commands.Teleop.toAmp;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -55,6 +56,7 @@ public class RobotContainer {
         intake = new IntakeSubsystem();
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
+
          armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
          driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
 
@@ -139,18 +141,20 @@ public class RobotContainer {
 
         //Arm Controller
         //Intake for arm controller
-        armController.a().onTrue(arm.pickupTarget());
+        armController.a().onTrue(shooter.setShooterBrake());
         armController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake, 0));
-        armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
-        armController.a().onFalse(shooter.stopShooting());
+                .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.goHome()));
+        armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()).andThen(shooter.stopShooting()).andThen(shooter.setShooterCoast()));
+        //armController.a().onFalse(shooter.stopShooting());
 
         // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
         
         // Amp Shooting
         armController.y().whileTrue(
-                new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand())
+                new AmpPositionCommand(shooter, arm));
+
+        armController.rightBumper().whileTrue(shooter.ampShootCommand()
                         .alongWith(intake.startIntake()));
         armController.y().onFalse(shooter.stopShooting());
 
@@ -163,8 +167,7 @@ public class RobotContainer {
                 .whileTrue(arm.moveArmBackwards());
 
         // Moving Arm Positions
-        armController.povUp().onTrue(arm.shootTarget());
-        armController.povDown().onTrue(arm.pickupTarget());
+        armController.x().whileTrue(arm.shootTarget());
 
         // Reverse Intake
         armController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
@@ -173,8 +176,9 @@ public class RobotContainer {
 
         // DRIVE CONTROLLER
         // Climber Controller
-        driveController.leftBumper().whileTrue(climber.moveClimberUp());
-        driveController.rightBumper().whileTrue(climber.moveClimberDown());
+        // Not used in the most recent comp
+        // driveController.leftBumper().whileTrue(climber.moveClimberUp());
+        // driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
         // (Should be automatic)
         driveController.povRight().onTrue(drive.xMode());
@@ -199,14 +203,14 @@ public class RobotContainer {
         //                 driveController::getLeftX,
         //                 0.5));
 
-        // Limelight get to tag
+        // Limelight drive to x distance to speaker
         driveController.povUp().whileTrue(
-                new getToTag(drive, lime)
-        );    
+                new toSpeaker(drive, lime)
+        );
 
-        // Should be automatic
-        driveController.povLeft().whileTrue(
-                drive.visionUpdateCommand()
+        // Limelight drive to amp
+        driveController.povDown().whileTrue(
+                new toAmp(drive, lime)
         );
 
         // Driving with Joysticks default command (don't change)

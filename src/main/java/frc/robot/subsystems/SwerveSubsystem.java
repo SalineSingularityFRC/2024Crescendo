@@ -336,7 +336,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
   // Takes in a target distance to drive to away from the tag
-  //Not using this individually, using this in alignAndDriveToTagCommand()
+  //Not using this right now, using this in alignAndDriveToTagCommand()
   public Command driveToTagCommand(double targetDistance, Limelight lime) {
 
     PIDController driveController = new PIDController(0.395, 0, 0);
@@ -363,7 +363,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
   //Finds the Closest Distances That We have Calibrated Shooting From
   public double findClosestDistance(double currentDistance){
-    double[] knownDistances = { 2, 4, 6, 10};
+    double[] knownDistances = {3, 6, 8};
 
     //Final Distance from Known Distances
     double closestDistance = 0.0;
@@ -388,7 +388,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   }
 
 
-  public Command alignAndDriveToTagCommand(double targetDistance, Limelight lime) {
+  public Command alignAndDriveToTagCommand(Limelight lime) {
 
     PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
     rotationController.setSetpoint(0);
@@ -397,8 +397,8 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
     SimpleMotorFeedforward rotationFeedForward = new SimpleMotorFeedforward(0, 0);
 
     PIDController driveController = new PIDController(0.395, 0, 0);
-    driveController.setSetpoint(targetDistance);
     driveController.setTolerance(0.1);
+    
 
     SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(0.01, 0);
 
@@ -408,6 +408,12 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         },
         () -> {
           double distance = lime.getDistanceToTagInFeet();
+          double closestDistance = findClosestDistance(distance);
+          driveController.setSetpoint(closestDistance);
+
+          SmartDashboard.putNumber("finding closest distance", closestDistance);
+          SmartDashboard.putNumber("distance", distance);
+
           double tx = lime.getTX();
 
           double driveSpeed = driveController.calculate(distance);
@@ -434,6 +440,54 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         },
         this);
   }
+
+  public Command alignAndGetPerpendicularToTagCommand(Limelight lime) {
+
+    PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
+    rotationController.setSetpoint(0);
+    rotationController.setTolerance(1);
+
+    SimpleMotorFeedforward rotationFeedForward = new SimpleMotorFeedforward(0, 0);
+
+    PIDController driveController = new PIDController(0.395, 0, 0);
+    driveController.setSetpoint(0);
+    driveController.setTolerance(0.1);
+
+    SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(0.01, 0);
+
+    return new FunctionalCommand(
+        () -> {
+
+        },
+        () -> {
+          double distance = lime.getDistanceToTagInFeet();
+
+          double driveSpeed = driveController.calculate(distance);
+
+          if(driveSpeed >= 3.5) {
+            driveSpeed = 3.5;
+          }
+          else if (driveSpeed <= -3.5) {
+            driveSpeed = -3.5;
+          }
+
+          if (lime.isTagFound()) {
+            drive(
+                new SwerveRequest(rotationFeedForward.calculate(gyro.getAngle() - 270) - rotationController.calculate(gyro.getAngle() - 270),
+                    -driveFeedForward.calculate(distance) + driveSpeed, 0),
+                false);
+          }
+        },
+        (_unused) -> {
+
+        },
+        () -> {
+          return driveController.atSetpoint() && rotationController.atSetpoint();
+        },
+        this);
+  }
+
+
 
   public Command xMode() {
     return runOnce(

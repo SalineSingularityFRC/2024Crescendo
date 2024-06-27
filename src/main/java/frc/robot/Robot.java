@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    m_robotContainer.drive.visionUpdateCommand();
   }
 
   @Override
@@ -87,7 +88,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    //SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
+    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle());
    
     CommandScheduler.getInstance().run();
   }

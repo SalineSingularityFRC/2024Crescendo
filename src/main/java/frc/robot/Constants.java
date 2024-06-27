@@ -48,7 +48,7 @@ public final class Constants {
         public static final int ARM_2 = 2;
         public static final int SHOOTER_1 = 3;
         public static final int SHOOTER_2 = 4;
-        public static final int INTAKE = 2;
+        public static final int INTAKE = 5;
         public static final int CLIMBER = 20;
       }
     }
@@ -83,12 +83,15 @@ public final class Constants {
 
       public static final class Speaker {
           public static final double SIDE = 8.5; // Touching the right or left side of the Speaker
-          public static final double MIDDLE = 12; // Middle of speaker
+          public static final double MIDDLE = 10; // Middle of speaker
+          public static final double FEET3 = 10; // Middle of speaker
+          public static final double FEET6 = 17.1162; // Middle of speaker
+          public static final double FEET7_4 = 18.48877; // Middle of speaker
       }
 
-      public static final double AMP = 49.416016;
+      public static final double AMP = 50;
       
-      public static final double PICKUP = 2;
+      public static final double PICKUP = 0;
       public static final double CLIMBER = 0;
     }
 
@@ -182,10 +185,13 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR = 2.5; // what the max speed should be divided by, 1 is max power
     public static final double SHOOTER = 65; // speed of the shooter in rotations per second
+    public static final double AMPSHOOTER = 15; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double HOME = 65; // rotations per second
+    public static final double HOME = 0.2; // rotations per second
     public static final double CLIMBER = 280;
+    public static final double ARMDUTYCYCLEUP = 0.4; // between -1 and 1
+    public static final double ARMDUTYCYCLEDOWN = 0.2; // between -1 and 1
   }
 
   public static final class Distance {
