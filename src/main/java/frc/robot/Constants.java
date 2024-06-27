@@ -219,6 +219,7 @@ public final class Constants {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
       public static final PID TURN_CONTROLLER = new PID(0.01,0,0);
       public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
+      
     }
 
     public static final class TurnAngle {
@@ -229,5 +230,14 @@ public final class Constants {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
       public static final PID TURNING_PID_CONTROLLER = new PID(7, 0, 0.3, 0);
     }
+  }
+
+  public static final class Limelight {
+    public static final double[] knownDriveDistances = {3, 6, 8};
+    public static final double[] knownShootingPositions = {
+      Constants.Position.MainArm.Speaker.FEET3, 
+      Constants.Position.MainArm.Speaker.FEET6, 
+      Constants.Position.MainArm.Speaker.FEET7_4
+    };
   }
 }
