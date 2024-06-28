@@ -26,12 +26,10 @@ public class LimelightPreShoot extends SequentialCommandGroup {
         double shootingPos = 0;//Constants.Limelight.knownShootingPositions[(int) knownDistances[1]];
         SmartDashboard.putNumber("shootingPosLimelight", shootingPos);
         addCommands(
-            new LimelightPreShooterCommand(shooter, intake, arm, this::getKnownDistanceArmPos),
+            new LimelightPreShooterCommand(shooter, intake, arm, swerve, lime),
             new toSpeaker(swerve, lime)
         );
    }
 
-    public double getKnownDistanceArmPos(){
-        return this.swerve.findClosestDistance(this.lime.getDistanceToTagInFeet())[1];
-    };
+  
 }

@@ -12,16 +12,16 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class LimelightPreShooterCommand extends SequentialCommandGroup{
-    public LimelightPreShooterCommand(ShooterSubsystem shooter, IntakeSubsystem intake, ArmSubsystem arm, 
-    Supplier<Double> position) {
+    public LimelightPreShooterCommand(ShooterSubsystem shooter, IntakeSubsystem intake,
+     ArmSubsystem arm, SwerveSubsystem swerve, Limelight lime) {
 
-    addCommands(
-        intake.stopIntaking(), //maybe not needed
-        arm.limelightShootTarget(position),
-        new ReverseIntakeCommand(intake),
-        intake.stopIntaking(),
-        shooter.setShooterCoast(),
-        shooter.autonStartUpShooter()
-    );
-   }
+        addCommands(
+            intake.stopIntaking(), //maybe not needed
+            arm.limelightShootTarget(swerve, lime),
+            new ReverseIntakeCommand(intake),
+            intake.stopIntaking(),
+            shooter.setShooterCoast(),
+            shooter.autonStartUpShooter()
+        );
+    }
 }

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Limelight;
 import frc.robot.subsystems.SwerveSubsystem.SwerveRequest;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -190,22 +191,23 @@ public class ArmSubsystem extends SubsystemBase {
         this);
   }
 
-  public Command limelightShootTarget(final Supplier<Double> pos) {
+  public Command limelightShootTarget(SwerveSubsystem swerve, Limelight lime) {
     return new FunctionalCommand(
         () -> {
-
+        
         },
         () -> {
+          double pos = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
           armMotor1.setControl(
-            positionTargetPreset.withPosition(pos.get()).withFeedForward(0.1).withSlot(0));
-          armMotorPosition = pos.get();
+            positionTargetPreset.withPosition(pos).withFeedForward(0.1).withSlot(0));
+          armMotorPosition = pos;
         },
         (_unused) -> {
 
         },
         () -> {
-
-          return Math.abs(pos.get() - armMotor1.getPosition().getValueAsDouble()) < 1;
+          double pos = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
+          return Math.abs(pos- armMotor1.getPosition().getValueAsDouble()) < 1;
         },
         this);
   }
