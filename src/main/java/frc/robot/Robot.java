@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle());
    
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Actual Arm Pos", m_robotContainer.arm.getPosition());
   }
 
   @Override

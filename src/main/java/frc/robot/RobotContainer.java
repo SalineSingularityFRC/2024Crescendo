@@ -144,7 +144,7 @@ public class RobotContainer {
         //Intake for arm controller
         armController.a().onTrue(shooter.setShooterBrake());
         armController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.goHome()));
+                .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.pickupTarget()));
         armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()).andThen(shooter.stopShooting()).andThen(shooter.setShooterCoast()));
         //armController.a().onFalse(shooter.stopShooting());
 
@@ -206,10 +206,10 @@ public class RobotContainer {
                 (new LimelightPreShoot(shooter, drive, arm, lime, intake))
                 .andThen(new ShootCommand(shooter, intake, arm))
         );
-        
-        driveController.povLeft().onFalse(
+        driveController.y().onFalse(
                 shooter.stopShooting()
         );
+
         // Limelight drive to amp
         // Not tested
         driveController.povDown().whileTrue(

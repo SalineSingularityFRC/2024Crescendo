@@ -73,6 +73,9 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Ideal Speed", speed);
         SmartDashboard.putNumber("Shooter 1 Speed", getShooter1Speed());
         SmartDashboard.putNumber("Ideal Speed", getShooter2Speed());
+
+        setCoastMode();
+
         shooterMotor1.setControl(velocityVoltage.withVelocity(speed)
             .withFeedForward(0.05).withSlot(1));
 
@@ -86,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
                 //shooterMotor1.setControl(dutyCycleOut.withOutput(-speed).withEnableFOC(true));
 
                 shooterMotor2.setControl(dutyCycleOut.withOutput(-speed).withEnableFOC(true));
-                
+                setBrakeMode();
 
                 //setShooterSpeed(-speed);
             }

@@ -72,26 +72,26 @@ public final class Constants {
     public static final class MainArm {
       public static final class Auton {
         public static final class CloseNote {
-          public static final double SIDE = 16; // Close Note1 or Close Note3
+          public static final double SIDE = 19; // Close Note1 or Close Note3
         }
 
         public static final class WhiteLine {
-          public static final double SIDE = 16; // Not clearly tuned
-          public static final double MIDDLE = 15; // Not clearly tuned
+          public static final double SIDE = 18; // Not clearly tuned
+          public static final double MIDDLE = 17.5; // Not clearly tuned
         }
       }
 
       public static final class Speaker {
-          public static final double SIDE = 8.5; // Touching the right or left side of the Speaker
+          public static final double SIDE = 11; // Touching the right or left side of the Speaker
           public static final double MIDDLE = 10; // Middle of speaker
-          public static final double FEET3 = 10; // Middle of speaker
-          public static final double FEET6 = 17.1162; // Middle of speaker
-          public static final double FEET7_4 = 18.48877; // Middle of speaker
+          public static final double FEET3 = 10; // 3 feet from april tag speaker
+          public static final double FEET6 = 17.1162; // 6 feet from april tag speaker
+          public static final double FEET7_4 = 18.48877; // 7.4 feet from april tag speaker
       }
 
       public static final double AMP = 50;
       
-      public static final double PICKUP = 0;
+      public static final double PICKUP = 1.3;
       public static final double CLIMBER = 0;
     }
 
@@ -192,6 +192,7 @@ public final class Constants {
     public static final double CLIMBER = 280;
     public static final double ARMDUTYCYCLEUP = 0.4; // between -1 and 1
     public static final double ARMDUTYCYCLEDOWN = 0.2; // between -1 and 1
+    public static final double REVERSESHOOTER = 0.15; // between -1 and 1
   }
 
   public static final class Distance {

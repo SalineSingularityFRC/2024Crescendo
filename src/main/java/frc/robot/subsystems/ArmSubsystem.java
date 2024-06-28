@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -41,6 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFXConfiguration talonFXConfigsPreset = new TalonFXConfiguration();
   private MotionMagicConfigs motionMagicConfigsPresets;
   private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
+  
 
   private final double manualBigP = 1;
   private final double manualBigI = 0;
@@ -79,13 +81,19 @@ public class ArmSubsystem extends SubsystemBase {
     slot1ConfigsBig.kD = manualBigD;
     slot1ConfigsBig.kS = manualBigS;
 
+    CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+    currentLimitsConfigs.StatorCurrentLimitEnable = true;
+    currentLimitsConfigs.StatorCurrentLimit = 30;
+
     armMotor1.getConfigurator().apply(slot0ConfigsBig);
     armMotor1.getConfigurator().apply(slot1ConfigsBig);
     armMotor1.getConfigurator().apply(limitSwitchConfigs);
+    armMotor1.getConfigurator().apply(currentLimitsConfigs);
+
     motionMagicConfigsPresets = talonFXConfigsPreset.MotionMagic;
     motionMagicConfigsPresets.MotionMagicCruiseVelocity = 40 / 30;
-    motionMagicConfigsPresets.MotionMagicAcceleration = 100 / 40;
-    motionMagicConfigsPresets.MotionMagicJerk = 900 / 30;
+    motionMagicConfigsPresets.MotionMagicAcceleration = 100 / 80;
+    motionMagicConfigsPresets.MotionMagicJerk = 900 / 60;
 
     armMotor1.getConfigurator().apply(motionMagicConfigsPresets);
 
@@ -106,7 +114,7 @@ public class ArmSubsystem extends SubsystemBase {
         positionTargetPreset.withPosition(bigArmAngle).withFeedForward(0.1).withSlot(0));
     armMotorPosition = bigArmAngle;
 
-    SmartDashboard.putNumber("arm pos", armMotorPosition);
+    SmartDashboard.putNumber("target arm pos", armMotorPosition * 2 * Math.PI);
   }
 
   public void setBrakeMode() {
