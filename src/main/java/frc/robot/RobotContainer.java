@@ -22,14 +22,18 @@ import frc.robot.commands.Teleop.DriveController;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Auton.StopIntake;
+import frc.robot.commands.Limelight.LimelightPreShoot;
 import frc.robot.commands.Auton.Home;
 import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.Teleop.toSpeaker;
+import frc.robot.commands.Teleop.toAmp;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.SwerveClasses.*;
 
 public class RobotContainer {
 
@@ -48,11 +52,12 @@ public class RobotContainer {
     public RobotContainer() {
 
         arm = new ArmSubsystem();
-        //lime = new Limelight();
+        // lime = new Limelight();
         drive = new SwerveSubsystem();
         intake = new IntakeSubsystem();
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
+
         armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
         driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
 
@@ -81,14 +86,6 @@ public class RobotContainer {
 
         this.pathAutonChooser = new SendableChooser<String>();
 
-        //Not used anymore
-        // this.pathAutonChooser.setDefaultOption("Blue-Left", "Blue-Left");
-        // this.pathAutonChooser.addOption("Blue-Middle", "Blue-Middle");
-        // this.pathAutonChooser.addOption("Blue-Right", "Blue-Right");
-        // this.pathAutonChooser.addOption("Red-Left", "Blue-Right");
-        // this.pathAutonChooser.addOption("Red-Middle", "Blue-Middle");
-        // this.pathAutonChooser.addOption("Red-Right", "Blue-Left");
-        // this.pathAutonChooser.addOption("Test-Auton", "AutonTest");
 
         this.pathAutonChooser.setDefaultOption("BlueLeft-2-Note", "BlueLeft-2-Note");
         this.pathAutonChooser.addOption("BlueLeft-3-Note", "BlueLeft-3-Note");
@@ -143,58 +140,48 @@ public class RobotContainer {
         arm.setDefaultCommand(arm.maintainArm());
         climber.setDefaultCommand(climber.maintainClimberPosCommand());
 
-        armController.x().whileTrue(intake.startIntake());
-        armController.x().onFalse(intake.stopIntaking());
+        //Arm Controller
+        //Intake for arm controller
+        armController.a().onTrue(shooter.setShooterBrake());
+        armController.a()
+                .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.pickupTarget()));
+        armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()).andThen(shooter.stopShooting()).andThen(shooter.setShooterCoast()));
+        //armController.a().onFalse(shooter.stopShooting());
 
-        armController.x().onTrue(shooter.setShooterBrake());
-        armController.x().onFalse(shooter.setShooterCoast());
-
-        armController.y().whileTrue(arm.shootTarget());
-
-        armController.rightBumper().whileTrue(arm.pickupTarget());
+        // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
+        
+        // Amp Position
+        armController.y().whileTrue(
+                new AmpPositionCommand(shooter, arm));
 
-        armController.povLeft().whileTrue(arm.ampTarget());
+        // Amp Shooting
+        armController.rightBumper().whileTrue(shooter.ampShootCommand()
+                        .alongWith(intake.startIntake()));
+        armController.rightBumper().onFalse(shooter.stopShooting());
 
+        // Manual arm movement
         armController.povUp()
                 .and(arm::isNotAtTop)
                 .whileTrue(arm.moveArmForward());
-
         armController.povDown()
                 .and(arm::isNotAtBottom)
                 .whileTrue(arm.moveArmBackwards());
 
-        armController.back().onTrue(drive.rotate90());
-
-        //armController.povRight().whileTrue(lime.limelightScore(arm, shooter));
-
-        // DRIVE CONTROLLER
-        driveController.leftBumper().whileTrue(climber.moveClimberUp());
-        driveController.rightBumper().whileTrue(climber.moveClimberDown());
-
         // Moving Arm Positions
-        driveController.x().onTrue(arm.shootTarget());
-        driveController.a().onTrue(arm.pickupTarget());
+        armController.x().whileTrue(arm.shootTarget());
 
         // Reverse Intake
-        driveController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
-        driveController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
+        armController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
+        armController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
 
-        // Amp Shooting
-        driveController.y().whileTrue(
-                new AmpPositionCommand(shooter, arm).andThen(shooter.teleopShootCommand())
-                        .alongWith(intake.startIntake()));
-        driveController.y().onFalse(shooter.stopShooting());
 
-        // Intaking
-        driveController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake, 0));
-        
-        driveController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()));
-        driveController.a().onFalse(shooter.stopShooting());
+        // DRIVE CONTROLLER
 
-        // INVERT
-        driveController.povLeft().onTrue(drive.xMode());
+        // Climber Controller
+        // Not used in the most recent comp
+        // driveController.leftBumper().whileTrue(climber.moveClimberUp());
+        // driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
         // Teleop PreShooter
         driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
@@ -205,27 +192,56 @@ public class RobotContainer {
         driveController.rightTrigger().onFalse(shooter.stopShooting());
 
         // Reset Gyro
-        driveController.back().whileTrue(drive.resetGyroCommand());
+        driveController.x().whileTrue(drive.resetGyroCommand());
 
-        driveController.povUp().onTrue(
-                new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-                        driveController::getLeftX,
-                        1));
-        driveController.povDown().onTrue(
-                new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-                        driveController::getLeftX,
-                        0.5));
+        // Limelight drive to x distance to speaker
+        // driveController.b().whileTrue(
+        //         new toSpeaker(drive, lime)
+        // );
 
-        driveController.start()
-                .and(arm::isNotAtBottom)
-                .whileTrue(arm.moveArmBackwards());
+        // Needs to be tested
+        // Will first start up pre shooter and then go to the nearest distance 
+        // we can shoot from. Right after, it will shoot from that position.
+        // driveController.y().whileTrue(
+        //         (new LimelightPreShoot(shooter, drive, arm, lime, intake))
+        //         .andThen(new ShootCommand(shooter, intake, arm))
+        // );
+        // driveController.y().onFalse(
+        //         shooter.stopShooting()
+        // );
 
-        // Driving with Joysticks default command
+        // // Limelight drive to amp
+        // // Not tested
+        // driveController.povDown().whileTrue(
+        //         new toAmp(drive, lime)
+        // );
+
+        // (Should be automatic)
+        driveController.povRight().onTrue(drive.xMode());
+
+        // Driving with Joysticks default command scaled to x^2
         drive.setDefaultCommand(
-                new DriveController(drive, driveController::getRightX, driveController::getLeftY,
-                        driveController::getLeftX,
-                        0.5));
-    }
+                new DriveController(drive, () -> {
+                        if (driveController.getRightX() < 0) {
+                            return -1.0 * driveController.getRightX() * driveController.getRightX();
+                        }
+
+                        return driveController.getRightX() * driveController.getRightX();
+                }, () -> {
+                        if (driveController.getLeftY() < 0) {
+                            return -1.0 * driveController.getLeftY() * driveController.getLeftY();
+                        }
+
+                        return driveController.getLeftY() * driveController.getLeftY();
+                }, () -> {
+                        if (driveController.getLeftX() < 0) {
+                                return -1.0 * driveController.getLeftX() * driveController.getLeftX();
+                        }
+
+                        return driveController.getLeftX() * driveController.getLeftX();
+                },
+                        4.0));
+        }
 
     public Command getAutonomousCommand() {
         // Load the path you want to follow using its name in the GUI
@@ -234,12 +250,12 @@ public class RobotContainer {
         // event markers.
         return new PathPlannerAuto(this.pathAutonChooser.getSelected());
 
-        // PathPlannerPath path = PathPlannerPath.fromPathFile("1");
+        //PathPlannerPath path = PathPlannerPath.fromPathFile("1");
 
         // // Create a path following command using AutoBuilder. This will also trigger
         // event markers.
-        // return AutoBuilder.followPath(path);
+        //return AutoBuilder.followPath(path);
 
-    }
+     }
 
 }

@@ -72,23 +72,26 @@ public final class Constants {
     public static final class MainArm {
       public static final class Auton {
         public static final class CloseNote {
-          public static final double SIDE = 16; // Close Note1 or Close Note3
+          public static final double SIDE = 19; // Close Note1 or Close Note3
         }
 
         public static final class WhiteLine {
-          public static final double SIDE = 16; // Not clearly tuned
-          public static final double MIDDLE = 15; // Not clearly tuned
+          public static final double SIDE = 18; // Not clearly tuned
+          public static final double MIDDLE = 17.5; // Not clearly tuned
         }
       }
 
       public static final class Speaker {
-          public static final double SIDE = 8.5; // Touching the right or left side of the Speaker
-          public static final double MIDDLE = 12; // Middle of speaker
+          public static final double SIDE = 11; // Touching the right or left side of the Speaker
+          public static final double MIDDLE = 10; // Middle of speaker
+          public static final double FEET3 = 10; // 3 feet from april tag speaker
+          public static final double FEET6 = 17.1162; // 6 feet from april tag speaker
+          public static final double FEET7_4 = 18.48877; // 7.4 feet from april tag speaker
       }
 
-      public static final double AMP = 49.416016;
+      public static final double AMP = 48.5;
       
-      public static final double PICKUP = 2;
+      public static final double PICKUP = 1.3;
       public static final double CLIMBER = 0;
     }
 
@@ -150,10 +153,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.507812) * 2 * Math.PI;
-    public static final double FR = (0.296387) * 2 * Math.PI;
-    public static final double BL = (0.601074) * 2 * Math.PI;
-    public static final double BR = (0.175781) * 2 * Math.PI;
+    public static final double FL = (0.506104) * 2 * Math.PI;
+    public static final double FR = (0.098633) * 2 * Math.PI;
+    public static final double BL = (0.601318) * 2 * Math.PI;
+    public static final double BR = (0.172607) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
@@ -182,10 +185,14 @@ public final class Constants {
   public static final class Speed {
     public static final double ROBOT_SPEED_DIVISOR = 2.5; // what the max speed should be divided by, 1 is max power
     public static final double SHOOTER = 65; // speed of the shooter in rotations per second
+    public static final double AMPSHOOTER = 15; // speed of the shooter in rotations per second
     public static final double INTAKE = 25; // rotations per second
     public static final double ARM = 30; // rotations per second
-    public static final double HOME = 65; // rotations per second
+    public static final double HOME = 0.2; // proportional
     public static final double CLIMBER = 280;
+    public static final double ARMDUTYCYCLEUP = 0.4; // between -1 and 1
+    public static final double ARMDUTYCYCLEDOWN = 0.2; // between -1 and 1
+    public static final double REVERSESHOOTER = 0.15; // between -1 and 1
   }
 
   public static final class Distance {
@@ -211,8 +218,9 @@ public final class Constants {
 
     public static final class Limelight {
       public static final PID DRIVE_CONTROLLER = new PID(0.0025, 0, 0);
-      public static final PID TURN_CONTROLLER = new PID(.1, 0, 0.0001);;
+      public static final PID TURN_CONTROLLER = new PID(0.01,0,0);
       public static final PID SCORE_DRIVE_CONTROLLER = new PID(0.0056, 0, 0);
+      
     }
 
     public static final class TurnAngle {
@@ -223,5 +231,14 @@ public final class Constants {
       public static final PID DRIVE_PID_CONTROLLER = new PID(.5, 0, 0);
       public static final PID TURNING_PID_CONTROLLER = new PID(7, 0, 0.3, 0);
     }
+  }
+
+  public static final class Limelight {
+    public static final double[] knownDriveDistances = {3, 6, 8};
+    public static final double[] knownShootingPositions = {
+      Constants.Position.MainArm.Speaker.FEET3, 
+      Constants.Position.MainArm.Speaker.FEET6, 
+      Constants.Position.MainArm.Speaker.FEET7_4
+    };
   }
 }

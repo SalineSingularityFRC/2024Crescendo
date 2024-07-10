@@ -1,6 +1,7 @@
 package frc.robot.commands.Auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeParallelCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -12,7 +13,7 @@ public class Intake extends SequentialCommandGroup {
     addCommands(
         intake.setCoast(),
         arm.pickupTarget(),
-        new IntakeParallelCommand(shooter, intake, 3)
+        new IntakeParallelCommand(shooter, intake, Constants.Speed.REVERSESHOOTER)
     );
    }
 }

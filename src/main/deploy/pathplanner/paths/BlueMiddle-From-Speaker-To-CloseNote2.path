@@ -59,23 +59,6 @@
           ]
         }
       }
-    },
-    {
-      "name": "Stop Intake",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "StopIntake"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "globalConstraints": {

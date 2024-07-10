@@ -8,14 +8,15 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.SwerveClasses.SwerveOdometry;
 
 
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  
-
+    
+  private Limelight lime;
 
   @Override
   public void robotInit() {
@@ -29,13 +30,17 @@ public class Robot extends TimedRobot {
 
     m_robotContainer =
         new RobotContainer();
+    // lime = m_robotContainer.lime;
    
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    
+     m_robotContainer.drive.odometry.position();
+
+    //  lime.update();
+    //  lime.getDistanceToTagInFeet();
   }
 
   @Override
@@ -65,6 +70,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+    m_robotContainer.drive.visionUpdateCommand();
   }
 
   @Override
@@ -82,9 +88,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle() * Math.PI / 180);
-
+    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle());
+   
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("Actual Arm Pos", m_robotContainer.arm.getPosition());
   }
 
   @Override

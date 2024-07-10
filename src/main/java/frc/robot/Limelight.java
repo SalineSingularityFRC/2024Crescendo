@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId.Swerve;
+import frc.robot.LimelightHelpers.PoseEstimate;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -34,7 +36,6 @@ public class Limelight extends SubsystemBase{
   public double tid;
 
   public double limeLatency;
-  public double tx, ty, ta, tv;
 
   public boolean isTurningDone;
   public final double minimumSpeed = 0.06;
@@ -42,23 +43,27 @@ public class Limelight extends SubsystemBase{
   public PIDController turnController;
   PIDController scoreDriveController;
 
+
+  public PoseEstimate limelightPosEstimate;
+    
+   
   public Timer scoringTimer = new Timer();
   public Timer pickupTimer = new Timer();
 
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
+    limelightPosEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
     TX = table.getEntry("tx"); // Horizontal Offset From Crosshair To Target (-29.8 to 29.8 degrees)
     TY = table.getEntry("ty"); // Vertical Offset From Crosshair To Target (-24.85 to 24.85 degrees)
     TA = table.getEntry("ta"); // target area (0-100%)
-    TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
-    TID = table.getEntry("tid"); // id of the primary in view April tag
+    // TV = table.getEntry("tv"); // 0 = no target found or 1 = target found
+    // TID = table.getEntry("tid"); // id of the primary in view April tag
 
-    ta = TX.getDouble(0.0);
-    ty = TY.getDouble(0.0);
-    ta = TA.getDouble(0.0);
-    tv = TV.getDouble(0.0);
-    tid = TID.getDouble(0);
+    // ty = TY.getDouble(0.0);
+    // ta = TA.getDouble(0.0);
+    // tv = TV.getDouble(0.0);
+    // tid = TID.getDouble(0);
 
     // swap the limelight between vision processing (0) and drive camera (1)
     camMode = table.getEntry("camMode");
@@ -71,16 +76,17 @@ public class Limelight extends SubsystemBase{
     // Location of the robot on the field with the orgin at the blue driver station
     botpose = table.getEntry("botpose_wpiblue");
     // xyz are in meters
-    poseX = botpose.getDoubleArray(new double[6])[0]; // Points up the long side of the field
-    poseY = botpose.getDoubleArray(new double[6])[1]; // Points toward short side of the field
-    poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+    // poseX = botpose.getDoubleArray(new double[6])[0]; // Points up the long side of the field
+    // poseY = botpose.getDoubleArray(new double[6])[1]; // Points toward short side of the field
+    // poseYaw = botpose.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+
 
     // the robots position based on the primary in view april tag, (0, 0, 0) at center of the april tag
-    targetspace = table.getEntry("targetpose_cameraspace");
-    targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
-    targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
-    targetPoseZ = targetspace.getDoubleArray(new double [6])[2]; // pointing out of the april tag
-    targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
+    // targetspace = table.getEntry("targetpose_cameraspace");
+    // targetPoseX = targetspace.getDoubleArray(new double [6])[0]; // to the right of the target from front face
+    // targetPoseY = targetspace.getDoubleArray(new double [6])[1]; 
+    // targetPoseZ = limelightHelper.getPosEstim // pointing out of the april tag
+     //targetPoseYaw = targetspace.getDoubleArray(new double[6])[5] * (Math.PI/180); 
 
     //limeLatency = botpose.getDoubleArray(new double[6])[6];
 
@@ -105,6 +111,35 @@ public class Limelight extends SubsystemBase{
     setpipeline(0);
   }
 
+  public double getDistanceToTagInFeet() {
+    double y = TY.getDouble(0.0);
+
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 30;
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 13.5; 
+
+    // distance from the target to the floor
+    double goalHeightInches = 57.5; 
+
+    double angleToGoalDegrees = limelightMountAngleDegrees - y;
+    double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    SmartDashboard.putNumber("distance in feet", distanceFromLimelightToGoalInches/12);
+
+    return distanceFromLimelightToGoalInches/12;
+  }
+
+  public void update() {
+    double x = TX.getDouble(0.0);
+    double y = TY.getDouble(0.0);
+    SmartDashboard.putNumber("ty", y);
+    SmartDashboard.putNumber("tx", x);
+  }
+
   // turns on the LEDs
   public void ledOn() {
     ledMode.setNumber(3);
@@ -125,103 +160,23 @@ public class Limelight extends SubsystemBase{
     pipeLine.setNumber(pipe);
   }
 
-  public boolean getIsTargetFound() {
-    double o = ta;
-    if (o <= 0.05) {
+  public double getTX() {
+    return TX.getDouble(0.0);
+  }
+
+  public double getTY() {
+    return TY.getDouble(0.0);
+  }
+
+  public boolean isTagFound() {
+    double a = TA.getDouble(0.0);
+    if (a <= 0.05) {
       return false;
     } else {
       return true;
     }
   }
 
-  // public boolean pickup(
-  //     SwerveSubsystem drive,
-  //     ArmSubsystem arm,
-  //     LightSensor cubeLightSensor,
-  //     LightSensor coneLightSensor,
-  //     boolean isCube,
-  //     boolean auton) {
-
-  //   if (isCube) {
-  //     setpipeline(2);
-  //   } else {
-  //     setpipeline(1); // is cone
-  //   }
-
-  //   arm.pickupTarget();
-  //   ledOff();
-
-
-  //   if (tx.getDouble(0) < 6.5 || tx.getDouble(0) > 11.5) {
-  //     isTurningDone = false;
-  //   }
-  //   if (!isTurningDone) {
-  //     isTurningDone = turnAngle(drive, true);
-  //   } else {
-
-  //     double y = driveController.calculate(ty.getDouble(0));
-  //     if (y > 0) y += 0.06;
-  //     if (y < 0) y -= 0.06;
-
-  //     if (this.pickupTimer.get() == 0) {
-  //       double speed = turnController.calculate(tx.getDouble(0));
-  //       drive.drive(new SwerveRequest(-speed, 0, -y * 2.5), false);
-  //     }
-  //   }
-
-  //   return false;
-  // }
-
-  // public boolean turnAngle(SwerveSubsystem drive, boolean pickup) {
-  //   if (getIsTargetFound()) {
-
-  //     double speed = turnController.calculate(tx.getDouble(0));
-  //     if (speed > 0) speed += 0.05;
-  //     if (speed < 0) speed -= 0.05;
-
-  //     if (turnController.atSetpoint()) {
-  //       turnController.reset();
-  //       return true; // we are angled correctly
-  //     }
-  //     if (pickup) {
-  //       if (pickupTimer.get() == 0) drive.drive(new SwerveRequest(-speed, 0, 0), false);
-  //     } else {
-  //       drive.drive(new SwerveRequest(-speed, 0, 0), false);
-  //     }
-  //   }
-
-  //   return false;
-  // }
-
-  public boolean score(
-      SwerveSubsystem drive, ArmSubsystem arm, boolean isCube) {
-    ledOn();
-    if (isCube) {
-      setpipeline(0);
-    } else {
-      setpipeline(3);
-    }
-    if (tx < 6.5 || tx > 11.5) {
-      isTurningDone = false;
-    }
-
-    return false;
-  }
-
-  // public void turnToAngle(SwerveSubsystem drive) {
-  //   double robotAngle = (drive.getRobotAngle() % (Math.PI * 2)) * (180 / Math.PI); // in degree
-  //   double rotation = (180 - robotAngle) * 0.0061;
-  //   if (rotation >= minimumSpeed) {
-  //     rotation -= minimumSpeed;
-  //   } else if (rotation <= -minimumSpeed) {
-  //     rotation += minimumSpeed;
-  //   } else {
-  //     rotation = 0;
-  //     return;
-  //   }
-
-  //   drive.drive(new SwerveRequest(rotation, 0, 0), false);
-  // }
 
   public Command scoreRight(SwerveSubsystem d) {
     return run(
@@ -278,6 +233,7 @@ public class Limelight extends SubsystemBase{
     () -> {
       //6ft-6inch -> 1.9812 Meters
       //targetPoseZ returns distance away from april tag
+      targetPoseZ = limelightPosEstimate.pose.getX();
       if(targetPoseZ == 0) return false;
       //Robot Length from Limelight to the shooter on the ground
       //Ours is measured at 1.9431
@@ -290,17 +246,6 @@ public class Limelight extends SubsystemBase{
     },
     this, a
     );
-  }
-
-   
- 
-
-  
-  public boolean tagAlign() {
-    if(Math.abs(targetPoseX) <= 0.075) {
-      return true;
-    }
-    return false;
   }
 
 }

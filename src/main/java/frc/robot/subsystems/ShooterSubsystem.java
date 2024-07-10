@@ -3,11 +3,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot1Configs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -23,6 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private VelocityVoltage velocityVoltage = new VelocityVoltage(0).withSlot(1).withEnableFOC(true);
   
     private MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
+
+    private DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
     private final double manualSmallP = 1.3;
     private final double manualSmallI = 0.013;
@@ -69,6 +73,9 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Ideal Speed", speed);
         SmartDashboard.putNumber("Shooter 1 Speed", getShooter1Speed());
         SmartDashboard.putNumber("Ideal Speed", getShooter2Speed());
+
+        setCoastMode();
+
         shooterMotor1.setControl(velocityVoltage.withVelocity(speed)
             .withFeedForward(0.05).withSlot(1));
 
@@ -79,7 +86,12 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command reverseShooter(double speed){
         return run(
             () -> {
-                setShooterSpeed(-speed);
+                //shooterMotor1.setControl(dutyCycleOut.withOutput(-speed).withEnableFOC(true));
+
+                shooterMotor2.setControl(dutyCycleOut.withOutput(-speed).withEnableFOC(true));
+                setBrakeMode();
+
+                //setShooterSpeed(-speed);
             }
         );
     }
@@ -90,6 +102,14 @@ public class ShooterSubsystem extends SubsystemBase {
         return run(
             () -> {
                 setShooterSpeed(Constants.Speed.SHOOTER);
+            }
+        );
+    }
+
+    public Command ampShootCommand(){
+        return run(
+            () -> {
+                setShooterSpeed(Constants.Speed.AMPSHOOTER);
             }
         );
     }
