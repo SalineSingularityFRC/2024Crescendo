@@ -197,7 +197,13 @@ public class ArmSubsystem extends SubsystemBase {
         
         },
         () -> {
-          double pos = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
+          double posIndex = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
+          double pos = 0;
+
+          if (posIndex != Integer.MAX_VALUE) {
+            pos = Constants.Limelight.knownShootingPositions[(int) posIndex];
+          }
+
           armMotor1.setControl(
             positionTargetPreset.withPosition(pos).withFeedForward(0.1).withSlot(0));
           armMotorPosition = pos;

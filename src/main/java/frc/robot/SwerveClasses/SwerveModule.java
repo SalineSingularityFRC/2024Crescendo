@@ -79,7 +79,7 @@ public class SwerveModule {
 
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-    current.SupplyCurrentLimit = 30;
+    current.SupplyCurrentLimit = 25;
     current.SupplyCurrentLimitEnable = true;
     driveMotor.getConfigurator().apply(current);
     angleMotor = new SwerveAngle(Can_ID_angleMotor, canNetwork);

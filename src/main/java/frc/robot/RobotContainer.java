@@ -52,7 +52,7 @@ public class RobotContainer {
     public RobotContainer() {
 
         arm = new ArmSubsystem();
-        lime = new Limelight();
+        // lime = new Limelight();
         drive = new SwerveSubsystem();
         intake = new IntakeSubsystem();
         shooter = new ShooterSubsystem();
@@ -195,26 +195,26 @@ public class RobotContainer {
         driveController.x().whileTrue(drive.resetGyroCommand());
 
         // Limelight drive to x distance to speaker
-        driveController.b().whileTrue(
-                new toSpeaker(drive, lime)
-        );
+        // driveController.b().whileTrue(
+        //         new toSpeaker(drive, lime)
+        // );
 
         // Needs to be tested
         // Will first start up pre shooter and then go to the nearest distance 
         // we can shoot from. Right after, it will shoot from that position.
-        driveController.y().whileTrue(
-                (new LimelightPreShoot(shooter, drive, arm, lime, intake))
-                .andThen(new ShootCommand(shooter, intake, arm))
-        );
-        driveController.y().onFalse(
-                shooter.stopShooting()
-        );
+        // driveController.y().whileTrue(
+        //         (new LimelightPreShoot(shooter, drive, arm, lime, intake))
+        //         .andThen(new ShootCommand(shooter, intake, arm))
+        // );
+        // driveController.y().onFalse(
+        //         shooter.stopShooting()
+        // );
 
-        // Limelight drive to amp
-        // Not tested
-        driveController.povDown().whileTrue(
-                new toAmp(drive, lime)
-        );
+        // // Limelight drive to amp
+        // // Not tested
+        // driveController.povDown().whileTrue(
+        //         new toAmp(drive, lime)
+        // );
 
         // (Should be automatic)
         driveController.povRight().onTrue(drive.xMode());
@@ -240,7 +240,7 @@ public class RobotContainer {
 
                         return driveController.getLeftX() * driveController.getLeftX();
                 },
-                        4.5));
+                        4.0));
         }
 
     public Command getAutonomousCommand() {

@@ -89,7 +89,7 @@ public final class Constants {
           public static final double FEET7_4 = 18.48877; // 7.4 feet from april tag speaker
       }
 
-      public static final double AMP = 50;
+      public static final double AMP = 48.5;
       
       public static final double PICKUP = 1.3;
       public static final double CLIMBER = 0;
@@ -153,10 +153,10 @@ public final class Constants {
 
   public static final class WheelOffset {
     // Converting rotations to radians
-    public static final double FL = (0.508545) * 2 * Math.PI;
-    public static final double FR = (0.094238) * 2 * Math.PI;
-    public static final double BL = (0.610840) * 2 * Math.PI;
-    public static final double BR = (0.166504) * 2 * Math.PI;
+    public static final double FL = (0.506104) * 2 * Math.PI;
+    public static final double FR = (0.098633) * 2 * Math.PI;
+    public static final double BL = (0.601318) * 2 * Math.PI;
+    public static final double BR = (0.172607) * 2 * Math.PI;
   }
 
   public static final class MotorGearRatio {
