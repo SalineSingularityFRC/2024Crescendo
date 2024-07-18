@@ -3,6 +3,7 @@ package frc.robot.SwerveClasses;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -78,6 +79,10 @@ public class SwerveModule {
     c_encoder.getConfigurator().apply(cancoderConfig);
 
     driveMotor = new TalonFX(Can_ID_driveMotor, canNetwork);
+
+    // Factory reset before applying configs
+    driveMotor.getConfigurator().apply(new TalonFXConfiguration());
+
     CurrentLimitsConfigs current = new CurrentLimitsConfigs();
     current.SupplyCurrentLimit = 25;
     current.SupplyCurrentLimitEnable = true;
@@ -91,6 +96,8 @@ public class SwerveModule {
     } else {
       motorOutputConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
     }
+
+    setBrakeMode();
 
     absolutePositionEncoderOffset = zeroPosition;
     this.resetZeroAngle();

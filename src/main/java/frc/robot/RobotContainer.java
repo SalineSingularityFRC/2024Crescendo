@@ -149,16 +149,16 @@ public class RobotContainer {
         //armController.a().onFalse(shooter.stopShooting());
 
         // Home for arm controller (one button press)
-        armController.leftBumper().whileTrue(arm.goHome());
+        //armController.leftBumper().whileTrue(arm.goHome());
         
         // Amp Position
         armController.y().whileTrue(
                 new AmpPositionCommand(shooter, arm));
 
         // Amp Shooting
-        armController.rightBumper().whileTrue(shooter.ampShootCommand()
-                        .alongWith(intake.startIntake()));
-        armController.rightBumper().onFalse(shooter.stopShooting());
+        //armController.rightBumper().whileTrue(shooter.ampShootCommand()
+        //                .alongWith(intake.startIntake()));
+        //armController.rightBumper().onFalse(shooter.stopShooting());
 
         // Manual arm movement
         armController.povUp()
@@ -184,12 +184,12 @@ public class RobotContainer {
         // driveController.rightBumper().whileTrue(climber.moveClimberDown());
 
         // Teleop PreShooter
-        driveController.leftTrigger().onTrue(shooter.teleopShootCommand());
-        driveController.leftTrigger().onFalse(shooter.stopShooting());
+        armController.leftTrigger().onTrue(shooter.teleopShootCommand());
+        armController.leftTrigger().onFalse(shooter.stopShooting());
 
         // Teleop Shooting
-        driveController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));// .alongWith(drive.xMode()));
-        driveController.rightTrigger().onFalse(shooter.stopShooting());
+        armController.rightTrigger().whileTrue(new ShootCommand(shooter, intake, arm));// .alongWith(drive.xMode()));
+        armController.rightTrigger().onFalse(shooter.stopShooting());
 
         // Reset Gyro
         driveController.x().whileTrue(drive.resetGyroCommand());

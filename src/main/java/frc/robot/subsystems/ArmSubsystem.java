@@ -63,6 +63,11 @@ public class ArmSubsystem extends SubsystemBase {
     // REPLACE ARM IDS WITH THE REAL MOTOR IDS
     armMotor1 = new TalonFX(Constants.CanId.Arm.Motor.ARM_1, Constants.Canbus.DEFAULT);
     armMotor2 = new TalonFX(Constants.CanId.Arm.Motor.ARM_2, Constants.Canbus.DEFAULT);
+
+    // Factory reset before applying configs
+    armMotor1.getConfigurator().apply(new TalonFXConfiguration());
+    armMotor1.getConfigurator().apply(new TalonFXConfiguration());
+
     armMotor2.setControl(new Follower(Constants.CanId.Arm.Motor.ARM_1, true));
 
     HardwareLimitSwitchConfigs limitSwitchConfigs = new HardwareLimitSwitchConfigs();
