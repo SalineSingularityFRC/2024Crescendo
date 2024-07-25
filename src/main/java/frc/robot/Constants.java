@@ -66,6 +66,10 @@ public final class Constants {
       public static final int BL = 13;
       public static final int BR = 14;
     }
+
+    public static final class LaserCan {
+      public static final int sensor1 = 49;
+    }
   }
 
   public static final class Position {

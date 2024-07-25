@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.SwerveClasses.SwerveOdometry;
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.LaserCan.Measurement;
+import au.grapplerobotics.ConfigurationFailedException;
 
 
 
@@ -17,6 +20,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
     
   private Limelight lime;
+  private LaserCan laserCan;
+  private Measurement measurement;
 
   @Override
   public void robotInit() {
@@ -31,6 +36,15 @@ public class Robot extends TimedRobot {
     m_robotContainer =
         new RobotContainer();
     // lime = m_robotContainer.lime;
+    laserCan = m_robotContainer.laserCan;
+
+    try {
+      laserCan.setRangingMode(LaserCan.RangingMode.SHORT);
+      laserCan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      laserCan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_100MS);
+    } catch (ConfigurationFailedException e) {
+      System.out.println("Configuration failed! " + e);
+    }
    
   }
 
@@ -92,6 +106,18 @@ public class Robot extends TimedRobot {
    
     CommandScheduler.getInstance().run();
     SmartDashboard.putNumber("Actual Arm Pos", m_robotContainer.arm.getPosition());
+
+
+    SmartDashboard.putBoolean("Is laser can null", laserCan == null);
+
+    measurement = laserCan.getMeasurement();
+    SmartDashboard.putBoolean("Is Measurement null", measurement == null);
+    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
+      SmartDashboard.putNumber("Sensor Distance", measurement.distance_mm);
+    } else {
+      SmartDashboard.putNumber("Sensor Distance", -1);
+      // You can still use distance_mm in here, if you're ok tolerating a clamped value or an unreliable measurement.
+    }
   }
 
   @Override

@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import au.grapplerobotics.LaserCan;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +20,7 @@ import frc.robot.commands.Auton.Intake;
 import frc.robot.commands.Auton.PreShooter;
 import frc.robot.commands.Teleop.AmpPositionCommand;
 import frc.robot.commands.Teleop.DriveController;
+import frc.robot.commands.Teleop.SensorIntake;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
 import frc.robot.commands.Auton.StopIntake;
@@ -44,6 +46,7 @@ public class RobotContainer {
     protected ShooterSubsystem shooter;
     protected ArmSubsystem arm;
     protected ClimberSubsystem climber;
+    protected LaserCan laserCan;
     protected CommandXboxController armController;
     protected CommandXboxController driveController;
     private SendableChooser<PathPlannerPath> pathChooser;
@@ -57,6 +60,8 @@ public class RobotContainer {
         intake = new IntakeSubsystem();
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
+
+        laserCan = new LaserCan(Constants.CanId.LaserCan.sensor1);
 
         armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
         driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
@@ -147,6 +152,9 @@ public class RobotContainer {
                 .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.pickupTarget()));
         armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()).andThen(shooter.stopShooting()).andThen(shooter.setShooterCoast()));
         //armController.a().onFalse(shooter.stopShooting());
+
+        armController.povRight()
+                .whileTrue(new SensorIntake(intake, laserCan).andThen(intake.stopIntaking()));
 
         // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
