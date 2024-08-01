@@ -1,4 +1,5 @@
 package frc.robot;
+import edu.wpi.first.math.util.Units;
 
 /*
  * This class should hold any static configuration data about the robot
@@ -94,8 +95,7 @@ public final class Constants {
       }
 
       public static final double AMP = 48.5;
-      
-      public static final double PICKUP = 1.3;
+      public static final double PICKUP = 3.5;
       public static final double CLIMBER = 0;
     }
 
@@ -118,9 +118,9 @@ public final class Constants {
     public static final String DRIVE_TRAIN = "drivetrain";
   }
 
-  public static final class Sensor {
-    public static final int CUBE_CHANNEL = 2;
-    public static final int CONE_CHANNEL = 3;
+  public static final class LaserCan {
+    public static final double INTAKE_WIDTH_MM = Measurement.INTAKE_WIDTH_M * 1000;
+    public static final double INTAKE_TOLERANCE_MM = 100; //Includes height of sensor and other factors
   }
 
   public static final class Gamepad {
@@ -184,6 +184,7 @@ public final class Constants {
     public static final double WHEEL_BASE = 22.75 * 0.0254; // Inches to meters
     public static final double WHEELRADIUS = 2.003 * 0.0254; // 2024 robot radius from inches to meters
     public static final double DRIVEBASERADIUS = 14.942 * 0.0254; // Inches to meters
+    public static final double INTAKE_WIDTH_M = Units.inchesToMeters(19.25);
   }
 
   public static final class Speed {

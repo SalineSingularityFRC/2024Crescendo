@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
     slot1ConfigsSmall.kS = manualSmallS;
     intakeMotor.getConfigurator().apply(slot1ConfigsSmall);
 
-    setCoastMode();
+    setBrakeMode();
   }
 
   public void setIntakeSpeed(double speed) {

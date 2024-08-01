@@ -22,7 +22,6 @@ public class SensorIntake extends Command {
 
     public void initialize(){
         this.initalPosition = intakeSubsystem.intakeMotor.getPosition().getValue();
-        
     }
 
     public void execute() {
@@ -31,7 +30,7 @@ public class SensorIntake extends Command {
     }
 
     public boolean isFinished() {
-        return (measurement <= 100
+        return (measurement <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM
          && measurement != -1);
     }
 }

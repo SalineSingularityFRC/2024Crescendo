@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
     try {
       laserCan.setRangingMode(LaserCan.RangingMode.SHORT);
-      laserCan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 16, 16));
+      laserCan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 6, 6));
       laserCan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_100MS);
     } catch (ConfigurationFailedException e) {
       System.out.println("Configuration failed! " + e);

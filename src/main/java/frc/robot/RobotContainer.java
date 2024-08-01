@@ -10,6 +10,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import au.grapplerobotics.LaserCan;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +21,8 @@ import frc.robot.commands.Auton.Intake;
 import frc.robot.commands.Auton.PreShooter;
 import frc.robot.commands.Teleop.AmpPositionCommand;
 import frc.robot.commands.Teleop.DriveController;
+import frc.robot.commands.Teleop.RumbleCommandStart;
+import frc.robot.commands.Teleop.RumbleCommandStop;
 import frc.robot.commands.Teleop.SensorIntake;
 import frc.robot.commands.Teleop.ShootCommand;
 import frc.robot.commands.Auton.Shooter;
@@ -147,14 +150,14 @@ public class RobotContainer {
 
         //Arm Controller
         //Intake for arm controller
-        armController.a().onTrue(shooter.setShooterBrake());
         armController.a()
-                .whileTrue(new IntakeParallelCommand(shooter, intake, 0.15).alongWith(arm.pickupTarget()));
-        armController.a().onFalse(new ReverseIntakeCommand(intake).andThen(intake.stopIntaking()).andThen(shooter.stopShooting()).andThen(shooter.setShooterCoast()));
-        //armController.a().onFalse(shooter.stopShooting());
+                .whileTrue(new SensorIntake(intake, laserCan).alongWith(arm.pickupTarget())
+                .andThen(intake.stopIntaking().alongWith(new RumbleCommandStart(armController))));
+        armController.a().onFalse(new RumbleCommandStop(armController));
+        armController.a().onFalse(new ReverseIntakeCommand(intake));
 
-        armController.povRight()
-                .whileTrue(new SensorIntake(intake, laserCan).andThen(intake.stopIntaking()));
+        //armController.povRight()
+                //.whileTrue(new SensorIntake(intake, laserCan).andThen(intake.stopIntaking()));
 
         // Home for arm controller (one button press)
         armController.leftBumper().whileTrue(arm.goHome());
@@ -182,7 +185,6 @@ public class RobotContainer {
         // Reverse Intake
         armController.b().whileTrue(intake.reverseIntake().alongWith(shooter.reverseShooter(5.0)));
         armController.b().onFalse(intake.stopIntaking().alongWith(shooter.stopShooting()));
-
 
         // DRIVE CONTROLLER
 
