@@ -3,6 +3,7 @@ package frc.robot.SwerveClasses;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -35,6 +36,10 @@ public class SwerveAngle {
     angleMotor = new TalonFX(angleMotorId, canNetwork);
     angleMotorID = angleMotorId;
     MotorOutputConfigs configs = new MotorOutputConfigs();
+    
+    // Factory reset before applying configs
+    angleMotor.getConfigurator().apply(new TalonFXConfiguration());
+
     zeroPositionOffset = 0;
     positionTarget = new PositionVoltage(0).withSlot(0).withFeedForward(0.2);
     
@@ -45,14 +50,14 @@ public class SwerveAngle {
     slot0Configs.kD = turnPID.D;;
     slot0Configs.kS = turnPID.S;
 
-    CurrentLimitsConfigs current = new CurrentLimitsConfigs();
-    current.SupplyCurrentLimit = 15;
-    current.SupplyCurrentLimitEnable = true;
+    // CurrentLimitsConfigs current = new CurrentLimitsConfigs();
+    // current.SupplyCurrentLimit = 15;
+    // current.SupplyCurrentLimitEnable = true;
 
     configs.NeutralMode = NeutralModeValue.Brake;
     angleMotor.getConfigurator().apply(slot0Configs);
     angleMotor.getConfigurator().apply(configs);
-    angleMotor.getConfigurator().apply(current);
+    // angleMotor.getConfigurator().apply(current);
     
     angleMotor.setInverted(true);
   }
