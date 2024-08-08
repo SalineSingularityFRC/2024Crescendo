@@ -24,7 +24,7 @@ public class FinalShootCommand extends Command {
     }
 
     public void execute() {
-        intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE/10);
+        intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE/8);
         shooterSubsystem.setShooterSpeed(Constants.Speed.SHOOTER);
     }
 
