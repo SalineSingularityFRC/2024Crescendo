@@ -12,8 +12,6 @@ public class SensorIntake extends Command {
     private IntakeSubsystem intakeSubsystem;
     private LaserCan laserCanSensor1;
     private LaserCan laserCanSensor2;
-    private double measurement1;
-    private double measurement2;
     private double initalPosition;
 
     public SensorIntake(IntakeSubsystem intake, LaserCan lcs1, LaserCan lcs2) {
@@ -28,8 +26,7 @@ public class SensorIntake extends Command {
     }
 
     public void execute() {
-        measurement1 = laserCanSensor1.getMeasurement().distance_mm;
-        measurement2 = laserCanSensor2.getMeasurement().distance_mm;
+        double measurement1 = laserCanSensor1.getMeasurement().distance_mm;
         
         if (measurement1 <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM_1
         && measurement1 != -1) {
@@ -41,6 +38,8 @@ public class SensorIntake extends Command {
     }
 
     public boolean isFinished() {
+        double measurement2 = laserCanSensor2.getMeasurement().distance_mm;
+
         return (measurement2 <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM_2
          && measurement2 != -1);
     }

@@ -22,7 +22,6 @@ public class Robot extends TimedRobot {
   private Limelight lime;
   private LaserCan laserCan1;
   private LaserCan laserCan2;
-  private Measurement measurement;
 
   @Override
   public void robotInit() {
@@ -107,23 +106,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Gyro", m_robotContainer.drive.gyro.getAngle());
-   
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Actual Arm Pos", m_robotContainer.arm.getPosition());
-
-
-    SmartDashboard.putBoolean("Is laser can1 null", laserCan1 == null);
-    SmartDashboard.putBoolean("Is laser can2 null", laserCan2 == null);
-
-    measurement = laserCan1.getMeasurement();
-    SmartDashboard.putBoolean("Is Measurement null", measurement == null);
-    if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
-      SmartDashboard.putNumber("Sensor Distance", measurement.distance_mm);
-    } else {
-      SmartDashboard.putNumber("Sensor Distance", -1);
-      // You can still use distance_mm in here, if you're ok tolerating a clamped value or an unreliable measurement.
-    }
   }
 
   @Override

@@ -65,8 +65,8 @@ public class RobotContainer {
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
 
-        laserCan1 = new LaserCan(Constants.CanId.LaserCan.sensor1);
-        laserCan2 = new LaserCan(Constants.CanId.LaserCan.sensor2);
+        laserCan1 = new LaserCan(Constants.CanId.LaserCan.SENSOR1);
+        laserCan2 = new LaserCan(Constants.CanId.LaserCan.SENSOR2);
 
         armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
         driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);

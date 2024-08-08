@@ -69,8 +69,8 @@ public final class Constants {
     }
 
     public static final class LaserCan {
-      public static final int sensor1 = 50;
-      public static final int sensor2 = 49;
+      public static final int SENSOR1 = 50;
+      public static final int SENSOR2 = 49;
     }
   }
 
