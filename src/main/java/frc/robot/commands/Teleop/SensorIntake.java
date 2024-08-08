@@ -10,13 +10,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 // For moving the intake back during shooting
 public class SensorIntake extends Command {
     private IntakeSubsystem intakeSubsystem;
-    private LaserCan laserCanSensor;
-    private double measurement;
+    private LaserCan laserCanSensor1;
+    private LaserCan laserCanSensor2;
+    private double measurement1;
+    private double measurement2;
     private double initalPosition;
 
-    public SensorIntake(IntakeSubsystem intake, LaserCan lcs) {
+    public SensorIntake(IntakeSubsystem intake, LaserCan lcs1, LaserCan lcs2) {
         intakeSubsystem = intake;
-        laserCanSensor = lcs;
+        laserCanSensor1 = lcs1;
+        laserCanSensor2 = lcs2;
         addRequirements(intakeSubsystem);
     }
 
@@ -25,12 +28,20 @@ public class SensorIntake extends Command {
     }
 
     public void execute() {
-        measurement = laserCanSensor.getMeasurement().distance_mm;
-        intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE);
+        measurement1 = laserCanSensor1.getMeasurement().distance_mm;
+        measurement2 = laserCanSensor2.getMeasurement().distance_mm;
+        
+        if (measurement1 <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM_1
+        && measurement1 != -1) {
+            intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE/5);
+        }
+        else {
+            intakeSubsystem.setIntakeSpeed(Constants.Speed.INTAKE);
+        }
     }
 
     public boolean isFinished() {
-        return (measurement <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM
-         && measurement != -1);
+        return (measurement2 <= Constants.LaserCan.INTAKE_WIDTH_MM - Constants.LaserCan.INTAKE_TOLERANCE_MM_2
+         && measurement2 != -1);
     }
 }

@@ -49,7 +49,8 @@ public class RobotContainer {
     protected ShooterSubsystem shooter;
     protected ArmSubsystem arm;
     protected ClimberSubsystem climber;
-    protected LaserCan laserCan;
+    protected LaserCan laserCan1;
+    protected LaserCan laserCan2;
     protected CommandXboxController armController;
     protected CommandXboxController driveController;
     private SendableChooser<PathPlannerPath> pathChooser;
@@ -64,7 +65,8 @@ public class RobotContainer {
         shooter = new ShooterSubsystem();
         climber = new ClimberSubsystem();
 
-        laserCan = new LaserCan(Constants.CanId.LaserCan.sensor1);
+        laserCan1 = new LaserCan(Constants.CanId.LaserCan.sensor1);
+        laserCan2 = new LaserCan(Constants.CanId.LaserCan.sensor2);
 
         armController = new CommandXboxController(Constants.Gamepad.Controller.ARM);
         driveController = new CommandXboxController(Constants.Gamepad.Controller.DRIVE);
@@ -151,7 +153,7 @@ public class RobotContainer {
         //Arm Controller
         //Intake for arm controller
         armController.a()
-                .whileTrue(new SensorIntake(intake, laserCan).alongWith(arm.pickupTarget())
+                .whileTrue(new SensorIntake(intake, laserCan1, laserCan2).alongWith(arm.pickupTarget())
                 .andThen(intake.stopIntaking().alongWith(new RumbleCommandStart(armController))));
         armController.a().onFalse(new RumbleCommandStop(armController));
         armController.a().onFalse(new ReverseIntakeCommand(intake));

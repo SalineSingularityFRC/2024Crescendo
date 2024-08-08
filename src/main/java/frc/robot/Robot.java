@@ -20,7 +20,8 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
     
   private Limelight lime;
-  private LaserCan laserCan;
+  private LaserCan laserCan1;
+  private LaserCan laserCan2;
   private Measurement measurement;
 
   @Override
@@ -36,12 +37,16 @@ public class Robot extends TimedRobot {
     m_robotContainer =
         new RobotContainer();
     // lime = m_robotContainer.lime;
-    laserCan = m_robotContainer.laserCan;
+    laserCan1 = m_robotContainer.laserCan1;
+    laserCan2 = m_robotContainer.laserCan2;
 
     try {
-      laserCan.setRangingMode(LaserCan.RangingMode.SHORT);
-      laserCan.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 6, 6));
-      laserCan.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_100MS);
+      laserCan1.setRangingMode(LaserCan.RangingMode.SHORT);
+      laserCan1.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 4, 4));
+      laserCan1.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_100MS);
+      laserCan2.setRangingMode(LaserCan.RangingMode.SHORT);
+      laserCan2.setRegionOfInterest(new LaserCan.RegionOfInterest(8, 8, 4, 4));
+      laserCan2.setTimingBudget(LaserCan.TimingBudget.TIMING_BUDGET_100MS);
     } catch (ConfigurationFailedException e) {
       System.out.println("Configuration failed! " + e);
     }
@@ -108,9 +113,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Actual Arm Pos", m_robotContainer.arm.getPosition());
 
 
-    SmartDashboard.putBoolean("Is laser can null", laserCan == null);
+    SmartDashboard.putBoolean("Is laser can1 null", laserCan1 == null);
+    SmartDashboard.putBoolean("Is laser can2 null", laserCan2 == null);
 
-    measurement = laserCan.getMeasurement();
+    measurement = laserCan1.getMeasurement();
     SmartDashboard.putBoolean("Is Measurement null", measurement == null);
     if (measurement != null && measurement.status == LaserCan.LASERCAN_STATUS_VALID_MEASUREMENT) {
       SmartDashboard.putNumber("Sensor Distance", measurement.distance_mm);
