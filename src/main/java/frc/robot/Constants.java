@@ -69,7 +69,8 @@ public final class Constants {
     }
 
     public static final class LaserCan {
-      public static final int sensor1 = 49;
+      public static final int SENSOR1 = 50;
+      public static final int SENSOR2 = 49;
     }
   }
 
@@ -95,7 +96,7 @@ public final class Constants {
       }
 
       public static final double AMP = 48.5;
-      public static final double PICKUP = 3.5;
+      public static final double PICKUP = 0.5;
       public static final double CLIMBER = 0;
     }
 
@@ -120,7 +121,9 @@ public final class Constants {
 
   public static final class LaserCan {
     public static final double INTAKE_WIDTH_MM = Measurement.INTAKE_WIDTH_M * 1000;
-    public static final double INTAKE_TOLERANCE_MM = 100; //Includes height of sensor and other factors
+    public static final double INTAKE_TOLERANCE_MM_1 = 100; //Includes height of sensor and other factors
+    public static final double INTAKE_TOLERANCE_MM_2 = 50; //Includes height of sensor and other factors
+
   }
 
   public static final class Gamepad {
@@ -191,7 +194,7 @@ public final class Constants {
     public static final double ROBOT_SPEED_DIVISOR = 2.5; // what the max speed should be divided by, 1 is max power
     public static final double SHOOTER = 65; // speed of the shooter in rotations per second
     public static final double AMPSHOOTER = 15; // speed of the shooter in rotations per second
-    public static final double INTAKE = 25; // rotations per second
+    public static final double INTAKE = 20; // rotations per second
     public static final double ARM = 30; // rotations per second
     public static final double HOME = 0.2; // proportional
     public static final double CLIMBER = 280;
