@@ -311,7 +311,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   //Aligns the limelight to have near 0 degrees horizontal offset (around 0 tx)
   public Command alignToTagCommand(Limelight lime) {
 
-    PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
+    PIDController rotationController = new PIDController(0.025, 0, 0.000033);
     rotationController.setSetpoint(0);
     rotationController.setTolerance(1);
 
@@ -325,7 +325,9 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
           if (lime.isTagFound()) {
             double tx = lime.getTX();
 
-            drive(new SwerveRequest(feedforward.calculate(tx) - rotationController.calculate(tx), 0, 0), true);
+            SmartDashboard.putNumber("tx in alignToTagCommand", tx);
+
+            drive(new SwerveRequest(-feedforward.calculate(tx) + rotationController.calculate(tx), 0, 0), true);
           }
         },
         (_unused) -> {
@@ -393,7 +395,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
   // For Speaker with various distances to shoot
   public Command alignAndDriveToTagCommand(Limelight lime) {
 
-    PIDController rotationController = new PIDController(0.0315, 0, 0.000033);
+    PIDController rotationController = new PIDController(0.025, 0, 0.000033);
     rotationController.setSetpoint(0);
     rotationController.setTolerance(1);
 
@@ -411,10 +413,18 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
         },
         () -> {
           double distance = lime.getDistanceToTagInFeet();
-          double closestDistance = findClosestDistance(distance)[0];
-          driveController.setSetpoint(closestDistance);
+          double toDriveDistance = 0;
 
-          SmartDashboard.putNumber("finding closest distance", closestDistance);
+          if (distance > 6) {
+            toDriveDistance = 6;
+          }
+          else {
+            toDriveDistance = distance;
+          }
+
+          driveController.setSetpoint(toDriveDistance);
+
+          SmartDashboard.putNumber("finding closest distance", toDriveDistance);
           SmartDashboard.putNumber("distance", distance);
 
           double tx = lime.getTX();
@@ -430,7 +440,7 @@ public class SwerveSubsystem extends SubsystemBase implements Subsystem {
 
           if (lime.isTagFound()) {
             drive(
-                new SwerveRequest(rotationFeedForward.calculate(tx) - rotationController.calculate(tx),
+                new SwerveRequest(- rotationFeedForward.calculate(tx) + rotationController.calculate(tx),
                     -driveFeedForward.calculate(distance) + driveSpeed, 0),
                 false);
           }

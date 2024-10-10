@@ -118,12 +118,12 @@ public class Limelight extends SubsystemBase{
     double limelightMountAngleDegrees = 30;
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 13.5; 
+    double limelightLensHeightInches = 12.875; 
 
     // distance from the target to the floor
     double goalHeightInches = 57.5; 
 
-    double angleToGoalDegrees = limelightMountAngleDegrees - y;
+    double angleToGoalDegrees = limelightMountAngleDegrees + y;
     double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
 
     //calculate distance
@@ -131,6 +131,10 @@ public class Limelight extends SubsystemBase{
     SmartDashboard.putNumber("distance in feet", distanceFromLimelightToGoalInches/12);
 
     return distanceFromLimelightToGoalInches/12;
+  }
+
+  public double getArmPositionFromDistance(double distance) {
+    return 1.99937 * distance + 4.27179; // Linear Regression equation from Desmos using three points (3,6,7.4)
   }
 
   public void update() {

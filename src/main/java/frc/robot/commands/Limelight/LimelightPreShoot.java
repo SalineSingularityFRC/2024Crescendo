@@ -21,12 +21,9 @@ public class LimelightPreShoot extends SequentialCommandGroup {
         Limelight lime, IntakeSubsystem intake) {
         this.swerve = swerve;
         this.lime = lime;
-        //double[] knownDistances = getKnownDistance(swerve, lime);
-        //knownDistances[1] returns the index of the current distance value in the drive array
-        double shootingPos = 0;//Constants.Limelight.knownShootingPositions[(int) knownDistances[1]];
-        SmartDashboard.putNumber("shootingPosLimelight", shootingPos);
+
         addCommands(
-            new LimelightPreShooterCommand(shooter, intake, arm, swerve, lime),
+            new LimelightPreShooterCommand(shooter, intake, arm, lime),
             new toSpeaker(swerve, lime)
         );
    }

@@ -13,11 +13,11 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class LimelightPreShooterCommand extends SequentialCommandGroup{
     public LimelightPreShooterCommand(ShooterSubsystem shooter, IntakeSubsystem intake,
-     ArmSubsystem arm, SwerveSubsystem swerve, Limelight lime) {
+     ArmSubsystem arm, Limelight lime) {
 
         addCommands(
             intake.stopIntaking(), //maybe not needed
-            arm.limelightShootTarget(swerve, lime),
+            arm.limelightShootTarget(lime),
             new ReverseIntakeCommand(intake),
             intake.stopIntaking(),
             shooter.setShooterCoast(),

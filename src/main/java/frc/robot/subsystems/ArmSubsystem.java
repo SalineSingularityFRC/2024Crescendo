@@ -196,29 +196,45 @@ public class ArmSubsystem extends SubsystemBase {
         this);
   }
 
-  public Command limelightShootTarget(SwerveSubsystem swerve, Limelight lime) {
+  public Command limelightShootTarget(Limelight lime) {
     return new FunctionalCommand(
         () -> {
         
         },
         () -> {
-          double posIndex = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
-          double pos = 0;
+          double distance = lime.getDistanceToTagInFeet();
+          double toDriveDistance = 0;
 
-          if (posIndex != Integer.MAX_VALUE) {
-            pos = Constants.Limelight.knownShootingPositions[(int) posIndex];
+          if (distance > 6) {
+            toDriveDistance = 6;
           }
+          else {
+            toDriveDistance = distance;
+          }
+        
+          double shootingPos = lime.getArmPositionFromDistance(toDriveDistance);
+          SmartDashboard.putNumber("shootingPosLimelight", shootingPos);
 
           armMotor1.setControl(
-            positionTargetPreset.withPosition(pos).withFeedForward(0.1).withSlot(0));
-          armMotorPosition = pos;
+          positionTargetPreset.withPosition(shootingPos).withFeedForward(0.1).withSlot(0));
+          armMotorPosition = shootingPos;
         },
         (_unused) -> {
 
         },
         () -> {
-          double pos = swerve.findClosestDistance(lime.getDistanceToTagInFeet())[1];
-          return Math.abs(pos- armMotor1.getPosition().getValueAsDouble()) < 1;
+          double distance = lime.getDistanceToTagInFeet();
+          double toDriveDistance = 0;
+
+          if (distance > 6) {
+            toDriveDistance = 6;
+          }
+          else {
+            toDriveDistance = distance;
+          }
+        
+          double shootingPos = lime.getArmPositionFromDistance(toDriveDistance);
+          return Math.abs(shootingPos- armMotor1.getPosition().getValueAsDouble()) < 1;
         },
         this);
   }

@@ -21,6 +21,6 @@ public class StartShootCommand extends Command {
 
     public boolean isFinished() {
         //Multplier 0.9
-        return (shooterSubsystem.shooterUpToSpeed(0.9)); 
+        return (shooterSubsystem.shooterUpToSpeed(0.7)); 
     }
 }
